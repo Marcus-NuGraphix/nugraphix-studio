@@ -1,27 +1,27 @@
 export const contactServiceInterestValues = [
-  'armed-response',
-  'alarm-monitoring',
-  'cctv-monitoring',
-  'guarding-services',
-  'community-precinct',
-  'medical-response',
-  'general-security-assessment',
+  'systems-architecture',
+  'workflow-automation',
+  'platform-development',
+  'reporting-intelligence',
+  'integration-modernization',
+  'technical-advisory',
+  'discovery-consultation',
   'other',
 ] as const
 
 export const contactPropertyTypeValues = [
-  'home',
-  'business',
-  'estate-complex',
-  'industrial',
-  'plot-farm',
+  'small-business',
+  'mid-market',
+  'multi-site-operations',
+  'field-operations',
+  'digital-product-team',
   'other',
 ] as const
 
 export const contactUrgencyValues = [
-  'emergency',
-  'same-day',
-  'this-week',
+  'immediate',
+  'this-month',
+  'this-quarter',
   'planning',
 ] as const
 
@@ -39,29 +39,29 @@ export type ContactPreferredContactMethod =
   (typeof contactPreferredContactValues)[number]
 
 export const serviceInterestLabels: Record<ContactServiceInterest, string> = {
-  'armed-response': 'Armed Response',
-  'alarm-monitoring': 'Alarm Monitoring',
-  'cctv-monitoring': 'CCTV Monitoring',
-  'guarding-services': 'Guarding Services',
-  'community-precinct': 'Community Precinct',
-  'medical-response': 'Medical Response',
-  'general-security-assessment': 'General Security Assessment',
+  'systems-architecture': 'Systems Architecture',
+  'workflow-automation': 'Workflow Automation',
+  'platform-development': 'Custom Platform Development',
+  'reporting-intelligence': 'Reporting and Intelligence',
+  'integration-modernization': 'Integration and Modernization',
+  'technical-advisory': 'Technical Advisory Retainer',
+  'discovery-consultation': 'Discovery Consultation',
   other: 'Other',
 }
 
 export const propertyTypeLabels: Record<ContactPropertyType, string> = {
-  home: 'Home',
-  business: 'Business',
-  'estate-complex': 'Estate or Complex',
-  industrial: 'Industrial / Warehouse',
-  'plot-farm': 'Plot / Farm',
+  'small-business': 'Small Business',
+  'mid-market': 'Mid-Market Operations',
+  'multi-site-operations': 'Multi-Site Operations',
+  'field-operations': 'Field Operations Team',
+  'digital-product-team': 'Digital Product Team',
   other: 'Other',
 }
 
 export const urgencyLabels: Record<ContactUrgency, string> = {
-  emergency: 'Emergency',
-  'same-day': 'Same Day',
-  'this-week': 'This Week',
+  immediate: 'Immediate Priority',
+  'this-month': 'This Month',
+  'this-quarter': 'This Quarter',
   planning: 'Planning Stage',
 }
 

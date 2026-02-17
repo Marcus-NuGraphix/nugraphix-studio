@@ -36,9 +36,9 @@ const INITIAL_STATE: ContactFormState = {
   email: '',
   phone: '',
   suburb: '',
-  serviceInterest: 'general-security-assessment',
-  propertyType: 'home',
-  urgency: 'this-week',
+  serviceInterest: 'discovery-consultation',
+  propertyType: 'small-business',
+  urgency: 'this-month',
   preferredContactMethod: 'phone',
   bestContactTime: '',
   subject: '',
@@ -84,7 +84,7 @@ export function useContactForm() {
       const leadSubject =
         customSubject.length >= 3
           ? customSubject
-          : `Lead: ${serviceInterestLabels[state.serviceInterest]} - ${urgencyLabels[state.urgency]} (${state.suburb.trim() || 'Area not provided'})`
+          : `Lead: ${serviceInterestLabels[state.serviceInterest]} - ${urgencyLabels[state.urgency]} (${state.suburb.trim() || 'Location not provided'})`
 
       await submitContactFormFn({
         data: {

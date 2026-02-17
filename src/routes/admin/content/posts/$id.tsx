@@ -1,34 +1,34 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/users/$userId')({
-  component: UserDetailPage,
+export const Route = createFileRoute('/admin/content/posts/$id')({
+  component: EditPostPage,
 })
 
-function UserDetailPage() {
-  const { userId } = Route.useParams()
+function EditPostPage() {
+  const { id } = Route.useParams()
 
   return (
     <section className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          User Detail
+          Edit Post
         </h1>
         <p className="text-sm text-muted-foreground">
-          User record route scaffolded for ID: <code>{userId}</code>
+          Post editor route scaffolded for record ID: <code>{id}</code>
         </p>
       </header>
 
       <Card className="border-border bg-card shadow-none">
         <CardHeader>
-          <CardTitle>User lifecycle panel</CardTitle>
+          <CardTitle>Post Editor</CardTitle>
           <CardDescription>
-            Session controls, audit timeline, and role administration will be
-            mounted here.
+            This page will load post detail, revision history, and publish
+            controls.
           </CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Connect to user detail and security server functions.
+          Pending implementation: CMS detail query and mutation wiring.
         </CardContent>
       </Card>
     </section>

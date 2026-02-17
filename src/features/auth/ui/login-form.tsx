@@ -77,11 +77,11 @@ export function LoginForm({ redirectTo = '/' }: LoginFormProps) {
       title="Welcome back"
       description="Sign in to access your account details, service information, and support options."
       panelBadge="Client Portal"
-      panelTitle="Secure access to your CMS account"
-      panelDescription="Use your account to stay connected with Community Monitoring Services and manage your preferences in one place."
+      panelTitle="Secure access to Nu Graphix Studio"
+      panelDescription="Use your account to stay connected with Nu Graphix delivery updates, account controls, and support workflows."
       panelHighlights={[
         'Protected sign-in and session controls',
-        'Quick access to account and service updates',
+        'Quick access to account and project updates',
         'Trusted account recovery options when needed',
       ]}
       footer={<>By continuing, you agree to our Terms and Privacy Policy.</>}

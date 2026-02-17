@@ -16,10 +16,16 @@ import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
+import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
+import { Route as AdminKbIndexRouteImport } from './routes/admin/kb/index'
+import { Route as AdminDocsIndexRouteImport } from './routes/admin/docs/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
+import { Route as AdminContentIndexRouteImport } from './routes/admin/content/index'
+import { Route as PublicServicesIndexRouteImport } from './routes/_public/services/index'
 import { Route as PublicPortfolioIndexRouteImport } from './routes/_public/portfolio/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 import { Route as PublicBlogIndexRouteImport } from './routes/_public/blog/index'
+import { Route as PublicAboutIndexRouteImport } from './routes/_public/about/index'
 import { Route as LegalPrivacyPolicyIndexRouteImport } from './routes/_legal/privacy-policy/index'
 import { Route as AuthSignupIndexRouteImport } from './routes/_auth/signup/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './routes/_auth/reset-password/index'
@@ -27,6 +33,12 @@ import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/_auth/forgot-password/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
+import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
+import { Route as PublicPortfolioSlugRouteImport } from './routes/_public/portfolio/$slug'
+import { Route as PublicBlogSlugRouteImport } from './routes/_public/blog/$slug'
+import { Route as AdminContentPostsIndexRouteImport } from './routes/admin/content/posts/index'
+import { Route as AdminContentPostsNewRouteImport } from './routes/admin/content/posts/new'
+import { Route as AdminContentPostsIdRouteImport } from './routes/admin/content/posts/$id'
 
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
@@ -60,10 +72,35 @@ const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminSettingsIndexRoute = AdminSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminKbIndexRoute = AdminKbIndexRouteImport.update({
+  id: '/kb/',
+  path: '/kb/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminDocsIndexRoute = AdminDocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContentIndexRoute = AdminContentIndexRouteImport.update({
+  id: '/content/',
+  path: '/content/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const PublicServicesIndexRoute = PublicServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicPortfolioIndexRoute = PublicPortfolioIndexRouteImport.update({
   id: '/portfolio/',
@@ -78,6 +115,11 @@ const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
 const PublicBlogIndexRoute = PublicBlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicAboutIndexRoute = PublicAboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const LegalPrivacyPolicyIndexRoute = LegalPrivacyPolicyIndexRouteImport.update({
@@ -115,11 +157,44 @@ const AdminUsersUserIdRoute = AdminUsersUserIdRouteImport.update({
   path: '/users/$userId',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminKbSlugRoute = AdminKbSlugRouteImport.update({
+  id: '/kb/$slug',
+  path: '/kb/$slug',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const PublicPortfolioSlugRoute = PublicPortfolioSlugRouteImport.update({
+  id: '/portfolio/$slug',
+  path: '/portfolio/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicBlogSlugRoute = PublicBlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const AdminContentPostsIndexRoute = AdminContentPostsIndexRouteImport.update({
+  id: '/content/posts/',
+  path: '/content/posts/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContentPostsNewRoute = AdminContentPostsNewRouteImport.update({
+  id: '/content/posts/new',
+  path: '/content/posts/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContentPostsIdRoute = AdminContentPostsIdRouteImport.update({
+  id: '/content/posts/$id',
+  path: '/content/posts/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
+  '/blog/$slug': typeof PublicBlogSlugRoute
+  '/portfolio/$slug': typeof PublicPortfolioSlugRoute
+  '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
@@ -127,15 +202,27 @@ export interface FileRoutesByFullPath {
   '/reset-password/': typeof AuthResetPasswordIndexRoute
   '/signup/': typeof AuthSignupIndexRoute
   '/privacy-policy/': typeof LegalPrivacyPolicyIndexRoute
+  '/about/': typeof PublicAboutIndexRoute
   '/blog/': typeof PublicBlogIndexRoute
   '/contact/': typeof PublicContactIndexRoute
   '/portfolio/': typeof PublicPortfolioIndexRoute
+  '/services/': typeof PublicServicesIndexRoute
+  '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/docs/': typeof AdminDocsIndexRoute
+  '/admin/kb/': typeof AdminKbIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
+  '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/content/posts/': typeof AdminContentPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/blog/$slug': typeof PublicBlogSlugRoute
+  '/portfolio/$slug': typeof PublicPortfolioSlugRoute
+  '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
@@ -143,11 +230,20 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordIndexRoute
   '/signup': typeof AuthSignupIndexRoute
   '/privacy-policy': typeof LegalPrivacyPolicyIndexRoute
+  '/about': typeof PublicAboutIndexRoute
   '/blog': typeof PublicBlogIndexRoute
   '/contact': typeof PublicContactIndexRoute
   '/portfolio': typeof PublicPortfolioIndexRoute
+  '/services': typeof PublicServicesIndexRoute
+  '/admin/content': typeof AdminContentIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/admin/docs': typeof AdminDocsIndexRoute
+  '/admin/kb': typeof AdminKbIndexRoute
+  '/admin/settings': typeof AdminSettingsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
+  '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
+  '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/content/posts': typeof AdminContentPostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -157,6 +253,9 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/_public/': typeof PublicIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/_public/blog/$slug': typeof PublicBlogSlugRoute
+  '/_public/portfolio/$slug': typeof PublicPortfolioSlugRoute
+  '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
@@ -164,11 +263,20 @@ export interface FileRoutesById {
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/_auth/signup/': typeof AuthSignupIndexRoute
   '/_legal/privacy-policy/': typeof LegalPrivacyPolicyIndexRoute
+  '/_public/about/': typeof PublicAboutIndexRoute
   '/_public/blog/': typeof PublicBlogIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/portfolio/': typeof PublicPortfolioIndexRoute
+  '/_public/services/': typeof PublicServicesIndexRoute
+  '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/admin/docs/': typeof AdminDocsIndexRoute
+  '/admin/kb/': typeof AdminKbIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
+  '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/content/posts/': typeof AdminContentPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -176,6 +284,9 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/'
+    | '/blog/$slug'
+    | '/portfolio/$slug'
+    | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/forgot-password/'
@@ -183,15 +294,27 @@ export interface FileRouteTypes {
     | '/reset-password/'
     | '/signup/'
     | '/privacy-policy/'
+    | '/about/'
     | '/blog/'
     | '/contact/'
     | '/portfolio/'
+    | '/services/'
+    | '/admin/content/'
     | '/admin/dashboard/'
+    | '/admin/docs/'
+    | '/admin/kb/'
+    | '/admin/settings/'
     | '/admin/users/'
+    | '/admin/content/posts/$id'
+    | '/admin/content/posts/new'
+    | '/admin/content/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
+    | '/blog/$slug'
+    | '/portfolio/$slug'
+    | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/forgot-password'
@@ -199,11 +322,20 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/privacy-policy'
+    | '/about'
     | '/blog'
     | '/contact'
     | '/portfolio'
+    | '/services'
+    | '/admin/content'
     | '/admin/dashboard'
+    | '/admin/docs'
+    | '/admin/kb'
+    | '/admin/settings'
     | '/admin/users'
+    | '/admin/content/posts/$id'
+    | '/admin/content/posts/new'
+    | '/admin/content/posts'
   id:
     | '__root__'
     | '/_auth'
@@ -212,6 +344,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/_public/'
     | '/admin/'
+    | '/_public/blog/$slug'
+    | '/_public/portfolio/$slug'
+    | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/_auth/forgot-password/'
@@ -219,11 +354,20 @@ export interface FileRouteTypes {
     | '/_auth/reset-password/'
     | '/_auth/signup/'
     | '/_legal/privacy-policy/'
+    | '/_public/about/'
     | '/_public/blog/'
     | '/_public/contact/'
     | '/_public/portfolio/'
+    | '/_public/services/'
+    | '/admin/content/'
     | '/admin/dashboard/'
+    | '/admin/docs/'
+    | '/admin/kb/'
+    | '/admin/settings/'
     | '/admin/users/'
+    | '/admin/content/posts/$id'
+    | '/admin/content/posts/new'
+    | '/admin/content/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -285,12 +429,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/settings/': {
+      id: '/admin/settings/'
+      path: '/settings'
+      fullPath: '/admin/settings/'
+      preLoaderRoute: typeof AdminSettingsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/kb/': {
+      id: '/admin/kb/'
+      path: '/kb'
+      fullPath: '/admin/kb/'
+      preLoaderRoute: typeof AdminKbIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/docs/': {
+      id: '/admin/docs/'
+      path: '/docs'
+      fullPath: '/admin/docs/'
+      preLoaderRoute: typeof AdminDocsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/dashboard/': {
       id: '/admin/dashboard/'
       path: '/dashboard'
       fullPath: '/admin/dashboard/'
       preLoaderRoute: typeof AdminDashboardIndexRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/content/': {
+      id: '/admin/content/'
+      path: '/content'
+      fullPath: '/admin/content/'
+      preLoaderRoute: typeof AdminContentIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/_public/services/': {
+      id: '/_public/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof PublicServicesIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_public/portfolio/': {
       id: '/_public/portfolio/'
@@ -311,6 +490,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog/'
       preLoaderRoute: typeof PublicBlogIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/about/': {
+      id: '/_public/about/'
+      path: '/about'
+      fullPath: '/about/'
+      preLoaderRoute: typeof PublicAboutIndexRouteImport
       parentRoute: typeof PublicRouteRoute
     }
     '/_legal/privacy-policy/': {
@@ -362,6 +548,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersUserIdRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/kb/$slug': {
+      id: '/admin/kb/$slug'
+      path: '/kb/$slug'
+      fullPath: '/admin/kb/$slug'
+      preLoaderRoute: typeof AdminKbSlugRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/_public/portfolio/$slug': {
+      id: '/_public/portfolio/$slug'
+      path: '/portfolio/$slug'
+      fullPath: '/portfolio/$slug'
+      preLoaderRoute: typeof PublicPortfolioSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/blog/$slug': {
+      id: '/_public/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof PublicBlogSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/admin/content/posts/': {
+      id: '/admin/content/posts/'
+      path: '/content/posts'
+      fullPath: '/admin/content/posts/'
+      preLoaderRoute: typeof AdminContentPostsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/content/posts/new': {
+      id: '/admin/content/posts/new'
+      path: '/content/posts/new'
+      fullPath: '/admin/content/posts/new'
+      preLoaderRoute: typeof AdminContentPostsNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/content/posts/$id': {
+      id: '/admin/content/posts/$id'
+      path: '/content/posts/$id'
+      fullPath: '/admin/content/posts/$id'
+      preLoaderRoute: typeof AdminContentPostsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
@@ -397,16 +625,24 @@ const LegalRouteRouteWithChildren = LegalRouteRoute._addFileChildren(
 
 interface PublicRouteRouteChildren {
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicBlogSlugRoute: typeof PublicBlogSlugRoute
+  PublicPortfolioSlugRoute: typeof PublicPortfolioSlugRoute
+  PublicAboutIndexRoute: typeof PublicAboutIndexRoute
   PublicBlogIndexRoute: typeof PublicBlogIndexRoute
   PublicContactIndexRoute: typeof PublicContactIndexRoute
   PublicPortfolioIndexRoute: typeof PublicPortfolioIndexRoute
+  PublicServicesIndexRoute: typeof PublicServicesIndexRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicIndexRoute: PublicIndexRoute,
+  PublicBlogSlugRoute: PublicBlogSlugRoute,
+  PublicPortfolioSlugRoute: PublicPortfolioSlugRoute,
+  PublicAboutIndexRoute: PublicAboutIndexRoute,
   PublicBlogIndexRoute: PublicBlogIndexRoute,
   PublicContactIndexRoute: PublicContactIndexRoute,
   PublicPortfolioIndexRoute: PublicPortfolioIndexRoute,
+  PublicServicesIndexRoute: PublicServicesIndexRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
@@ -415,16 +651,32 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminKbSlugRoute: typeof AdminKbSlugRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminContentIndexRoute: typeof AdminContentIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+  AdminDocsIndexRoute: typeof AdminDocsIndexRoute
+  AdminKbIndexRoute: typeof AdminKbIndexRoute
+  AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+  AdminContentPostsIdRoute: typeof AdminContentPostsIdRoute
+  AdminContentPostsNewRoute: typeof AdminContentPostsNewRoute
+  AdminContentPostsIndexRoute: typeof AdminContentPostsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminKbSlugRoute: AdminKbSlugRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminContentIndexRoute: AdminContentIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+  AdminDocsIndexRoute: AdminDocsIndexRoute,
+  AdminKbIndexRoute: AdminKbIndexRoute,
+  AdminSettingsIndexRoute: AdminSettingsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
+  AdminContentPostsIdRoute: AdminContentPostsIdRoute,
+  AdminContentPostsNewRoute: AdminContentPostsNewRoute,
+  AdminContentPostsIndexRoute: AdminContentPostsIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

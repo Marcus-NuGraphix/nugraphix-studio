@@ -317,10 +317,10 @@ export const buildEmailTemplate = async <TTemplateKey extends EmailTemplateKey>(
       paragraphs: [
         `From: ${data.name} <${data.email}>`,
         `Phone: ${data.phone}`,
-        `Suburb/Area: ${data.suburb}`,
+        `Area/Region: ${data.suburb}`,
         `Service Interest: ${formatLeadValue(data.serviceInterest)}`,
-        `Property Type: ${formatLeadValue(data.propertyType)}`,
-        `Urgency: ${formatLeadValue(data.urgency)}`,
+        `Organization Profile: ${formatLeadValue(data.propertyType)}`,
+        `Timeline: ${formatLeadValue(data.urgency)}`,
         `Preferred Contact: ${formatLeadValue(data.preferredContactMethod)}`,
         `Best Contact Time: ${data.bestContactTime || 'Not specified'}`,
         `Source Path: ${data.sourcePath}`,

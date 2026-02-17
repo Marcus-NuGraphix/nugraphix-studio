@@ -11,6 +11,10 @@ const clientOnlyFiles = [
 export default [
   {
     ignores: [
+      '.agents/**',
+      '.claude/**',
+      '.codex/**',
+      '.output/**',
       '**/dist/**',
       '**/.tanstack/**',
       '**/.output/**',
@@ -20,6 +24,7 @@ export default [
       '**/nextjs-migrate/**',
       '**/coverage/**',
       '**/node_modules/**',
+      'src/routeTree.gen.ts',
       '**/eslint.config.js',
       '**/prettier.config.js',
     ],

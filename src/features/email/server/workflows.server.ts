@@ -206,8 +206,7 @@ export const sendContactSubmissionEmails = async ({
   const supportEmail = env.CONTACT_NOTIFICATION_EMAIL
   const resolvedPhone = phone ?? 'Not provided'
   const resolvedSuburb = suburb ?? 'Not provided'
-  const resolvedServiceInterest =
-    serviceInterest ?? 'general-security-assessment'
+  const resolvedServiceInterest = serviceInterest ?? 'discovery-consultation'
   const resolvedPropertyType = propertyType ?? 'other'
   const resolvedUrgency = urgency ?? 'planning'
   const resolvedPreferredContactMethod = preferredContactMethod ?? 'email'

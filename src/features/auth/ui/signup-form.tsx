@@ -89,7 +89,7 @@ export function SignupForm({ redirectTo = '/' }: SignupFormProps) {
   return (
     <AuthFormCard
       title="Create your account"
-      description="Set up your CMS account to manage your details, communication preferences, and service updates."
+      description="Set up your Nu Graphix account to manage your details, communication preferences, and project updates."
       panelBadge="New Account"
       panelTitle="Get started with secure client access"
       panelDescription="Creating an account gives you a reliable way to stay informed and connected with our team."

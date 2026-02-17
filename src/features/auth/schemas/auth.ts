@@ -43,6 +43,7 @@ export const resetPasswordSchema = z
   })
 
 export const resetPasswordSearchSchema = z.object({
+  token: z.string().min(1, 'Reset token is required.'),
   callbackURL: z
     .string()
     .optional()

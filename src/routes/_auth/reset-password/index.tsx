@@ -22,8 +22,7 @@ export const Route = createFileRoute('/_auth/reset-password/')({
 })
 
 function RouteComponent() {
-  const { token } = Route.useParams()
-  const { callbackURL } = Route.useSearch()
+  const { callbackURL, token } = Route.useSearch()
 
   return <ResetPasswordForm token={token} redirectTo={callbackURL ?? '/'} />
 }

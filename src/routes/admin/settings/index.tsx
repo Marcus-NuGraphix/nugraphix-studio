@@ -1,34 +1,33 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/users/$userId')({
-  component: UserDetailPage,
+export const Route = createFileRoute('/admin/settings/')({
+  component: AdminSettingsPage,
 })
 
-function UserDetailPage() {
-  const { userId } = Route.useParams()
-
+function AdminSettingsPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          User Detail
+          System Settings
         </h1>
         <p className="text-sm text-muted-foreground">
-          User record route scaffolded for ID: <code>{userId}</code>
+          Configuration and policy controls for Nu Graphix Studio.
         </p>
       </header>
 
       <Card className="border-border bg-card shadow-none">
         <CardHeader>
-          <CardTitle>User lifecycle panel</CardTitle>
+          <CardTitle>Settings scaffold</CardTitle>
           <CardDescription>
-            Session controls, audit timeline, and role administration will be
-            mounted here.
+            Route ready for environment configuration, security policy
+            management, and notification controls.
           </CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Connect to user detail and security server functions.
+          Pending implementation: validated settings schema and admin mutation
+          handlers.
         </CardContent>
       </Card>
     </section>

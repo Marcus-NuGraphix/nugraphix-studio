@@ -1,34 +1,34 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/users/$userId')({
-  component: UserDetailPage,
+export const Route = createFileRoute('/admin/docs/')({
+  component: AdminDocsPage,
 })
 
-function UserDetailPage() {
-  const { userId } = Route.useParams()
-
+function AdminDocsPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          User Detail
+          Architecture Docs
         </h1>
         <p className="text-sm text-muted-foreground">
-          User record route scaffolded for ID: <code>{userId}</code>
+          Internal documentation hub for ADRs, standards, and operational
+          runbooks.
         </p>
       </header>
 
       <Card className="border-border bg-card shadow-none">
         <CardHeader>
-          <CardTitle>User lifecycle panel</CardTitle>
+          <CardTitle>Documentation Hub</CardTitle>
           <CardDescription>
-            Session controls, audit timeline, and role administration will be
-            mounted here.
+            Route scaffold prepared for docs index, filters, and publishing
+            workflows.
           </CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Connect to user detail and security server functions.
+          Pending implementation: docs list loader, markdown/rich text
+          rendering, and governance metadata.
         </CardContent>
       </Card>
     </section>

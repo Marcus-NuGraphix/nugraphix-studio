@@ -139,7 +139,7 @@ export function UserCreateDialog({ onSubmit }: UserCreateDialogProps) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="user@cmssa.co.za"
+              placeholder="user@nugraphix.co.za"
               className="border-input bg-background"
               autoComplete="email"
             />

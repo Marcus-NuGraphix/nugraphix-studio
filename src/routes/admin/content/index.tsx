@@ -2,37 +2,37 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/')({
-  component: AdminHome,
+export const Route = createFileRoute('/admin/content/')({
+  component: ContentHubPage,
 })
 
-function AdminHome() {
+function ContentHubPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Admin Workspace
+          Content Hub
         </h1>
         <p className="text-sm text-muted-foreground">
-          Phase 02 route scaffolding is complete. Select an area to continue
-          implementation.
+          CMS route scaffolding for posts, publishing workflow, and content
+          management controls.
         </p>
       </header>
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
-            <CardTitle>Content Operations</CardTitle>
+            <CardTitle>Posts</CardTitle>
             <CardDescription>
-              Manage blog and CMS workflow scaffolds.
+              Manage draft and published editorial content.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              to="/admin/content"
+              to="/admin/content/posts"
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
-              Open content hub
+              Open post list
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>
@@ -40,17 +40,17 @@ function AdminHome() {
 
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
-            <CardTitle>System Administration</CardTitle>
+            <CardTitle>Create New Post</CardTitle>
             <CardDescription>
-              Review users, platform settings, and implementation docs.
+              Start a new content entry for publishing.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              to="/admin/dashboard"
+              to="/admin/content/posts/new"
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
-              Open dashboard
+              Open editor scaffold
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>
