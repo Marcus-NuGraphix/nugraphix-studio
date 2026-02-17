@@ -10,6 +10,8 @@ This folder defines how any AI agent (Copilot, Claude, Codex, etc.) must work in
 4. `docs/phases/phase-04.md` (Security)
 5. `docs/agent/skills/00-index.md`
 
+Also consult: `.agents/skills/*` for best-practice packs (TanStack, Drizzle, Better Auth, OWASP).
+
 ## Core enforcement rules
 
 - No unrelated edits.

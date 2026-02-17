@@ -9,6 +9,15 @@ Before making changes, review:
 - `docs/phases/phase-04.md` (Security & Quality)
 - `docs/adr/*` (Architecture Decisions)
 
+## Skill packs
+
+This repo includes additional skill packs under `.agents/skills/`.
+Agents should consult these for best-practice guidance where relevant, but must follow Nu Graphix standards in:
+
+- `docs/agent/*`
+- `docs/adr/*`
+- `docs/phases/*`
+
 ## Non-negotiable rules
 
 - Use TanStack Start server functions for backend logic.
