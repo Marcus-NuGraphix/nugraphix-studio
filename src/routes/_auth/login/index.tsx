@@ -1,9 +1,37 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { getBrandMetaDescription, getBrandPageTitle } from '@/components/brand'
+import { authEntrySearchSchema } from '@/features/auth/schemas/auth'
+import { getOptionalSessionFn } from '@/features/auth/server/session'
+import { LoginForm } from '@/features/auth/ui/login-form'
+
+export const redirectAuthenticatedLogin = async (redirectTo = '/') => {
+  const session = await getOptionalSessionFn()
+  if (session) {
+    throw redirect({ to: redirectTo })
+  }
+}
 
 export const Route = createFileRoute('/_auth/login/')({
+  validateSearch: (search) => authEntrySearchSchema.parse(search),
+  beforeLoad: ({ search }) => redirectAuthenticatedLogin(search.redirect),
+  head: () => ({
+    meta: [
+      {
+        title: getBrandPageTitle('Login'),
+      },
+      {
+        name: 'description',
+        content: getBrandMetaDescription(
+          'Access your account securely to manage your services and preferences.',
+        ),
+      },
+    ],
+  }),
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/_auth/login/"!</div>
+  const { redirect: redirectPath } = Route.useSearch()
+
+  return <LoginForm redirectTo={redirectPath} />
 }

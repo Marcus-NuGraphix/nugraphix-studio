@@ -11,7 +11,7 @@ export function BrandWordmark({
 
   return (
     <span
-      className={cn('text-3xl font-bold leading-tight', className)}
+      className={cn('text-2xl lg:text-3xl font-bold leading-tight', className)}
       {...props}
     >
       {label}

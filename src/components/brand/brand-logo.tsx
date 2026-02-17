@@ -11,7 +11,7 @@ export function BrandLogo({
     <img
       src={brand.assets.logoPath}
       alt={`${brand.companyName} logo`}
-      className={cn('size-12 rounded-md object-contain', className)}
+      className={cn('lg:size-12 size-8 rounded-md object-contain', className)}
       {...props}
     />
   )

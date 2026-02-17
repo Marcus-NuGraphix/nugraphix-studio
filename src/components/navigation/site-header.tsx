@@ -1,7 +1,7 @@
+import { Link } from '@tanstack/react-router'
 import { BrandLogo, BrandWordmark } from '@/components/brand'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Button } from '@/components/ui/button'
-import { Link } from '@tanstack/react-router'
 
 export function SiteHeader() {
   return (
@@ -20,7 +20,7 @@ export function SiteHeader() {
               <ThemeToggle />
               <Button
                 // variant="outline"
-                className="h-9 border-primary/35 bg-primary px-3.5 font-semibold text-primary-foreground hover:bg-primary/65"
+                className="h-9 rounded-full border-primary/35 bg-primary px-3.5 font-semibold text-primary-foreground hover:bg-primary/65"
                 asChild
               >
                 <Link to="/login" search={{ redirect: undefined }}>
@@ -29,7 +29,7 @@ export function SiteHeader() {
               </Button>
               <Button
                 variant="outline"
-                className="h-9 bg-accent px-3.5 font-semibold hover:bg-accent"
+                className="h-9 rounded-full bg-accent px-3.5 font-semibold hover:bg-accent"
                 asChild
               >
                 <Link to="/signup" search={{ redirect: undefined }}>

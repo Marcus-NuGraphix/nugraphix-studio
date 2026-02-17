@@ -1,9 +1,38 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { getBrandMetaDescription, getBrandPageTitle } from '@/components/brand'
+import { authEntrySearchSchema } from '@/features/auth/schemas/auth'
+import { getOptionalSessionFn } from '@/features/auth/server/session'
+import { ForgotPasswordForm } from '@/features/auth/ui/forgot-password-form'
+
+export const redirectAuthenticatedForgotPassword = async (redirectTo = '/') => {
+  const session = await getOptionalSessionFn()
+  if (session) {
+    throw redirect({ to: redirectTo })
+  }
+}
 
 export const Route = createFileRoute('/_auth/forgot-password/')({
+  validateSearch: (search) => authEntrySearchSchema.parse(search),
+  beforeLoad: ({ search }) =>
+    redirectAuthenticatedForgotPassword(search.redirect),
+  head: () => ({
+    meta: [
+      {
+        title: getBrandPageTitle('Forgot Password'),
+      },
+      {
+        name: 'description',
+        content: getBrandMetaDescription(
+          'Request a secure password reset link for your account.',
+        ),
+      },
+    ],
+  }),
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/_auth/forgot-password/"!</div>
+  const { redirect: redirectPath } = Route.useSearch()
+
+  return <ForgotPasswordForm redirectTo={redirectPath ?? '/'} />
 }
