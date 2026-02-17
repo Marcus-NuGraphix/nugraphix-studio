@@ -9,19 +9,94 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
+import { Route as LegalRouteRouteImport } from './routes/_legal/route'
+import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
+import { Route as PublicPortfolioIndexRouteImport } from './routes/_public/portfolio/index'
+import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
+import { Route as PublicBlogIndexRouteImport } from './routes/_public/blog/index'
+import { Route as LegalPrivacyPolicyIndexRouteImport } from './routes/_legal/privacy-policy/index'
+import { Route as AuthSignupIndexRouteImport } from './routes/_auth/signup/index'
+import { Route as AuthResetPasswordIndexRouteImport } from './routes/_auth/reset-password/index'
+import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
+import { Route as AuthForgotPasswordIndexRouteImport } from './routes/_auth/forgot-password/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRouteRoute = LegalRouteRouteImport.update({
+  id: '/_legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRouteRoute = AuthRouteRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const PublicPortfolioIndexRoute = PublicPortfolioIndexRouteImport.update({
+  id: '/portfolio/',
+  path: '/portfolio/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicBlogIndexRoute = PublicBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const LegalPrivacyPolicyIndexRoute = LegalPrivacyPolicyIndexRouteImport.update({
+  id: '/privacy-policy/',
+  path: '/privacy-policy/',
+  getParentRoute: () => LegalRouteRoute,
+} as any)
+const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
+  id: '/signup/',
+  path: '/signup/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthResetPasswordIndexRoute = AuthResetPasswordIndexRouteImport.update({
+  id: '/reset-password/',
+  path: '/reset-password/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
+  id: '/forgot-password/',
+  path: '/forgot-password/',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -30,50 +105,217 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/forgot-password/': typeof AuthForgotPasswordIndexRoute
+  '/login/': typeof AuthLoginIndexRoute
+  '/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/signup/': typeof AuthSignupIndexRoute
+  '/privacy-policy/': typeof LegalPrivacyPolicyIndexRoute
+  '/blog/': typeof PublicBlogIndexRoute
+  '/contact/': typeof PublicContactIndexRoute
+  '/portfolio/': typeof PublicPortfolioIndexRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
   '/admin': typeof AdminIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/forgot-password': typeof AuthForgotPasswordIndexRoute
+  '/login': typeof AuthLoginIndexRoute
+  '/reset-password': typeof AuthResetPasswordIndexRoute
+  '/signup': typeof AuthSignupIndexRoute
+  '/privacy-policy': typeof LegalPrivacyPolicyIndexRoute
+  '/blog': typeof PublicBlogIndexRoute
+  '/contact': typeof PublicContactIndexRoute
+  '/portfolio': typeof PublicPortfolioIndexRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteRouteWithChildren
+  '/_legal': typeof LegalRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/_public/': typeof PublicIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
+  '/_auth/login/': typeof AuthLoginIndexRoute
+  '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/_auth/signup/': typeof AuthSignupIndexRoute
+  '/_legal/privacy-policy/': typeof LegalPrivacyPolicyIndexRoute
+  '/_public/blog/': typeof PublicBlogIndexRoute
+  '/_public/contact/': typeof PublicContactIndexRoute
+  '/_public/portfolio/': typeof PublicPortfolioIndexRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin/' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/'
+    | '/api/auth/$'
+    | '/forgot-password/'
+    | '/login/'
+    | '/reset-password/'
+    | '/signup/'
+    | '/privacy-policy/'
+    | '/blog/'
+    | '/contact/'
+    | '/portfolio/'
+    | '/admin/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/api/auth/$'
-  id: '__root__' | '/' | '/admin/' | '/api/auth/$'
+  to:
+    | '/'
+    | '/admin'
+    | '/api/auth/$'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/privacy-policy'
+    | '/blog'
+    | '/contact'
+    | '/portfolio'
+    | '/admin/dashboard'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/_legal'
+    | '/_public'
+    | '/admin'
+    | '/_public/'
+    | '/admin/'
+    | '/api/auth/$'
+    | '/_auth/forgot-password/'
+    | '/_auth/login/'
+    | '/_auth/reset-password/'
+    | '/_auth/signup/'
+    | '/_legal/privacy-policy/'
+    | '/_public/blog/'
+    | '/_public/contact/'
+    | '/_public/portfolio/'
+    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AdminIndexRoute: typeof AdminIndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  LegalRouteRoute: typeof LegalRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_legal': {
+      id: '/_legal'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LegalRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
-      path: '/admin'
+      path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/admin/dashboard/': {
+      id: '/admin/dashboard/'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard/'
+      preLoaderRoute: typeof AdminDashboardIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/_public/portfolio/': {
+      id: '/_public/portfolio/'
+      path: '/portfolio'
+      fullPath: '/portfolio/'
+      preLoaderRoute: typeof PublicPortfolioIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/contact/': {
+      id: '/_public/contact/'
+      path: '/contact'
+      fullPath: '/contact/'
+      preLoaderRoute: typeof PublicContactIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/blog/': {
+      id: '/_public/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof PublicBlogIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_legal/privacy-policy/': {
+      id: '/_legal/privacy-policy/'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy/'
+      preLoaderRoute: typeof LegalPrivacyPolicyIndexRouteImport
+      parentRoute: typeof LegalRouteRoute
+    }
+    '/_auth/signup/': {
+      id: '/_auth/signup/'
+      path: '/signup'
+      fullPath: '/signup/'
+      preLoaderRoute: typeof AuthSignupIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/reset-password/': {
+      id: '/_auth/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/login/': {
+      id: '/_auth/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof AuthLoginIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/forgot-password/': {
+      id: '/_auth/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -85,9 +327,73 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+interface AuthRouteRouteChildren {
+  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
+  AuthLoginIndexRoute: typeof AuthLoginIndexRoute
+  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute
+  AuthSignupIndexRoute: typeof AuthSignupIndexRoute
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
+  AuthLoginIndexRoute: AuthLoginIndexRoute,
+  AuthResetPasswordIndexRoute: AuthResetPasswordIndexRoute,
+  AuthSignupIndexRoute: AuthSignupIndexRoute,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
+
+interface LegalRouteRouteChildren {
+  LegalPrivacyPolicyIndexRoute: typeof LegalPrivacyPolicyIndexRoute
+}
+
+const LegalRouteRouteChildren: LegalRouteRouteChildren = {
+  LegalPrivacyPolicyIndexRoute: LegalPrivacyPolicyIndexRoute,
+}
+
+const LegalRouteRouteWithChildren = LegalRouteRoute._addFileChildren(
+  LegalRouteRouteChildren,
+)
+
+interface PublicRouteRouteChildren {
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicBlogIndexRoute: typeof PublicBlogIndexRoute
+  PublicContactIndexRoute: typeof PublicContactIndexRoute
+  PublicPortfolioIndexRoute: typeof PublicPortfolioIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicIndexRoute: PublicIndexRoute,
+  PublicBlogIndexRoute: PublicBlogIndexRoute,
+  PublicContactIndexRoute: PublicContactIndexRoute,
+  PublicPortfolioIndexRoute: PublicPortfolioIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
+interface AdminRouteRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  AuthRouteRoute: AuthRouteRouteWithChildren,
+  LegalRouteRoute: LegalRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
