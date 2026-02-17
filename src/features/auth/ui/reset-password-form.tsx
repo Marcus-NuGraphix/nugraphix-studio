@@ -38,6 +38,7 @@ export function ResetPasswordForm({
   redirectTo = '/',
 }: ResetPasswordFormProps) {
   const navigate = useNavigate()
+  const hasToken = token.trim().length > 0
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -54,6 +55,13 @@ export function ResetPasswordForm({
     },
     onSubmit: async ({ value }) => {
       setSubmitError(null)
+
+      if (!hasToken) {
+        setSubmitError(
+          'This reset link is invalid or expired. Request a new one.',
+        )
+        return
+      }
 
       await authClient.resetPassword({
         token,
@@ -107,6 +115,16 @@ export function ResetPasswordForm({
             <AlertTriangle className="size-4" />
             <AlertTitle>Unable to reset password</AlertTitle>
             <AlertDescription>{submitError}</AlertDescription>
+          </Alert>
+        ) : null}
+
+        {!hasToken && !submitError ? (
+          <Alert variant="destructive">
+            <AlertTriangle className="size-4" />
+            <AlertTitle>Reset link required</AlertTitle>
+            <AlertDescription>
+              This reset link is invalid or expired. Request a new one.
+            </AlertDescription>
           </Alert>
         ) : null}
 
@@ -224,7 +242,7 @@ export function ResetPasswordForm({
               selector={(state) => [state.canSubmit, state.isSubmitting]}
               children={([canSubmit, isSubmitting]) => (
                 <Button
-                  disabled={!canSubmit || isSubmitting || isComplete}
+                  disabled={!hasToken || !canSubmit || isSubmitting || isComplete}
                   type="submit"
                   className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
                 >

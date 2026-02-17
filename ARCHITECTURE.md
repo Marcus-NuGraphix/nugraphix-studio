@@ -80,13 +80,16 @@ src/
         auth.ts                  # Login, signup, reset schemas
         password.ts              # Password policy schema
       server/                    # Server-only modules
+        admin-api.ts             # Admin plugin endpoint wrappers
+        auth-config.ts           # Pure auth config + reset-link shaping
         auth.ts                  # Better Auth config (plugins, hooks)
         authorize.ts             # Permission enforcement
+        request-context.ts       # IP/user-agent + auth rate-limit key helpers
         rate-limit.ts            # Auth rate-limit wrapper
         security.ts              # Password change, session mgmt
         session.server.ts        # getOptionalSession, requireSession, requireAdmin
         session.ts               # Server functions wrapping session.server
-      tests/                     # Vitest test files (8 test suites)
+      tests/                     # Vitest test files (10 test suites)
       ui/                        # Auth UI components
         auth-form-card.tsx       # Shared form card with brand panel
         login-form.tsx
@@ -398,6 +401,7 @@ See ADR-0011.
 | 0016 | Shared Utility Layer Standards | Accepted |
 | 0017 | Error Taxonomy and ServerFail Conversion | Accepted |
 | 0018 | Cross-Cutting Infrastructure Layer Organization | Accepted |
+| 0019 | Auth Feature Hardening and Lib Integration | Accepted |
 
 ---
 

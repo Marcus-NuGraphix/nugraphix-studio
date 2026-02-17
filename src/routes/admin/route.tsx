@@ -1,12 +1,24 @@
 import { Link, Outlet, createFileRoute, redirect } from '@tanstack/react-router'
-import { LayoutDashboard, LibraryBig, Settings, ShieldUser, SquareLibrary, UserCog } from 'lucide-react'
+import {
+  LayoutDashboard,
+  LibraryBig,
+  Settings,
+  ShieldUser,
+  SquareLibrary,
+  UserCog,
+} from 'lucide-react'
 import { BrandWordmark } from '@/components/brand'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Button } from '@/components/ui/button'
+import { toSafeRedirectPath } from '@/features/auth/model/redirect'
 import { getOptionalSessionFn } from '@/features/auth/server/session'
 
 const adminNavigation = [
-  { icon: LayoutDashboard, label: 'Dashboard', to: '/admin/dashboard' as const },
+  {
+    icon: LayoutDashboard,
+    label: 'Dashboard',
+    to: '/admin/dashboard' as const,
+  },
   { icon: SquareLibrary, label: 'Content Hub', to: '/admin/content' as const },
   { icon: LibraryBig, label: 'Knowledge Base', to: '/admin/kb' as const },
   { icon: UserCog, label: 'Users', to: '/admin/users' as const },
@@ -19,9 +31,19 @@ export const Route = createFileRoute('/admin')({
     const session = await getOptionalSessionFn()
 
     if (!session) {
+      const locationHref = location.href
+      const redirectPath = (() => {
+        try {
+          const parsed = new URL(locationHref)
+          return `${parsed.pathname}${parsed.search}${parsed.hash}` || '/admin'
+        } catch {
+          return toSafeRedirectPath(locationHref, '/admin')
+        }
+      })()
+
       throw redirect({
         to: '/login',
-        search: { redirect: location.href },
+        search: { redirect: toSafeRedirectPath(redirectPath, '/admin') },
       })
     }
 
@@ -55,7 +77,8 @@ function AdminRouteComponent() {
                 to={item.to}
                 className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 activeProps={{
-                  className: 'bg-primary text-primary-foreground hover:bg-primary',
+                  className:
+                    'bg-primary text-primary-foreground hover:bg-primary',
                 }}
               >
                 <item.icon className="size-4" />

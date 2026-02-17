@@ -199,4 +199,32 @@ describe('toSafeAuthErrorMessage', () => {
       ).toBe('Unable to create your account right now. Please try again.')
     })
   })
+
+  describe('structured error payloads', () => {
+    it('maps structured rate-limit errors to safe retry copy', () => {
+      expect(
+        toSafeAuthErrorMessage({
+          error: {
+            error: {
+              code: 'RATE_LIMITED',
+              message: 'Too many requests',
+            },
+          },
+          mode: 'login',
+        }),
+      ).toBe('Too many attempts. Please wait before retrying.')
+    })
+
+    it('maps structured NOT_FOUND reset errors to invalid-link copy', () => {
+      expect(
+        toSafeAuthErrorMessage({
+          error: {
+            code: 'NOT_FOUND',
+            message: 'Token not found',
+          },
+          mode: 'reset-password',
+        }),
+      ).toBe('This reset link is invalid or expired. Request a new one.')
+    })
+  })
 })

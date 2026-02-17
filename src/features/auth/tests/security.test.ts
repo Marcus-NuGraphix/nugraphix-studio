@@ -6,7 +6,7 @@ import {
   revokeAllCurrentUserSessions,
   revokeCurrentUserSession,
 } from '../server/security'
-import { checkRateLimit } from '@/features/auth/server/rate-limit'
+import { checkAuthRateLimit } from '@/features/auth/server/rate-limit'
 import { auth } from '@/features/auth/server/auth'
 
 vi.mock('@tanstack/react-start/server', () => ({
@@ -14,7 +14,7 @@ vi.mock('@tanstack/react-start/server', () => ({
 }))
 
 vi.mock('@/features/auth/server/rate-limit', () => ({
-  checkRateLimit: vi.fn(),
+  checkAuthRateLimit: vi.fn(),
 }))
 
 vi.mock('@/features/auth/server/auth', () => ({
@@ -30,7 +30,7 @@ vi.mock('@/features/auth/server/auth', () => ({
 
 describe('security helpers', () => {
   const getRequestHeadersMock = vi.mocked(getRequestHeaders)
-  const checkRateLimitMock = vi.mocked(checkRateLimit)
+  const checkRateLimitMock = vi.mocked(checkAuthRateLimit)
   const changePasswordMock = vi.mocked(auth.api.changePassword)
   const listSessionsMock = vi.mocked(auth.api.listSessions)
   const revokeSessionMock = vi.mocked(auth.api.revokeSession)
@@ -56,7 +56,8 @@ describe('security helpers', () => {
       })
 
       expect(checkRateLimitMock).toHaveBeenCalledWith({
-        key: expect.stringContaining('password-change:'),
+        scope: 'password-change',
+        headers: expect.any(Headers),
         limit: 10,
         windowMs: 60_000,
       })
@@ -107,7 +108,7 @@ describe('security helpers', () => {
       })
     })
 
-    it('uses x-forwarded-for header for rate limit key', async () => {
+    it('passes request headers to auth rate limiter', async () => {
       const headers = new Headers({ 'x-forwarded-for': '203.0.113.50' })
       getRequestHeadersMock.mockReturnValue(headers)
       checkRateLimitMock.mockResolvedValueOnce({
@@ -124,12 +125,13 @@ describe('security helpers', () => {
 
       expect(checkRateLimitMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          key: 'password-change:203.0.113.50',
+          scope: 'password-change',
+          headers,
         }),
       )
     })
 
-    it('falls back to local key when no forwarded header present', async () => {
+    it('uses runtime headers even when forwarded headers are missing', async () => {
       getRequestHeadersMock.mockReturnValue(new Headers())
       checkRateLimitMock.mockResolvedValueOnce({
         allowed: true,
@@ -145,7 +147,8 @@ describe('security helpers', () => {
 
       expect(checkRateLimitMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          key: 'password-change:local',
+          scope: 'password-change',
+          headers: expect.any(Headers),
         }),
       )
     })

@@ -10,8 +10,41 @@ const GENERIC_FORGOT_PASSWORD_ERROR =
 const GENERIC_RESET_PASSWORD_ERROR =
   'Unable to reset your password. Request a new reset link and try again.'
 
+const GENERIC_RATE_LIMITED_ERROR =
+  'Too many attempts. Please wait before retrying.'
+
 const messageIncludes = (value: string, needle: string) =>
   value.toLowerCase().includes(needle)
+
+const toErrorDetails = (error: unknown) => {
+  if (error instanceof Error) {
+    return {
+      message: error.message.trim(),
+      code: undefined as string | undefined,
+    }
+  }
+
+  if (error && typeof error === 'object') {
+    const payload = error as {
+      code?: unknown
+      message?: unknown
+      error?: {
+        code?: unknown
+        message?: unknown
+      }
+    }
+
+    const embedded = payload.error ?? payload
+
+    return {
+      message:
+        typeof embedded.message === 'string' ? embedded.message.trim() : '',
+      code: typeof embedded.code === 'string' ? embedded.code : undefined,
+    }
+  }
+
+  return { message: '', code: undefined as string | undefined }
+}
 
 export const toSafeAuthErrorMessage = ({
   error,
@@ -29,14 +62,21 @@ export const toSafeAuthErrorMessage = ({
           ? GENERIC_FORGOT_PASSWORD_ERROR
           : GENERIC_RESET_PASSWORD_ERROR
 
-  if (!(error instanceof Error) || !error.message) {
+  const details = toErrorDetails(error)
+  if (!details.message && !details.code) {
     return fallback
   }
 
-  const message = error.message.trim()
+  const message = details.message
+  const code = details.code
+
+  if (code === 'RATE_LIMITED' || messageIncludes(message, 'too many')) {
+    return GENERIC_RATE_LIMITED_ERROR
+  }
 
   if (mode === 'login') {
     if (
+      code === 'UNAUTHORIZED' ||
       messageIncludes(message, 'invalid email') ||
       messageIncludes(message, 'invalid password') ||
       messageIncludes(message, 'invalid credentials')
@@ -47,6 +87,7 @@ export const toSafeAuthErrorMessage = ({
 
   if (mode === 'signup') {
     if (
+      code === 'CONFLICT' ||
       messageIncludes(message, 'already exists') ||
       messageIncludes(message, 'already registered') ||
       messageIncludes(message, 'already in use')
@@ -57,6 +98,7 @@ export const toSafeAuthErrorMessage = ({
 
   if (mode === 'reset-password') {
     if (
+      code === 'NOT_FOUND' ||
       messageIncludes(message, 'invalid token') ||
       messageIncludes(message, 'token expired') ||
       messageIncludes(message, 'bad request')

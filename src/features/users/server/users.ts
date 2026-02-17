@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
 import { z } from 'zod'
 import { roleValues } from '@/features/auth/model/session'
-import { auth } from '@/features/auth/server/auth'
+import { createAdminUser } from '@/features/auth/server/admin-api'
 import { assertPermission } from '@/features/auth/server/authorize'
 import {
   changePasswordForCurrentUser,
@@ -404,14 +404,12 @@ export const createUserFn = createServerFn({ method: 'POST' })
     assertPermission(session, 'users.write')
 
     const headers = getRequestHeaders()
-    const result = await auth.api.createUser({
-      body: {
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        role: data.role,
-      },
+    const result = await createAdminUser({
       headers,
+      email: data.email,
+      name: data.name,
+      password: data.password,
+      role: data.role,
     })
 
     await usersRepository.createAuditEvent({

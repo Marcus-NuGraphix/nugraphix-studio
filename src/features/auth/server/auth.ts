@@ -3,53 +3,36 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { admin } from 'better-auth/plugins'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import {
+  AUTH_COOKIE_PREFIX,
+  AUTH_IP_ADDRESS_HEADERS,
+  AUTH_RATE_LIMIT_OPTIONS,
+  MINIMUM_BETTER_AUTH_SECRET_LENGTH,
+  assertAuthSecretStrength,
+  buildTrustedOrigins,
+  deriveSecureCookieFlag,
+  toPublicResetUrl,
+} from './auth-config'
+import {
   sendResetPasswordEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
 } from '@/features/email/server/workflows.server'
-import * as schema from '@/lib/db'
 import { db } from '@/lib/db'
+import * as schema from '@/lib/db/schema'
 import { env } from '@/lib/env/server'
 import { logger } from '@/lib/observability'
 
 const authLogger = logger.child({ domain: 'auth' })
 
-const trustedOrigins = Array.from(
-  new Set([
-    env.BETTER_AUTH_URL,
-    env.BETTER_AUTH_BASE_URL,
-    ...(env.BETTER_AUTH_TRUSTED_ORIGINS ?? []),
-  ]),
-)
+const trustedOrigins = buildTrustedOrigins(env)
+const useSecureCookies = deriveSecureCookieFlag(env.BETTER_AUTH_BASE_URL)
 
-const useSecureCookies = env.BETTER_AUTH_BASE_URL.startsWith('https://')
-
-const getPublicAppOrigin = () =>
-  (env.PUBLIC_APP_URL || env.BETTER_AUTH_BASE_URL).replace(/\/$/, '')
-
-const toPublicResetUrl = ({
-  token,
-  generatedUrl,
-}: {
-  token: string
-  generatedUrl: string
-}) => {
-  try {
-    const authUrl = new URL(generatedUrl)
-    const callbackURL = authUrl.searchParams.get('callbackURL')
-    const publicResetUrl = new URL(
-      `/reset-password/${token}`,
-      `${getPublicAppOrigin()}/`,
-    )
-
-    if (callbackURL) {
-      publicResetUrl.searchParams.set('callbackURL', callbackURL)
-    }
-
-    return publicResetUrl.toString()
-  } catch {
-    return generatedUrl
-  }
+const secretStatus = assertAuthSecretStrength(env)
+if (!secretStatus.valid && env.NODE_ENV === 'development') {
+  authLogger.warn('auth.config.secret.weak-non-production', {
+    minimumLength: MINIMUM_BETTER_AUTH_SECRET_LENGTH,
+    currentLength: secretStatus.secretLength,
+  })
 }
 
 export const auth = betterAuth({
@@ -60,71 +43,67 @@ export const auth = betterAuth({
     provider: 'pg',
     schema,
   }),
-  rateLimit: {
-    enabled: true,
-    storage: 'database',
-    window: 60,
-    max: 100,
-  },
+  rateLimit: AUTH_RATE_LIMIT_OPTIONS,
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
-    sendResetPassword: async (data) => {
+    sendResetPassword: (data) => {
       const resetUrl = toPublicResetUrl({
         token: data.token,
         generatedUrl: data.url,
+        runtimeEnv: env,
       })
 
-      try {
-        await sendResetPasswordEmail({
-          user: data.user,
-          resetUrl,
-        })
-      } catch (error) {
+      void sendResetPasswordEmail({
+        user: data.user,
+        resetUrl,
+      }).catch((error) => {
         authLogger.error('auth.email.reset-password.failed', {
           userId: data.user.id,
           error,
         })
-      }
+      })
+
+      return Promise.resolve()
     },
   },
   emailVerification: {
     sendOnSignUp: true,
-    sendVerificationEmail: async (data) => {
-      try {
-        await sendVerificationEmail({
-          user: data.user,
-          verificationUrl: data.url,
-        })
-      } catch (error) {
+    sendVerificationEmail: (data) => {
+      void sendVerificationEmail({
+        user: data.user,
+        verificationUrl: data.url,
+      }).catch((error) => {
         authLogger.error('auth.email.verification.failed', {
           userId: data.user.id,
           error,
         })
-      }
+      })
+
+      return Promise.resolve()
     },
   },
   databaseHooks: {
     user: {
       create: {
-        after: async (createdUser) => {
-          try {
-            await sendWelcomeEmail(createdUser)
-          } catch (error) {
+        after: (createdUser) => {
+          void sendWelcomeEmail(createdUser).catch((error) => {
             authLogger.error('auth.email.welcome.failed', {
               userId: createdUser.id,
               error,
             })
-          }
+          })
+
+          return Promise.resolve()
         },
       },
     },
   },
   advanced: {
-    cookiePrefix: 'app',
+    cookiePrefix: AUTH_COOKIE_PREFIX,
     useSecureCookies,
     ipAddress: {
-      ipAddressHeaders: ['x-forwarded-for', 'x-real-ip'],
+      ipAddressHeaders: [...AUTH_IP_ADDRESS_HEADERS],
     },
   },
   plugins: [

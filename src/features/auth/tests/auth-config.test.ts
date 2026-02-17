@@ -1,12 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { auth } from '@/features/auth/server/auth'
+import {
+  AUTH_COOKIE_PREFIX,
+  AUTH_IP_ADDRESS_HEADERS,
+  AUTH_RATE_LIMIT_OPTIONS,
+  MINIMUM_BETTER_AUTH_SECRET_LENGTH,
+  assertAuthSecretStrength,
+  buildTrustedOrigins,
+  deriveSecureCookieFlag,
+  toPublicResetUrl,
+} from '@/features/auth/server/auth-config'
 
-describe('auth config invariants', () => {
-  const options = auth.options
-
-  describe('rate limiting', () => {
-    it('has rate limiting enabled', () => {
-      expect(options.rateLimit).toMatchObject({
+describe('auth config contracts', () => {
+  describe('rate limiting options', () => {
+    it('keeps auth rate limiting enabled with database storage', () => {
+      expect(AUTH_RATE_LIMIT_OPTIONS).toEqual({
         enabled: true,
         storage: 'database',
         window: 60,
@@ -15,61 +22,110 @@ describe('auth config invariants', () => {
     })
   })
 
-  describe('email and password', () => {
-    it('has email/password auth enabled', () => {
-      expect(options.emailAndPassword).toMatchObject({ enabled: true })
-    })
-  })
-
-  describe('email verification', () => {
-    it('sends verification email on signup', () => {
-      expect(options.emailVerification).toMatchObject({ sendOnSignUp: true })
-    })
-  })
-
-  describe('cookie security', () => {
-    it('uses a branded cookie prefix', () => {
-      expect(options.advanced).toMatchObject({ cookiePrefix: 'app' })
+  describe('cookie and proxy headers', () => {
+    it('uses a stable cookie prefix', () => {
+      expect(AUTH_COOKIE_PREFIX).toBe('app')
     })
 
-    it('derives secure cookie flag from base URL protocol', () => {
-      const expectedSecure = options.baseURL.startsWith('https://')
-      expect(options.advanced).toMatchObject({
-        useSecureCookies: expectedSecure,
-      })
+    it('includes hardened ip header precedence', () => {
+      expect(AUTH_IP_ADDRESS_HEADERS).toEqual([
+        'cf-connecting-ip',
+        'x-forwarded-for',
+        'x-real-ip',
+      ])
     })
-  })
 
-  describe('ip address headers', () => {
-    it('reads forwarded IP from standard proxy headers', () => {
-      const headers = (
-        options.advanced as { ipAddress: { ipAddressHeaders: Array<string> } }
-      ).ipAddress.ipAddressHeaders
-      expect(headers).toContain('x-forwarded-for')
-      expect(headers).toContain('x-real-ip')
+    it('derives secure-cookie mode from base URL protocol', () => {
+      expect(deriveSecureCookieFlag('https://studio.nugraphix.co.za')).toBe(
+        true,
+      )
+      expect(deriveSecureCookieFlag('http://localhost:3000')).toBe(false)
     })
   })
 
   describe('trusted origins', () => {
-    it('includes the configured base URL as a trusted origin', () => {
-      const origins = options.trustedOrigins
-      expect(origins).toContain(options.baseURL)
+    it('deduplicates configured origin values', () => {
+      expect(
+        buildTrustedOrigins({
+          BETTER_AUTH_URL: 'https://studio.nugraphix.co.za',
+          BETTER_AUTH_BASE_URL: 'https://studio.nugraphix.co.za',
+          BETTER_AUTH_TRUSTED_ORIGINS: [
+            'https://admin.nugraphix.co.za',
+            'https://studio.nugraphix.co.za',
+          ],
+        }),
+      ).toEqual([
+        'https://studio.nugraphix.co.za',
+        'https://admin.nugraphix.co.za',
+      ])
     })
   })
 
-  describe('plugins', () => {
-    it('has plugins configured', () => {
-      expect(options.plugins).toBeDefined()
-      expect(options.plugins.length).toBeGreaterThanOrEqual(2)
+  describe('auth secret policy', () => {
+    it('accepts secret values at minimum length', () => {
+      const result = assertAuthSecretStrength({
+        NODE_ENV: 'production',
+        BETTER_AUTH_SECRET: 'x'.repeat(MINIMUM_BETTER_AUTH_SECRET_LENGTH),
+      })
+
+      expect(result).toEqual({
+        valid: true,
+        secretLength: MINIMUM_BETTER_AUTH_SECRET_LENGTH,
+      })
+    })
+
+    it('reports weak secrets in non-production', () => {
+      const result = assertAuthSecretStrength({
+        NODE_ENV: 'development',
+        BETTER_AUTH_SECRET: 'short-secret',
+      })
+
+      expect(result.valid).toBe(false)
+      expect(result.secretLength).toBe('short-secret'.length)
+    })
+
+    it('throws for weak secrets in production', () => {
+      expect(() =>
+        assertAuthSecretStrength({
+          NODE_ENV: 'production',
+          BETTER_AUTH_SECRET: 'weak-secret',
+        }),
+      ).toThrow('BETTER_AUTH_SECRET must be at least')
     })
   })
 
-  describe('database hooks', () => {
-    it('has a post-create user hook for welcome email', () => {
-      const hooks = options.databaseHooks as {
-        user: { create: { after: unknown } }
-      }
-      expect(typeof hooks.user.create.after).toBe('function')
+  describe('reset URL shaping', () => {
+    it('emits query-token reset URLs for public route contract', () => {
+      const url = toPublicResetUrl({
+        token: 'token_123',
+        generatedUrl:
+          'https://auth.nugraphix.co.za/reset-password?token=token_123&callbackURL=%2Fadmin%2Fusers',
+        runtimeEnv: {
+          BETTER_AUTH_BASE_URL: 'https://auth.nugraphix.co.za',
+          PUBLIC_APP_URL: 'https://studio.nugraphix.co.za',
+        },
+      })
+
+      const parsed = new URL(url)
+      expect(parsed.pathname).toBe('/reset-password/')
+      expect(parsed.searchParams.get('token')).toBe('token_123')
+      expect(parsed.searchParams.get('callbackURL')).toBe('/admin/users')
+    })
+
+    it('drops unsafe callbackURL values from reset links', () => {
+      const url = toPublicResetUrl({
+        token: 'token_abc',
+        generatedUrl:
+          'https://auth.nugraphix.co.za/reset-password?callbackURL=https%3A%2F%2Fevil.example',
+        runtimeEnv: {
+          BETTER_AUTH_BASE_URL: 'https://auth.nugraphix.co.za',
+          PUBLIC_APP_URL: 'https://studio.nugraphix.co.za',
+        },
+      })
+
+      const parsed = new URL(url)
+      expect(parsed.searchParams.get('token')).toBe('token_abc')
+      expect(parsed.searchParams.has('callbackURL')).toBe(false)
     })
   })
 })

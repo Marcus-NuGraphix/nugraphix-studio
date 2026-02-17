@@ -21,6 +21,16 @@ vi.mock('@/features/auth/server/auth', () => ({
 
 const mockSession = (overrides: Record<string, unknown> = {}) =>
   ({
+    session: {
+      id: 'session_1',
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+      userId: 'user_1',
+      expiresAt: new Date('2026-01-01T01:00:00.000Z'),
+      token: 'session_token_1',
+      ipAddress: null,
+      userAgent: null,
+    },
     user: {
       id: 'user_1',
       email: 'test@example.com',
