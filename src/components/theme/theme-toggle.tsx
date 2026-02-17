@@ -1,6 +1,5 @@
 import { Check, Moon, Sun } from 'lucide-react'
-
-import { useTheme } from './theme-provider'
+import { useTheme } from './use-theme'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -23,22 +22,16 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          <div className="flex items-center justify-between w-full">
-            <span>Light</span>
-            {theme === 'light' && <Check className="size-4" />}
-          </div>
+          <span className="flex-1">Light</span>
+          {theme === 'light' && <Check className="size-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <div className="flex items-center justify-between w-full">
-            <span>Dark</span>
-            {theme === 'dark' && <Check className="size-4" />}
-          </div>
+          <span className="flex-1">Dark</span>
+          {theme === 'dark' && <Check className="size-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          <div className="flex items-center justify-between w-full">
-            <span>System</span>
-            {theme === 'system' && <Check className="size-4" />}
-          </div>
+          <span className="flex-1">System</span>
+          {theme === 'system' && <Check className="size-4" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

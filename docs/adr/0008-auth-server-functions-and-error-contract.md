@@ -1,6 +1,6 @@
 # ADR 0008 — Auth Integration, Server Function Pattern & Unified Error Contract
 
-**Status:** Accepted
+**Status:** Accepted (Amended — see ADR-0009, ADR-0010)
 **Date:** 2026-02-17
 **Supersedes:** None
 **Related ADRs:**
@@ -271,6 +271,20 @@ Infra:
 - Introduce audit logging
 - Add rate limiting per server function
 - Add OpenTelemetry integration
+
+---
+
+## Amendments (2026-02-17)
+
+This ADR remains the source of truth for the ServerResult contract, auth config, and DB strategy. The following refinements have been captured in subsequent ADRs:
+
+- **ADR-0009** — Route protection via `beforeLoad` + pathless layout routes (replaces "middleware deferred" with a concrete `_authenticated.tsx` pattern)
+- **ADR-0010** — Canonical server function patterns including `.validator()` chains, `notFound()`/`redirect()` throw semantics, and error catch guards
+
+Key corrections applied:
+1. `notFound()` and `redirect()` must be **thrown**, not wrapped in `ServerResult`
+2. `.validator(zodSchema)` is **required** on all mutations
+3. `catch` blocks must re-throw `instanceof Response` before converting to `ServerResult`
 
 ---
 

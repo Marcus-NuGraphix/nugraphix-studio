@@ -10,7 +10,10 @@ export function BrandWordmark({
   const label = compact ? brand.companyName : brand.siteName
 
   return (
-    <span className={cn('font-semibold leading-tight', className)} {...props}>
+    <span
+      className={cn('text-3xl font-bold leading-tight', className)}
+      {...props}
+    >
       {label}
     </span>
   )

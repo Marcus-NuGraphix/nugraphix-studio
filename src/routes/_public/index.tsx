@@ -1,13 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ComponentExample } from '@/components/component-example'
-import { ThemeToggle } from '@/components/theme/theme-toggle'
 
-export const Route = createFileRoute('/_public/')({ component: App })
+export const Route = createFileRoute('/_public/')({ component: HomePage })
 
-function App() {
+function HomePage() {
   return (
     <>
-      <ThemeToggle />
       <ComponentExample />
     </>
   )

@@ -10,6 +10,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import appCss from '../styles.css?url'
 
 import { ThemeProvider } from '@/components/theme/theme-provider'
+import { themeScript } from '@/components/theme/theme-script'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -38,9 +39,13 @@ export const Route = createRootRoute({
 
 function RootDocument() {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+          suppressHydrationWarning
+        />
       </head>
       <body>
         <ThemeProvider defaultTheme="system">
