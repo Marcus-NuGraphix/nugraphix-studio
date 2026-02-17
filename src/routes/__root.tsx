@@ -9,6 +9,8 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
 import appCss from '../styles.css?url'
 
+import { ThemeProvider } from '@/components/theme/theme-provider'
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -41,18 +43,20 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body>
-        <Outlet />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <ThemeProvider defaultTheme="system">
+          <Outlet />
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>
