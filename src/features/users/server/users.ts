@@ -1,6 +1,8 @@
-import { getRequestHeaders } from '@tanstack/react-start/server'
 import { createServerFn } from '@tanstack/react-start'
+import { getRequestHeaders } from '@tanstack/react-start/server'
 import { z } from 'zod'
+import { roleValues } from '@/features/auth/model/session'
+import { auth } from '@/features/auth/server/auth'
 import { assertPermission } from '@/features/auth/server/authorize'
 import {
   changePasswordForCurrentUser,
@@ -12,9 +14,12 @@ import {
   sendPasswordChangedEmail,
   sendSessionsRevokedEmail,
 } from '@/features/email/server/workflows.server'
-import { roleValues } from '@/features/auth/model/session'
 import { userAdminFiltersSchema } from '@/features/users/model/filters'
-import { usersRepository } from '@/features/users/server/repository'
+import {
+  changePasswordSchema,
+  revokeSessionSchema,
+  updateProfileSchema,
+} from '@/features/users/schemas/user-account'
 import {
   reactivateUserSchema,
   revokeUserSessionsSchema,
@@ -22,13 +27,8 @@ import {
   suspendUserSchema,
   userIdSchema,
 } from '@/features/users/schemas/user-admin'
-import {
-  changePasswordSchema,
-  revokeSessionSchema,
-  updateProfileSchema,
-} from '@/features/users/schemas/user-account'
-import { auth } from '@/features/auth/server/auth'
-import { logger } from '@/features/shared/lib/logger.server'
+import { usersRepository } from '@/features/users/server/repository'
+import { logger } from '@/lib/server'
 
 const usersLogger = logger.child({ domain: 'users' })
 

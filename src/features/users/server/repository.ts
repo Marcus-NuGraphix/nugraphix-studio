@@ -1,8 +1,13 @@
 import { and, asc, desc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm'
 import type { UserRole } from '@/features/auth/model/session'
 import type { UserAdminFiltersInput } from '@/features/users/model/filters'
-import { db } from '@/db'
-import { session, user, userAuditEvent, userSecurityEvent } from '@/db/schema'
+import { db } from '@/lib/db'
+import {
+  session,
+  user,
+  userAuditEvent,
+  userSecurityEvent,
+} from '@/lib/db/schema'
 
 const toWhereClause = (filters: UserAdminFiltersInput) => {
   const conditions = []
@@ -71,12 +76,12 @@ const listUsers = async (filters: UserAdminFiltersInput) => {
   }
 }
 
-const findUserById = async (id: string) =>
+const findUserById = (id: string) =>
   db.query.user.findFirst({
     where: eq(user.id, id),
   })
 
-const listUserSessions = async (userId: string) =>
+const listUserSessions = (userId: string) =>
   db
     .select({
       id: session.id,
@@ -91,7 +96,7 @@ const listUserSessions = async (userId: string) =>
     .where(eq(session.userId, userId))
     .orderBy(desc(session.createdAt))
 
-const listAuditEventsForUser = async (userId: string, limit = 100) =>
+const listAuditEventsForUser = (userId: string, limit = 100) =>
   db
     .select({
       id: userAuditEvent.id,
@@ -113,7 +118,7 @@ const listAuditEventsForUser = async (userId: string, limit = 100) =>
     .orderBy(desc(userAuditEvent.createdAt))
     .limit(limit)
 
-const listAdminUserSessions = async (limit = 200) =>
+const listAdminUserSessions = (limit = 200) =>
   db
     .select({
       id: session.id,
@@ -134,7 +139,7 @@ const listAdminUserSessions = async (limit = 200) =>
     .orderBy(desc(session.createdAt))
     .limit(limit)
 
-const listAdminAuditEvents = async (limit = 200) =>
+const listAdminAuditEvents = (limit = 200) =>
   db
     .select({
       id: userAuditEvent.id,
@@ -150,7 +155,7 @@ const listAdminAuditEvents = async (limit = 200) =>
     .orderBy(desc(userAuditEvent.createdAt))
     .limit(limit)
 
-const listSecurityEventsForUser = async (userId: string, limit = 100) =>
+const listSecurityEventsForUser = (userId: string, limit = 100) =>
   db
     .select({
       id: userSecurityEvent.id,
@@ -165,10 +170,10 @@ const listSecurityEventsForUser = async (userId: string, limit = 100) =>
     .orderBy(desc(userSecurityEvent.createdAt))
     .limit(limit)
 
-const updateUserRole = async (id: string, role: UserRole) =>
+const updateUserRole = (id: string, role: UserRole) =>
   db.update(user).set({ role }).where(eq(user.id, id))
 
-const suspendUser = async (id: string, reason: string) =>
+const suspendUser = (id: string, reason: string) =>
   db
     .update(user)
     .set({
@@ -180,7 +185,7 @@ const suspendUser = async (id: string, reason: string) =>
     })
     .where(eq(user.id, id))
 
-const reactivateUser = async (id: string) =>
+const reactivateUser = (id: string) =>
   db
     .update(user)
     .set({
@@ -193,15 +198,15 @@ const reactivateUser = async (id: string) =>
     })
     .where(eq(user.id, id))
 
-const deleteUser = async (id: string) => db.delete(user).where(eq(user.id, id))
+const deleteUser = (id: string) => db.delete(user).where(eq(user.id, id))
 
-const revokeSessionByToken = async (token: string) =>
+const revokeSessionByToken = (token: string) =>
   db.delete(session).where(eq(session.token, token))
 
-const revokeUserSessions = async (userId: string) =>
+const revokeUserSessions = (userId: string) =>
   db.delete(session).where(eq(session.userId, userId))
 
-const updateOwnProfile = async ({
+const updateOwnProfile = ({
   id,
   name,
   image,
@@ -218,7 +223,7 @@ const updateOwnProfile = async ({
     })
     .where(eq(user.id, id))
 
-const createAuditEvent = async ({
+const createAuditEvent = ({
   action,
   actorUserId,
   actorEmail,
@@ -243,7 +248,7 @@ const createAuditEvent = async ({
     metadata: metadata ?? {},
   })
 
-const createSecurityEvent = async ({
+const createSecurityEvent = ({
   userId,
   type,
   ipAddress,

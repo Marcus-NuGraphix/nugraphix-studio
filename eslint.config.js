@@ -11,17 +11,20 @@ const clientOnlyFiles = [
 export default [
   {
     ignores: [
-      'dist/**',
-      '.tanstack/**',
-      '.agents/**',
+      '**/dist/**',
+      '**/.tanstack/**',
+      '**/.output/**',
       '**/.agents/**',
-      'nextjs-migrate/**',
+      '**/.claude/**',
+      '**/.codex/**',
       '**/nextjs-migrate/**',
-      'coverage/**',
-      'node_modules/**',
-      'eslint.config.js',
-      'prettier.config.js',
+      '**/coverage/**',
+      '**/node_modules/**',
+      '**/eslint.config.js',
+      '**/prettier.config.js',
     ],
+  },
+  {
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
