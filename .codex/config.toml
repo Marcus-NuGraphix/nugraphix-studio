@@ -1,0 +1,12 @@
+# Nu Graphix Studio - Codex MCP configuration
+# Project-scoped MCP servers (trusted project)
+
+[mcp_servers.shadcn]
+type = "stdio"
+command = "npx"
+args = ["-y", "shadcn@latest", "mcp"]
+
+[mcp_servers.context7]
+type = "stdio"
+command = "npx"
+args = ["-y", "@upstash/context7-mcp", "--api-key", "${CONTEXT7_API_KEY}"]
