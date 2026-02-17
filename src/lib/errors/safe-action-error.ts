@@ -1,6 +1,9 @@
 const messageIncludes = (value: string, needle: string) =>
   value.toLowerCase().includes(needle)
 
+const shouldLogActionError = () =>
+  typeof window === 'undefined' || import.meta.env.DEV
+
 const safeMessageByPattern: Array<{
   pattern: RegExp
   message: string
@@ -31,17 +34,25 @@ const safeMessageByPattern: Array<{
   },
 ]
 
+interface ToSafeActionErrorMessageInput {
+  error: unknown
+  fallback: string
+  context?: string
+  onError?: (error: unknown, context?: string) => void
+}
+
 export const toSafeActionErrorMessage = ({
   error,
   fallback,
   context,
-}: {
-  error: unknown
-  fallback: string
-  context?: string
-}) => {
-  if (context) {
-    console.error(`[${context}]`, error)
+  onError,
+}: ToSafeActionErrorMessageInput) => {
+  if (context && shouldLogActionError()) {
+    if (onError) {
+      onError(error, context)
+    } else {
+      console.error(`[${context}]`, error)
+    }
   }
 
   if (!(error instanceof Error) || !error.message) {

@@ -12,3 +12,8 @@
 
 ## Architecture Decisions
 - `docs/adr/0001-*.md` etc
+
+## Reference
+- `docs/reference/lib-env.md`
+- `docs/reference/lib-utils.md`
+- `docs/reference/lib-errors.md`

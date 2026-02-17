@@ -9,7 +9,7 @@ import {
   userRole,
 } from '../schema/shared/enums'
 
-const schemaDir = path.resolve(process.cwd(), 'src/db/schema')
+const schemaDir = path.resolve(process.cwd(), 'src/lib/db/schema')
 
 const listSchemaFiles = async (directory: string): Promise<Array<string>> => {
   const entries = await readdir(directory, { withFileTypes: true })
@@ -87,8 +87,8 @@ describe('db schema integrity checks', () => {
   it('includes critical check constraints for publishing and email state', async () => {
     const [postsSchema, pressSchema, emailMessageSchema, emailSubscription] =
       await Promise.all([
-        readFile(path.join(schemaDir, 'news/posts.ts'), 'utf8'),
-        readFile(path.join(schemaDir, 'news/press-releases.ts'), 'utf8'),
+        readFile(path.join(schemaDir, 'blog/posts.ts'), 'utf8'),
+        readFile(path.join(schemaDir, 'blog/press-releases.ts'), 'utf8'),
         readFile(path.join(schemaDir, 'email/email-messages.ts'), 'utf8'),
         readFile(path.join(schemaDir, 'email/email-subscriptions.ts'), 'utf8'),
       ])

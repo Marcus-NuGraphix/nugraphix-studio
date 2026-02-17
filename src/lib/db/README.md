@@ -1,86 +1,45 @@
 # Database Layer
 
-This directory owns the Drizzle schema, migration integrity utilities, and the
-typed DB client used by server repositories.
+This directory owns Nu Graphix Studio's PostgreSQL contract through Drizzle:
+typed schema, DB client setup, and migration artifact verification.
 
 ## Responsibilities
 
-1. Define and export all PostgreSQL enums, tables, constraints, indexes, and relations.
-2. Provide stable schema import surfaces (`@/db/schema`, `@/db/schema.ts`).
-3. Keep migration artifacts internally consistent with Drizzle metadata.
-4. Provide maintainable DB contract tests under `src/db/tests`.
+1. Provide a single DB client entrypoint via `src/lib/db/index.ts`.
+2. Keep schema modular by bounded context under `src/lib/db/schema/*`.
+3. Preserve deterministic Drizzle artifact integrity via verifier + tests.
+4. Support safe local development with stable import surfaces.
 
 ## Directory Map
 
-- `index.ts`: typed Drizzle client bootstrap (`db`).
-- `schema.ts`: compatibility export of `schema/index.ts`.
-- `schema/index.ts`: root barrel composed from bounded contexts.
-- `schema/shared/*`: cross-domain primitives (`enums`, `timestamps`).
-- `schema/auth/*`: Better Auth core tables and user governance tables.
-- `schema/news/*`: news/press tables and relations.
-- `schema/media/*`: media assets.
-- `schema/email/*`: email preferences, subscriptions, messages, events.
-- `schema/content/*`: managed content entry/revision/publication tables.
-- `migrations/verify-artifacts.ts`: migration artifact verifier.
-- `tests/*`: DB contract, barrel, and migration integrity tests.
+1. `index.ts`: Drizzle client + pooled connection setup + schema re-exports.
+2. `schema.ts`: compatibility barrel to `schema/index.ts`.
+3. `schema/index.ts`: root schema barrel across all domains.
+4. `schema/auth/*`: Better Auth tables + user governance tables.
+5. `schema/blog/*`: blog posts, categories, tags, press releases, relations.
+6. `schema/content/*`: managed content entries and revisions.
+7. `schema/email/*`: email lifecycle tables.
+8. `schema/media/*`: media assets.
+9. `schema/shared/*`: enums, timestamps, and shared relational primitives.
+10. `migrations/verify-artifacts.ts`: Drizzle SQL/meta/journal consistency checks.
+11. `tests/*`: schema/barrel/migration contract tests.
 
-## Schema Architecture
+## Import Conventions
 
-1. Domain folders export only local modules from `schema/<domain>/index.ts`.
-2. `schema/index.ts` re-exports every domain index and is the single schema entrypoint.
-3. Shared helpers live in `schema/shared/*` and are imported by domains through `../shared/*`.
-4. All repository code should import schema from `@/db/schema` unless file-local testing requires relative imports.
+1. Import DB runtime client from `@/lib/db`.
+2. Import schema from `@/lib/db` or `@/lib/db/schema`.
+3. Keep feature repositories in `src/features/*/server` and avoid direct DB access from UI code.
 
-## Migration Workflow
+## Development Workflow
 
-1. Update schema files in `src/db/schema/*`.
-2. Run `pnpm db:generate`.
-3. Run `pnpm db:verify:artifacts`.
-4. Run `pnpm db:migrate` (or `pnpm db:push` for non-migration workflows).
+1. Update schema in `src/lib/db/schema/*`.
+2. Generate migrations with `pnpm db:generate`.
+3. Run DB contracts with `pnpm exec vitest run src/lib/db/tests`.
+4. Run lint/type checks (`pnpm lint`, `pnpm typecheck`).
+5. Apply migrations with `pnpm db:migrate` (or `pnpm db:push` when appropriate).
 
-`drizzle.config.ts` source of truth:
+## Current Guardrails
 
-1. Schema entry: `./src/db/schema/index.ts`
-2. Output: `./drizzle`
-3. Dialect: `postgresql`
-
-## Testing (`src/db/tests`)
-
-Current DB suite:
-
-1. `src/db/tests/schema-domain-barrels.test.ts`
-   - verifies root schema barrel re-exports each domain contract.
-2. `src/db/tests/schema-contracts.test.ts`
-   - verifies enum stability, timestamp helper policy, critical constraint presence, and Better Auth rate-limit table contract.
-3. `src/db/tests/migration-artifacts.test.ts`
-   - verifies Drizzle SQL/meta/journal consistency using `verifyDrizzleArtifacts`.
-
-Run commands:
-
-1. `pnpm test:db`
-2. `pnpm exec eslint src/db`
-
-Verifier behavior note:
-
-1. An empty `drizzle/meta/_journal.json` is accepted when there are no migration SQL/snapshot artifacts yet.
-2. Empty journal with existing artifacts is treated as invalid.
-
-## Current Contract Conventions
-
-1. Timestamp columns must use `timestampUtc(...)` from `schema/shared/timestamps.ts`.
-2. Raw `timestamp(...)` should not be used directly in schema modules.
-3. Critical workflow checks are enforced for publish-state and email-state integrity.
-4. Junction tables use composite primary keys and cascade semantics where appropriate.
-5. `content_revision.payload` stores JSON object maps
-   (`Record<string, {}>`) to preserve serializable app-layer contracts.
-
-## Primary Consumers
-
-1. `src/features/auth/server/*`
-2. `src/features/users/server/*`
-3. `src/features/news/server/*`
-4. `src/features/news/press/server/*`
-5. `src/features/media/server/*`
-6. `src/features/email/server/*`
-7. `src/features/dashboard/server/*`
-8. `src/features/content/server/*`
+1. Timestamp columns use `timestampUtc(...)` from `schema/shared/timestamps.ts`.
+2. Critical workflow checks are test-enforced (publish state, email state, auth rate limit contract).
+3. Migration artifacts must remain internally consistent before merge.

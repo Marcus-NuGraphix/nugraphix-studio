@@ -1,5 +1,5 @@
 // Bounded-context schema export surface.
-// Keeps root imports (`@/db/schema`) stable while enabling modular growth.
+// Keeps root imports (`@/lib/db/schema`) stable while enabling modular growth.
 export * from './auth/index'
 export * from './blog/index'
 export * from './content/index'

@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
-import { logger } from '@/lib/server'
 import { db } from '@/lib/db'
+import { logger } from '@/lib/observability'
 
 type BackgroundTaskName =
   | 'email.send'

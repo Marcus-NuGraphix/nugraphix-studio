@@ -1,4 +1,4 @@
-import { checkRateLimit as checkSharedRateLimit } from '@/lib/server/rate-limit'
+import { checkRateLimit as checkSharedRateLimit } from '@/lib/rateLimit'
 
 export const checkRateLimit = ({
   key,

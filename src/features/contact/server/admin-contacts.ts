@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { contactAdminFiltersSchema } from '@/features/contact/model/filters'
 import { contactSubmissionStatusValues } from '@/features/contact/model/types'
 import { contactRepository } from '@/features/contact/server/contact-repository'
-import { logger } from '@/lib/server'
+import { logger } from '@/lib/observability'
 
 const contactsLogger = logger.child({ domain: 'contacts-admin' })
 

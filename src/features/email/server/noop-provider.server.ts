@@ -2,7 +2,7 @@ import type {
   EmailProvider,
   EmailSendRequest,
 } from '@/features/email/server/provider'
-import { logger } from '@/lib/server'
+import { logger } from '@/lib/observability'
 
 const emailLogger = logger.child({ domain: 'email', provider: 'noop' })
 

@@ -8,7 +8,7 @@ import { getEmailProvider } from '@/features/email/server/provider-registry.serv
 import { emailRepository } from '@/features/email/server/repository.server'
 import { buildEmailTemplate } from '@/features/email/server/templates.server'
 import { env } from '@/lib/env/server'
-import { logger } from '@/lib/server'
+import { logger } from '@/lib/observability'
 import {
   backgroundTasks,
   registerBackgroundTaskHandler,

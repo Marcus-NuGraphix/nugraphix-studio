@@ -10,7 +10,7 @@ import {
 import * as schema from '@/lib/db'
 import { db } from '@/lib/db'
 import { env } from '@/lib/env/server'
-import { logger } from '@/lib/server'
+import { logger } from '@/lib/observability'
 
 const authLogger = logger.child({ domain: 'auth' })
 

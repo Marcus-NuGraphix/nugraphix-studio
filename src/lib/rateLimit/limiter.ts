@@ -1,9 +1,21 @@
 import { sql } from 'drizzle-orm'
-import { logger } from './logger'
 import { db } from '@/lib/db'
+import { logger } from '@/lib/observability'
 
-type RateLimitEntry = {
+interface RateLimitEntry {
   count: number
+  resetAt: number
+}
+
+export interface RateLimitCheckInput {
+  key: string
+  limit: number
+  windowMs: number
+}
+
+export interface RateLimitResult {
+  allowed: boolean
+  remaining: number
   resetAt: number
 }
 
@@ -51,11 +63,7 @@ const checkRateLimitInMemory = ({
   key,
   limit,
   windowMs,
-}: {
-  key: string
-  limit: number
-  windowMs: number
-}) => {
+}: RateLimitCheckInput): RateLimitResult => {
   const now = Date.now()
   const existing = memoryFallbackStore.get(key)
 
@@ -76,21 +84,27 @@ const checkRateLimitInMemory = ({
   }
 }
 
-type RateLimitResult = {
-  allowed: boolean
-  remaining: number
-  resetAt: number
+const assertRateLimitInput = ({ key, limit, windowMs }: RateLimitCheckInput) => {
+  if (key.trim().length === 0) {
+    throw new Error('Rate limit key must not be empty.')
+  }
+
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new Error('Rate limit "limit" must be an integer >= 1.')
+  }
+
+  if (!Number.isInteger(windowMs) || windowMs < 1) {
+    throw new Error('Rate limit "windowMs" must be an integer >= 1.')
+  }
 }
 
-export const checkRateLimit = async ({
-  key,
-  limit,
-  windowMs,
-}: {
-  key: string
-  limit: number
-  windowMs: number
-}): Promise<RateLimitResult> => {
+export const checkRateLimit = async (
+  input: RateLimitCheckInput,
+): Promise<RateLimitResult> => {
+  assertRateLimitInput(input)
+
+  const { key, limit, windowMs } = input
+
   try {
     await ensureRateLimitSchema()
 
@@ -121,7 +135,7 @@ export const checkRateLimit = async ({
       | undefined
 
     if (!row || typeof row.count !== 'number') {
-      throw new Error('Rate limit query did not return a counter row')
+      throw new Error('Rate limit query did not return a counter row.')
     }
 
     const resetAtMs =
@@ -147,4 +161,8 @@ export const checkRateLimit = async ({
 
     return checkRateLimitInMemory({ key, limit, windowMs })
   }
+}
+
+export const resetRateLimitMemoryStoreForTests = () => {
+  memoryFallbackStore.clear()
 }

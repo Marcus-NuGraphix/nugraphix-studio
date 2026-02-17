@@ -4,3 +4,5 @@ import * as schema from './schema'
 import { env } from '@/lib/env/server'
 
 export const db = drizzle(env.DATABASE_URL, { schema })
+
+export * from './schema'

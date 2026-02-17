@@ -28,7 +28,7 @@ import {
   userIdSchema,
 } from '@/features/users/schemas/user-admin'
 import { usersRepository } from '@/features/users/server/repository'
-import { logger } from '@/lib/server'
+import { logger } from '@/lib/observability'
 
 const usersLogger = logger.child({ domain: 'users' })
 

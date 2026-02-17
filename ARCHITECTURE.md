@@ -114,7 +114,7 @@ src/
       ui/admin/                  # Admin user management components
 
   lib/                           # Core infrastructure
-    index.ts                     # Re-exports server + utils
+    index.ts                     # Re-exports shared infrastructure barrels
     db/
       index.ts                   # Drizzle client (env.DATABASE_URL)
       schema.ts                  # Barrel export for all schemas
@@ -133,10 +133,15 @@ src/
       server-result.ts           # ServerResult<T> type + ok/fail helpers
       to-server-fail.ts          # Error → ServerFail converter
       safe-action-error.ts       # User-friendly error messages
+    observability/
+      logger.ts                  # Structured logger with redaction
+      mutation-log.ts            # Mutation log helper contract
+    rateLimit/
+      limiter.ts                 # Durable limiter with memory fallback
+    search/
+      fts.ts                     # Postgres FTS helper primitives
     server/
-      index.ts                   # Exports logger
-      logger.ts                  # Structured logger
-      rate-limit.ts              # Redis-backed with in-memory fallback
+      index.ts                   # Exports server runtime utilities
       background-tasks.ts        # Persistent job queue (Postgres-backed)
     utils/
       index.ts                   # Barrel export
@@ -389,6 +394,10 @@ See ADR-0011.
 | 0012 | Feature Module Architecture | Accepted |
 | 0013 | Email Infrastructure & Background Tasks | Accepted |
 | 0014 | CSS Design Token Strategy | Accepted |
+| 0015 | Environment Contract and Runtime Validation | Accepted |
+| 0016 | Shared Utility Layer Standards | Accepted |
+| 0017 | Error Taxonomy and ServerFail Conversion | Accepted |
+| 0018 | Cross-Cutting Infrastructure Layer Organization | Accepted |
 
 ---
 
