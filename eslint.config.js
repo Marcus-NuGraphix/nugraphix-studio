@@ -25,6 +25,7 @@ export default [
       '**/coverage/**',
       '**/node_modules/**',
       'src/routeTree.gen.ts',
+      'src/components/_examples/**',
       '**/eslint.config.js',
       '**/prettier.config.js',
       'tools/**',

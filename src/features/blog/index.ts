@@ -67,4 +67,5 @@ export {
   type BlogPostEditorFormValues,
 } from '@/features/blog/ui/admin/post-editor-form'
 export { BlogPostContent } from '@/features/blog/ui/public/post-content'
+export { PublicBlogCard } from '@/features/blog/ui/public/blog-card'
 export { PublicBlogPostPage } from '@/features/blog/ui/public/post-page'

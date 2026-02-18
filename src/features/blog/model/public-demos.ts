@@ -343,6 +343,7 @@ export const demoPublicBlogPostListItems: Array<BlogPublicPostListItem> =
       title: post.title,
       slug: post.slug,
       excerpt: post.excerpt,
+      coverImage: post.coverImage,
       featured: post.featured,
       readingTimeMinutes: post.readingTimeMinutes,
       publishedAt: post.publishedAt ?? new Date(),

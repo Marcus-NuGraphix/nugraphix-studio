@@ -32,6 +32,7 @@ export interface BlogPublicPostListItem {
   title: string
   slug: string
   excerpt: string | null
+  coverImage: string | null
   readingTimeMinutes: number
   featured: boolean
   publishedAt: Date

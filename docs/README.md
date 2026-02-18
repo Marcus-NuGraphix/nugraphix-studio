@@ -21,6 +21,7 @@ Last updated: 2026-02-18
   - `docs/adr/0024-security-and-quality-gate-enforcement.md`
   - `docs/adr/0025-phase-05-incident-management-enforcement.md`
   - `docs/adr/0026-media-library-integration-and-admin-routing.md`
+  - `docs/adr/0027-example-component-integration-color-contrast-governance.md`
 - Immutable records: `docs/adr/archive/0001-*.md` through `0022-*.md`
 
 ## Roadmap and Execution

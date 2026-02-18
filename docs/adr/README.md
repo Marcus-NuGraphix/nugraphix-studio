@@ -10,6 +10,7 @@ Last updated: 2026-02-18
 - `docs/adr/0024-security-and-quality-gate-enforcement.md` captures Phase-04 security and quality enforcement controls.
 - `docs/adr/0025-phase-05-incident-management-enforcement.md` captures Phase-05 incident and escalation enforcement controls.
 - `docs/adr/0026-media-library-integration-and-admin-routing.md` captures media feature integration, admin routing, and shared contract alignment.
+- `docs/adr/0027-example-component-integration-color-contrast-governance.md` captures prompt-level governance for token pairing, action color usage, and light/dark contrast QA in example component adaptations.
 
 ## ADR Rules
 
@@ -19,11 +20,11 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0027`
+- `0028`
 
 ## Current Focus
 
 - Post-MVP hardening and expansion should align with accepted ADR contracts,
   including `0023` (editorial workflow), `0024` (security quality gates),
-  `0025` (incident escalation governance), and `0026` (media library
-  architecture integration).
+  `0025` (incident escalation governance), `0026` (media library architecture
+  integration), and `0027` (component integration color/contrast governance).

@@ -8,6 +8,7 @@ Owns editorial blog lifecycle for Nu Graphix Studio.
 2. Post create/update/publish/unpublish server operations.
 3. Public blog listing and slug detail delivery (with demo-content fallback when no published posts exist yet).
 4. Rich text authoring with ProseKit.
+5. Public presentation components (`PublicBlogCard`) integrated with shared marketing slider composition.
 
 ## Contracts
 

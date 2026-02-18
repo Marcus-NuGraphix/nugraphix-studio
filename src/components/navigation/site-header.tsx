@@ -96,34 +96,63 @@ export function SiteHeader({ session }: SiteHeaderProps) {
             <ThemeToggle className="hidden sm:inline-flex" />
             {isAuthenticated && session ? (
               <>
-                <div className="hidden min-w-0 text-right xl:block">
-                  <p className="text-xs text-muted-foreground">Signed in as</p>
-                  <p className="max-w-48 truncate text-xs font-medium text-foreground">
+                <div className="hidden max-w-56 min-w-0 rounded-full border border-border/70 bg-muted/35 px-3 py-1.5 xl:block">
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                    Signed in as
+                  </p>
+                  <p className="max-w-48 truncate text-xs font-semibold text-foreground">
                     {session.user.email}
                   </p>
                 </div>
-                <Button variant="outline" className="hidden md:inline-flex" asChild>
-                  <Link to={primaryDestination}>{primaryLabel}</Link>
-                </Button>
-                {accountDestination ? (
-                  <Button variant="secondary" className="hidden lg:inline-flex" asChild>
-                    <Link to={accountDestination}>My Account</Link>
+                <div className="hidden items-center gap-1.5 rounded-full border border-border/70 bg-card/80 p-1 md:flex">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    className="rounded-full px-3 shadow-md shadow-primary/20"
+                    asChild
+                  >
+                    <Link to={primaryDestination}>{primaryLabel}</Link>
                   </Button>
-                ) : null}
+                  {accountDestination ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-full border-accent/40 bg-accent/10 px-3 text-accent-foreground hover:bg-accent/20"
+                      asChild
+                    >
+                      <Link to={accountDestination}>My Account</Link>
+                    </Button>
+                  ) : null}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSignOut}
+                    disabled={isSigningOut}
+                    className="rounded-full px-3 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                  >
+                    {isSigningOut ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <LogOut className="size-4" />
+                    )}
+                    <span className="hidden lg:inline">
+                      {isSigningOut ? 'Signing out...' : 'Log Out'}
+                    </span>
+                  </Button>
+                </div>
                 <Button
                   variant="ghost"
+                  size="icon-sm"
                   onClick={handleSignOut}
                   disabled={isSigningOut}
-                  className="text-sm"
+                  className="md:hidden"
+                  aria-label={isSigningOut ? 'Signing out' : 'Log out'}
                 >
                   {isSigningOut ? (
                     <Loader2 className="size-4 animate-spin" />
                   ) : (
                     <LogOut className="size-4" />
                   )}
-                  <span className="hidden sm:inline">
-                    {isSigningOut ? 'Signing out...' : 'Log Out'}
-                  </span>
                 </Button>
               </>
             ) : (

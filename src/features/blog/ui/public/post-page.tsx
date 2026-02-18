@@ -7,7 +7,11 @@ import {
   PenLine,
   Sparkles,
 } from 'lucide-react'
-import type { BlogPostDetail } from '@/features/blog/model/types'
+import type {
+  BlogPostDetail,
+  BlogPublicPostListItem,
+} from '@/features/blog/model/types'
+import { CardSlider } from '@/components/marketing'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,10 +29,12 @@ import {
 } from '@/components/ui/accordion'
 import { Separator } from '@/components/ui/separator'
 import { toBlogContentHeadings } from '@/features/blog/model/content'
+import { PublicBlogCard } from '@/features/blog/ui/public/blog-card'
 import { BlogPostContent } from '@/features/blog/ui/public/post-content'
 
 interface PublicBlogPostPageProps {
   post: BlogPostDetail
+  relatedPosts?: Array<BlogPublicPostListItem>
   isDemoContent?: boolean
 }
 
@@ -64,6 +70,7 @@ const formatDateLabel = (value: Date | null, fallback: string) =>
 
 export function PublicBlogPostPage({
   post,
+  relatedPosts = [],
   isDemoContent = false,
 }: PublicBlogPostPageProps) {
   const headings = toBlogContentHeadings(post.contentJson, 10)
@@ -230,6 +237,28 @@ export function PublicBlogPostPage({
             </Button>
           </div>
         </footer>
+
+        {relatedPosts.length > 0 ? (
+          <section className="space-y-4 border-t border-border px-6 py-8 sm:px-10">
+            <div className="space-y-1">
+              <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                Related reads
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Continue with additional Nu Graphix engineering and delivery insights.
+              </p>
+            </div>
+
+            <CardSlider
+              ariaLabel="Related blog posts"
+              items={relatedPosts.map((relatedPost) => ({
+                id: relatedPost.id,
+                content: <PublicBlogCard post={relatedPost} className="h-full" />,
+              }))}
+              itemClassName="w-[min(88vw,20rem)] sm:w-[20rem]"
+            />
+          </section>
+        ) : null}
       </article>
     </div>
   )
