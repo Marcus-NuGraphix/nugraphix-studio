@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-02-18T12:44:55.119Z",
+  "location": "za-runner",
+  "query": "select 1",
+  "warmupIterations": 5,
+  "benchmarkIterations": 40,
+  "targets": [
+    {
+      "label": "default",
+      "target": "postgresql://ep-steep-mode-a19wpce3-pooler.ap-southeast-1.aws.neon.tech:5432/neondb",
+      "query": "select 1",
+      "warmupIterations": 5,
+      "benchmarkIterations": 40,
+      "succeeded": 40,
+      "failed": 0,
+      "stats": {
+        "minMs": 479.43,
+        "maxMs": 1099.42,
+        "avgMs": 522.21,
+        "p50Ms": 506.4,
+        "p95Ms": 526.62
+      }
+    }
+  ]
+}

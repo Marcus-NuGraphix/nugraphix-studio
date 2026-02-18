@@ -12,7 +12,7 @@ typed schema, DB client setup, and migration artifact verification.
 
 ## Directory Map
 
-1. `index.ts`: Drizzle client + pooled connection setup + schema re-exports.
+1. `index.ts`: Drizzle client + explicit `pg.Pool` setup + schema re-exports.
 2. `schema.ts`: compatibility barrel to `schema/index.ts`.
 3. `schema/index.ts`: root schema barrel across all domains.
 4. `schema/auth/*`: Better Auth tables + user governance tables.
@@ -27,9 +27,10 @@ typed schema, DB client setup, and migration artifact verification.
 
 ## Import Conventions
 
-1. Import DB runtime client from `@/lib/db`.
+1. Import DB runtime client from `@/lib/db` (`db`).
 2. Import schema from `@/lib/db` or `@/lib/db/schema`.
 3. Keep feature repositories in `src/features/*/server` and avoid direct DB access from UI code.
+4. Use `dbPool` only when a lower-level pool operation is explicitly required.
 
 ## Development Workflow
 

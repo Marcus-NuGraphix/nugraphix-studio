@@ -17,16 +17,20 @@ Choose DB hosting with evidence-based latency and operational fit for South Afri
 
 ## Candidate Matrix
 
-| Option | Region | Estimated Latency Risk | Operational Notes | Decision |
-| --- | --- | --- | --- | --- |
-| Current Neon region (Singapore) | ap-southeast-1 | High for ZA | Existing setup | Baseline |
-| Candidate A | TBD | TBD | TBD | Pending |
-| Candidate B | TBD | TBD | TBD | Pending |
+| Option | Region | ZA DB p95 | Score | Operational Notes | Decision |
+| --- | --- | --- | --- | --- | --- |
+| Current Neon region (Singapore) | ap-southeast-1 | 526.62 ms | 1/5 | Existing setup; high RTT from ZA | Baseline (re-evaluate) |
+| Candidate A | TBD | TBD | TBD | TBD | Pending benchmark |
+| Candidate B | TBD | TBD | TBD | TBD | Pending benchmark |
 
 ## Required Evidence
 
 - [x] Synthetic local-control timings collected via `pnpm perf:db-latency`.
-- [ ] ZA vantage query benchmark samples (current + candidate regions).
+- [x] ZA current-region query benchmark sample captured:
+  - `docs/03-hosting/artifacts/db-latency-2026-02-18T12-44-55-119Z.json`
+- [x] ZA route-level TTFB baseline captured:
+  - `docs/03-hosting/artifacts/http-ttfb-2026-02-18T12-50-57-626Z.json`
+- [ ] ZA candidate-region query benchmark samples (candidate A/B).
 - [ ] Route TTFB delta attributable to DB distance.
 
 ## Measurement Workflow

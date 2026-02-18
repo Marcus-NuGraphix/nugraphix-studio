@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-02-18T12:50:57.626Z",
+  "location": "za-runner",
+  "origin": "https://nugraphix.co.za",
+  "redirectMode": "manual",
+  "warmupIterations": 5,
+  "benchmarkIterations": 40,
+  "paths": [
+    {
+      "path": "/",
+      "url": "https://nugraphix.co.za/",
+      "status": 307,
+      "succeeded": 40,
+      "failed": 0,
+      "minMs": 19.88,
+      "maxMs": 37.65,
+      "avgMs": 25.01,
+      "p50Ms": 24.92,
+      "p95Ms": 28.63
+    },
+    {
+      "path": "/blog",
+      "url": "https://nugraphix.co.za/blog",
+      "status": 307,
+      "succeeded": 40,
+      "failed": 0,
+      "minMs": 20.32,
+      "maxMs": 109.74,
+      "avgMs": 27.16,
+      "p50Ms": 22.38,
+      "p95Ms": 44.25
+    },
+    {
+      "path": "/login",
+      "url": "https://nugraphix.co.za/login",
+      "status": 307,
+      "succeeded": 40,
+      "failed": 0,
+      "minMs": 20.2,
+      "maxMs": 33.2,
+      "avgMs": 22.65,
+      "p50Ms": 21.96,
+      "p95Ms": 28.63
+    },
+    {
+      "path": "/admin/dashboard",
+      "url": "https://nugraphix.co.za/admin/dashboard",
+      "status": 307,
+      "succeeded": 40,
+      "failed": 0,
+      "minMs": 20.02,
+      "maxMs": 76.38,
+      "avgMs": 26.96,
+      "p50Ms": 22.03,
+      "p95Ms": 41.8
+    }
+  ]
+}

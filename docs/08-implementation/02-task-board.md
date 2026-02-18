@@ -23,7 +23,7 @@ Status: Active
 
 | ID | Phase | Task | Notes |
 | --- | --- | --- | --- |
-| T-003 | 3 | Benchmark DB latency candidates for ZA traffic | Added benchmark harness (`tools/benchmark-db-latency.ts`) and local-control baseline; ZA vantage + candidate endpoint runs pending. |
+| T-003 | 3 | Benchmark DB latency candidates for ZA traffic | Captured ZA DB baseline (`p95=526.62 ms`) and ZA route TTFB baseline artifacts; candidate A/B DB target URLs still required to finalize scoring/winner. |
 
 ## Done
 

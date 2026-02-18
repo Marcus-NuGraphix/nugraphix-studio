@@ -17,6 +17,7 @@
     "db:seed:bootstrap": "tsx tools/seed-bootstrap.ts",
     "db:seed:blog-demo": "tsx tools/seed-blog-demo.ts",
     "perf:db-latency": "tsx tools/benchmark-db-latency.ts",
+    "perf:http-ttfb": "tsx tools/benchmark-http-ttfb.ts",
     "white-label": "tsx tools/white-label.ts",
     "white-label:dry": "tsx tools/white-label.ts --dry-run"
   },

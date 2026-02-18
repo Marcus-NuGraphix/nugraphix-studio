@@ -62,3 +62,15 @@ Status: Active
   - artifact convention under `docs/03-hosting/artifacts/`
 - Captured local-control benchmark validation (non-ZA baseline) and updated
   hosting benchmark runbook for ZA candidate comparison execution.
+- Captured ZA baseline benchmark for current Neon endpoint and committed artifact:
+  - `docs/03-hosting/artifacts/db-latency-2026-02-18T12-44-55-119Z.json`
+  - Result summary: `p50=506.40 ms`, `p95=526.62 ms`, `avg=522.21 ms`
+  - Candidate scoring baseline updated (`current=1/5`); candidate A/B pending endpoints.
+- Added HTTP route TTFB benchmark harness and ZA baseline artifact:
+  - `tools/benchmark-http-ttfb.ts` + `pnpm perf:http-ttfb`
+  - `docs/03-hosting/artifacts/http-ttfb-2026-02-18T12-50-57-626Z.json`
+  - ZA route p95 baselines recorded:
+    - `/` => `28.63 ms`
+    - `/admin/dashboard` => `41.80 ms`
+- Updated `src/lib/db/index.ts` to instantiate and use an explicit `pg.Pool`
+  (`dbPool`) for Drizzle runtime, preserving existing `db` import contract.
