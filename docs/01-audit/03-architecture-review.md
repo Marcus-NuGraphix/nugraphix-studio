@@ -1,7 +1,7 @@
 # Architecture Review
 
 Last updated: 2026-02-18
-Status: Draft
+Status: Active
 
 ## Goal
 
@@ -20,10 +20,11 @@ Validate implementation against authoritative contracts in `ARCHITECTURE.md` and
 
 | Area | Expected | Observed | Impact | Action |
 | --- | --- | --- | --- | --- |
-| Admin docs surface | Admin docs routes should reflect current active docs system | `src/routes/admin/docs/phases/index.tsx` still presents legacy “phase playbooks” placeholder | Medium documentation discoverability drift in admin UI | Replace placeholder with links to `docs/00-index.md` and `docs/08-implementation/*` in Phase 1/4 UI docs pass |
-| DB migration authority | `db:migrate` should provision schema required by app/seed contracts on clean DB | Reconciled via `drizzle/0002_schema_reconciliation.sql`; clean local `db:migrate` -> `db:seed` now passes | Reliability gap resolved | Keep migration artifacts synchronized with schema updates and verify migrate-first bootstrap in Phase 1 gate |
+| Admin docs surface | Admin docs routes should reflect current active docs system | Resolved: `/admin/docs/phases` now points to active execution docs and phase status | Discoverability drift resolved | Keep links synced with `docs/08-implementation/*` as phases advance |
+| DB migration authority | `db:migrate` should provision schema required by app/seed contracts on clean DB | Resolved via `drizzle/0002_schema_reconciliation.sql`; clean local `db:migrate` -> `db:seed` now passes | Reliability gap resolved | Keep migration artifacts synchronized with schema updates and verify migrate-first bootstrap in Phase 1 gate |
+| Admin workspace URL model | Admin IA should provide clear scalable workspace path model | Resolved: operations/content/platform deep routes now have canonical ownership under `/admin/workspaces/*`, with legacy redirects preserving compatibility and canonical nav/breadcrumb targets | Migration risk materially reduced; remaining work is manual parity smoke coverage for mobile/role UX | Track parity pass under `T-021` and keep route contracts pinned in `docs/05-dashboard/*` |
 
 ## Outputs
 
-- ADR required: Yes. Published `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md`; reconciliation implementation completed in `drizzle/0002_schema_reconciliation.sql`.
+- ADR required: Yes. Published `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md` and `docs/adr/0034-dashboard-workspace-routing-rollout.md`; workspace cutover completion is documented in `docs/08-implementation/*` and `docs/05-dashboard/*`.
 - Follow-up implementation tasks linked in `docs/08-implementation/02-task-board.md`.

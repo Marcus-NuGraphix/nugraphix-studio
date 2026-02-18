@@ -64,4 +64,4 @@ drift and pragmatic enough to evolve without broad refactors.
 - [x] Baseline inventory and risk hotspots documented.
 - [x] High-churn shared component coupling reduced (navigation surfaces first).
 - [x] Token/exception contract documented and enforced.
-- [ ] Accessibility regression checks added to prevent silent regressions.
+- [x] Accessibility regression checks added to prevent silent regressions.

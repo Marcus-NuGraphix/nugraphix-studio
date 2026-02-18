@@ -151,7 +151,10 @@ export function MediaTable({ assets, onDelete, onPreview }: MediaTableProps) {
               <span className="sr-only">Preview</span>
             </Button>
             <Button variant="ghost" size="icon" asChild>
-              <Link to="/admin/media/$assetId" params={{ assetId: row.original.id }}>
+              <Link
+                to="/admin/workspaces/content/media/$assetId"
+                params={{ assetId: row.original.id }}
+              >
                 <Pencil className="size-4" />
                 <span className="sr-only">Edit metadata</span>
               </Link>

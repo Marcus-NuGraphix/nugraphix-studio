@@ -160,9 +160,14 @@ Introduce clean, scalable workspaces in admin dashboard.
 
 ### Tasks
 
-- [ ] Implement workspace IA and routing.
-- [ ] Add role-driven menus and switcher UX.
-- [ ] Enforce permissions at route + server levels.
+- [x] Implement workspace IA and routing.
+- [x] Add role-driven menus and switcher UX.
+- [x] Enforce permissions at route + server levels.
+
+Progress note (2026-02-18): Phase 5A+5B route rollout is complete with
+canonical workspace deep-route ownership across operations/content/platform,
+legacy compatibility redirects for `/admin/*`, and canonical nav/breadcrumb
+targets. Remaining Phase 5 follow-up is manual parity smoke validation (`T-021`).
 
 ### Verification
 

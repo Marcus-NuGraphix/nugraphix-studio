@@ -8,7 +8,7 @@ describe('lib/config', () => {
     expect(config.identity.id).toBe('nugraphix-studio')
     expect(config.identity.name).toBe('Nu Graphix Studio')
     expect(config.routes.admin).toBe('/admin')
-    expect(config.routes.adminDocs).toBe('/admin/docs')
+    expect(config.routes.adminDocs).toBe('/admin/workspaces/platform/docs')
     expect(config.features.adminWorkspaces).toBe(false)
   })
 

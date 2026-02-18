@@ -11,7 +11,9 @@ import { toast } from 'sonner'
 import { AdminSidebar } from '@/components/navigation/admin/admin-sidebar'
 import {
   adminQuickAccessLinks,
+  adminWorkspaceLinks,
   getAdminBreadcrumbs,
+  getAdminWorkspaceFromPath,
   isAdminPathActive,
 } from '@/components/navigation/admin/navigation'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
@@ -63,6 +65,7 @@ function AdminRouteComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const [isSigningOut, setIsSigningOut] = useState(false)
   const breadcrumbs = getAdminBreadcrumbs(pathname)
+  const activeWorkspace = getAdminWorkspaceFromPath(pathname)
 
   const handleSignOut = async () => {
     if (isSigningOut) {
@@ -106,7 +109,7 @@ function AdminRouteComponent() {
               className="flex min-w-0 items-center gap-1 text-sm"
             >
               <Link
-                to="/admin/dashboard"
+                to="/admin/workspaces/operations"
                 className="text-muted-foreground truncate hover:text-foreground"
               >
                 Admin
@@ -130,6 +133,24 @@ function AdminRouteComponent() {
                     </span>
                   )}
                 </div>
+              ))}
+            </nav>
+            <nav
+              aria-label="Workspace switcher"
+              className="ml-2 hidden items-center gap-1 lg:flex"
+            >
+              {adminWorkspaceLinks.map((workspace) => (
+                <Link
+                  key={workspace.id}
+                  to={workspace.to}
+                  className={cn(
+                    'rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
+                    activeWorkspace === workspace.id &&
+                      'bg-secondary text-foreground',
+                  )}
+                >
+                  {workspace.title}
+                </Link>
               ))}
             </nav>
             <div className="ml-auto hidden items-center gap-1 xl:flex">

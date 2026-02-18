@@ -1,7 +1,7 @@
 # Accessibility Checklist
 
 Last updated: 2026-02-18
-Status: Baseline Complete
+Status: Active
 
 ## Goal
 
@@ -14,8 +14,9 @@ regressions during Phase 4-6 refactors.
   `src/features` TSX files (no missing `DialogTitle`/`SheetTitle` hits).
 - [x] Icon-only button patterns broadly include `aria-label` or `sr-only` text
   in navigation, table actions, and media controls.
-- [~] Form labels and field-error wiring are mostly present but not yet covered
-  by automated regression tests.
+- [x] Targeted regression checks now enforce form labeling and alert contracts in
+  shared controls (`SearchInput`, `TagPicker`, `FieldError`) and newsletter
+  email-input label wiring.
 - [~] Focus-visible styles appear in core primitives, but no focused audit
   artifact exists yet.
 - [ ] Color contrast audit against WCAG AA has not been recorded for key flows.
@@ -39,7 +40,20 @@ regressions during Phase 4-6 refactors.
 - [ ] Add reduced-motion handling for animated components
   (`card-slider`, gallery/lightbox transitions).
 
-## Automation Gap
+## Automated Coverage
 
-No automated accessibility gate is currently enforced in CI. This is tracked as
-Phase 4 tasking and Phase 6 security/accessibility hardening support.
+Targeted CI-enforced accessibility contract tests are now active in:
+
+- `src/components/tests/accessibility-contracts.test.ts`
+
+Checks currently cover:
+
+- dialog/sheet title semantics (`DialogContent`/`DialogTitle`,
+  `SheetContent`/`SheetTitle`) across app usage.
+- required ARIA/sr-only labels in shared navigation components.
+- required labels/alerts for shared form-control patterns.
+
+## Remaining Gaps
+
+Contrast verification and reduced-motion standardization still require follow-up
+work before full accessibility hardening is complete.

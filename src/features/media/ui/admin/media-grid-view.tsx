@@ -219,7 +219,10 @@ export function MediaGridView({ assets, onDelete, onPreview }: MediaGridViewProp
               </Button>
 
               <Button variant="ghost" size="icon" asChild>
-                <Link to="/admin/media/$assetId" params={{ assetId: asset.id }}>
+                <Link
+                  to="/admin/workspaces/content/media/$assetId"
+                  params={{ assetId: asset.id }}
+                >
                   <Pencil className="size-4" />
                   <span className="sr-only">Edit metadata</span>
                 </Link>
@@ -353,7 +356,7 @@ export function MediaGridView({ assets, onDelete, onPreview }: MediaGridViewProp
                       </Button>
                       <Button size="sm" variant="ghost" asChild>
                         <Link
-                          to="/admin/media/$assetId"
+                          to="/admin/workspaces/content/media/$assetId"
                           params={{ assetId: selectedImage.id }}
                         >
                           <Pencil className="size-4" />
@@ -371,4 +374,3 @@ export function MediaGridView({ assets, onDelete, onPreview }: MediaGridViewProp
     </>
   )
 }
-

@@ -112,3 +112,61 @@ Status: Active
     `src/features/email/server/templates.server.tsx`
   - added token contract coverage in
     `src/features/email/tests/template-tokens.test.ts`
+- Completed accessibility regression gate setup (Phase 4 `T-015`):
+  - added `src/components/tests/accessibility-contracts.test.ts`
+  - enforces dialog/sheet title semantics across app usage
+  - enforces shared navigation ARIA/sr-only labels
+  - enforces shared form-control labeling/alert patterns
+- Completed Phase 5A workspace routing shell rollout (`T-018`):
+  - added canonical workspace landing routes:
+    - `src/routes/admin/workspaces/index.tsx`
+    - `src/routes/admin/workspaces/operations/index.tsx`
+    - `src/routes/admin/workspaces/content/index.tsx`
+    - `src/routes/admin/workspaces/platform/index.tsx`
+  - redirected `/admin` to `/admin/workspaces/operations`
+    (`src/routes/admin/index.tsx`)
+  - added header workspace switcher and workspace path resolution helpers:
+    - `src/routes/admin/route.tsx`
+    - `src/components/navigation/admin/navigation.ts`
+  - preserved legacy deep routes for staged redirect migration in `T-019`.
+- Published ADR-0034:
+  - `docs/adr/0034-dashboard-workspace-routing-rollout.md`
+  - updated ADR indexes in `docs/adr/README.md` and `ARCHITECTURE.md`.
+- Completed Phase 5B operations deep-route migration batch (`T-019`):
+  - moved operations route ownership to canonical workspace paths:
+    - `src/routes/admin/workspaces/operations/dashboard/index.tsx`
+    - `src/routes/admin/workspaces/operations/users/index.tsx`
+    - `src/routes/admin/workspaces/operations/users/$userId.tsx`
+    - `src/routes/admin/workspaces/operations/contacts/index.tsx`
+    - `src/routes/admin/workspaces/operations/email/index.tsx`
+    - `src/routes/admin/workspaces/operations/account/index.tsx`
+    - `src/routes/admin/workspaces/operations/settings/index.tsx`
+  - added legacy compatibility redirects preserving params/search:
+    - `src/routes/admin/dashboard/index.tsx`
+    - `src/routes/admin/users/index.tsx`
+    - `src/routes/admin/users/$userId.tsx`
+    - `src/routes/admin/contacts/index.tsx`
+    - `src/routes/admin/email/index.tsx`
+    - `src/routes/admin/account/index.tsx`
+    - `src/routes/admin/settings/index.tsx`
+  - switched operations navigation/quick links and breadcrumb fallbacks to
+    canonical workspace operation paths in
+    `src/components/navigation/admin/navigation.ts`.
+- Completed Phase 5B content/platform route migration and nav cutover (`T-020`):
+  - moved content and platform route ownership to canonical workspace paths:
+    - `src/routes/admin/workspaces/content/*`
+    - `src/routes/admin/workspaces/platform/*`
+  - added legacy compatibility redirects for:
+    - `src/routes/admin/content/posts/*`, `src/routes/admin/media/*`, `src/routes/admin/kb/*`
+    - `src/routes/admin/docs/*`, `src/routes/admin/components/*`
+  - switched admin sidebar/quick links/section cards/breadcrumb contracts to
+    canonical workspace targets in `src/components/navigation/admin/navigation.ts`
+  - updated remaining in-app media/editor links to canonical workspace paths:
+    - `src/features/blog/ui/admin/post-editor-form.tsx`
+    - `src/features/media/ui/admin/media-table.tsx`
+    - `src/features/media/ui/admin/media-grid-view.tsx`
+  - updated shared docs-route constant to canonical platform workspace base:
+    - `src/lib/constants/app.ts`
+- Published ADR-0035 for Phase 5B endpoint contract:
+  - `docs/adr/0035-workspace-canonical-route-ownership-and-legacy-compatibility.md`
+  - updated ADR index pointers in `docs/adr/README.md` and `ARCHITECTURE.md`

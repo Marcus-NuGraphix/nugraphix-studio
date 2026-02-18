@@ -15,6 +15,7 @@ import { Route as LegalRouteRouteImport } from './routes/_legal/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as AdminWorkspacesIndexRouteImport } from './routes/admin/workspaces/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
 import { Route as AdminMediaIndexRouteImport } from './routes/admin/media/index'
@@ -45,6 +46,9 @@ import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
 import { Route as PublicPortfolioSlugRouteImport } from './routes/_public/portfolio/$slug'
 import { Route as PublicBlogSlugRouteImport } from './routes/_public/blog/$slug'
 import { Route as AuthAccountNotificationsRouteImport } from './routes/_auth/account/notifications'
+import { Route as AdminWorkspacesPlatformIndexRouteImport } from './routes/admin/workspaces/platform/index'
+import { Route as AdminWorkspacesOperationsIndexRouteImport } from './routes/admin/workspaces/operations/index'
+import { Route as AdminWorkspacesContentIndexRouteImport } from './routes/admin/workspaces/content/index'
 import { Route as AdminDocsPhasesIndexRouteImport } from './routes/admin/docs/phases/index'
 import { Route as AdminDocsArchitectureIndexRouteImport } from './routes/admin/docs/architecture/index'
 import { Route as AdminDocsAdrIndexRouteImport } from './routes/admin/docs/adr/index'
@@ -55,6 +59,28 @@ import { Route as AdminComponentsMarketingIndexRouteImport } from './routes/admi
 import { Route as ApiEmailWebhooksResendRouteImport } from './routes/api/email/webhooks/resend'
 import { Route as AdminContentPostsNewRouteImport } from './routes/admin/content/posts/new'
 import { Route as AdminContentPostsIdRouteImport } from './routes/admin/content/posts/$id'
+import { Route as AdminWorkspacesPlatformDocsIndexRouteImport } from './routes/admin/workspaces/platform/docs/index'
+import { Route as AdminWorkspacesPlatformComponentsIndexRouteImport } from './routes/admin/workspaces/platform/components/index'
+import { Route as AdminWorkspacesOperationsUsersIndexRouteImport } from './routes/admin/workspaces/operations/users/index'
+import { Route as AdminWorkspacesOperationsSettingsIndexRouteImport } from './routes/admin/workspaces/operations/settings/index'
+import { Route as AdminWorkspacesOperationsEmailIndexRouteImport } from './routes/admin/workspaces/operations/email/index'
+import { Route as AdminWorkspacesOperationsDashboardIndexRouteImport } from './routes/admin/workspaces/operations/dashboard/index'
+import { Route as AdminWorkspacesOperationsContactsIndexRouteImport } from './routes/admin/workspaces/operations/contacts/index'
+import { Route as AdminWorkspacesOperationsAccountIndexRouteImport } from './routes/admin/workspaces/operations/account/index'
+import { Route as AdminWorkspacesContentPostsIndexRouteImport } from './routes/admin/workspaces/content/posts/index'
+import { Route as AdminWorkspacesContentMediaIndexRouteImport } from './routes/admin/workspaces/content/media/index'
+import { Route as AdminWorkspacesContentKbIndexRouteImport } from './routes/admin/workspaces/content/kb/index'
+import { Route as AdminWorkspacesOperationsUsersUserIdRouteImport } from './routes/admin/workspaces/operations/users/$userId'
+import { Route as AdminWorkspacesContentPostsNewRouteImport } from './routes/admin/workspaces/content/posts/new'
+import { Route as AdminWorkspacesContentPostsIdRouteImport } from './routes/admin/workspaces/content/posts/$id'
+import { Route as AdminWorkspacesContentMediaAssetIdRouteImport } from './routes/admin/workspaces/content/media/$assetId'
+import { Route as AdminWorkspacesContentKbSlugRouteImport } from './routes/admin/workspaces/content/kb/$slug'
+import { Route as AdminWorkspacesPlatformDocsPhasesIndexRouteImport } from './routes/admin/workspaces/platform/docs/phases/index'
+import { Route as AdminWorkspacesPlatformDocsArchitectureIndexRouteImport } from './routes/admin/workspaces/platform/docs/architecture/index'
+import { Route as AdminWorkspacesPlatformDocsAdrIndexRouteImport } from './routes/admin/workspaces/platform/docs/adr/index'
+import { Route as AdminWorkspacesPlatformComponentsUiIndexRouteImport } from './routes/admin/workspaces/platform/components/ui/index'
+import { Route as AdminWorkspacesPlatformComponentsNavigationIndexRouteImport } from './routes/admin/workspaces/platform/components/navigation/index'
+import { Route as AdminWorkspacesPlatformComponentsMarketingIndexRouteImport } from './routes/admin/workspaces/platform/components/marketing/index'
 
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
@@ -82,6 +108,11 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PublicRouteRoute,
+} as any)
+const AdminWorkspacesIndexRoute = AdminWorkspacesIndexRouteImport.update({
+  id: '/workspaces/',
+  path: '/workspaces/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   id: '/users/',
@@ -234,6 +265,24 @@ const AuthAccountNotificationsRoute =
     path: '/account/notifications',
     getParentRoute: () => AuthRouteRoute,
   } as any)
+const AdminWorkspacesPlatformIndexRoute =
+  AdminWorkspacesPlatformIndexRouteImport.update({
+    id: '/workspaces/platform/',
+    path: '/workspaces/platform/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsIndexRoute =
+  AdminWorkspacesOperationsIndexRouteImport.update({
+    id: '/workspaces/operations/',
+    path: '/workspaces/operations/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentIndexRoute =
+  AdminWorkspacesContentIndexRouteImport.update({
+    id: '/workspaces/content/',
+    path: '/workspaces/content/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 const AdminDocsPhasesIndexRoute = AdminDocsPhasesIndexRouteImport.update({
   id: '/docs/phases/',
   path: '/docs/phases/',
@@ -287,6 +336,138 @@ const AdminContentPostsIdRoute = AdminContentPostsIdRouteImport.update({
   path: '/content/posts/$id',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminWorkspacesPlatformDocsIndexRoute =
+  AdminWorkspacesPlatformDocsIndexRouteImport.update({
+    id: '/workspaces/platform/docs/',
+    path: '/workspaces/platform/docs/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformComponentsIndexRoute =
+  AdminWorkspacesPlatformComponentsIndexRouteImport.update({
+    id: '/workspaces/platform/components/',
+    path: '/workspaces/platform/components/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsUsersIndexRoute =
+  AdminWorkspacesOperationsUsersIndexRouteImport.update({
+    id: '/workspaces/operations/users/',
+    path: '/workspaces/operations/users/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsSettingsIndexRoute =
+  AdminWorkspacesOperationsSettingsIndexRouteImport.update({
+    id: '/workspaces/operations/settings/',
+    path: '/workspaces/operations/settings/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsEmailIndexRoute =
+  AdminWorkspacesOperationsEmailIndexRouteImport.update({
+    id: '/workspaces/operations/email/',
+    path: '/workspaces/operations/email/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsDashboardIndexRoute =
+  AdminWorkspacesOperationsDashboardIndexRouteImport.update({
+    id: '/workspaces/operations/dashboard/',
+    path: '/workspaces/operations/dashboard/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsContactsIndexRoute =
+  AdminWorkspacesOperationsContactsIndexRouteImport.update({
+    id: '/workspaces/operations/contacts/',
+    path: '/workspaces/operations/contacts/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsAccountIndexRoute =
+  AdminWorkspacesOperationsAccountIndexRouteImport.update({
+    id: '/workspaces/operations/account/',
+    path: '/workspaces/operations/account/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentPostsIndexRoute =
+  AdminWorkspacesContentPostsIndexRouteImport.update({
+    id: '/workspaces/content/posts/',
+    path: '/workspaces/content/posts/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentMediaIndexRoute =
+  AdminWorkspacesContentMediaIndexRouteImport.update({
+    id: '/workspaces/content/media/',
+    path: '/workspaces/content/media/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentKbIndexRoute =
+  AdminWorkspacesContentKbIndexRouteImport.update({
+    id: '/workspaces/content/kb/',
+    path: '/workspaces/content/kb/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesOperationsUsersUserIdRoute =
+  AdminWorkspacesOperationsUsersUserIdRouteImport.update({
+    id: '/workspaces/operations/users/$userId',
+    path: '/workspaces/operations/users/$userId',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentPostsNewRoute =
+  AdminWorkspacesContentPostsNewRouteImport.update({
+    id: '/workspaces/content/posts/new',
+    path: '/workspaces/content/posts/new',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentPostsIdRoute =
+  AdminWorkspacesContentPostsIdRouteImport.update({
+    id: '/workspaces/content/posts/$id',
+    path: '/workspaces/content/posts/$id',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentMediaAssetIdRoute =
+  AdminWorkspacesContentMediaAssetIdRouteImport.update({
+    id: '/workspaces/content/media/$assetId',
+    path: '/workspaces/content/media/$assetId',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesContentKbSlugRoute =
+  AdminWorkspacesContentKbSlugRouteImport.update({
+    id: '/workspaces/content/kb/$slug',
+    path: '/workspaces/content/kb/$slug',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformDocsPhasesIndexRoute =
+  AdminWorkspacesPlatformDocsPhasesIndexRouteImport.update({
+    id: '/workspaces/platform/docs/phases/',
+    path: '/workspaces/platform/docs/phases/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformDocsArchitectureIndexRoute =
+  AdminWorkspacesPlatformDocsArchitectureIndexRouteImport.update({
+    id: '/workspaces/platform/docs/architecture/',
+    path: '/workspaces/platform/docs/architecture/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformDocsAdrIndexRoute =
+  AdminWorkspacesPlatformDocsAdrIndexRouteImport.update({
+    id: '/workspaces/platform/docs/adr/',
+    path: '/workspaces/platform/docs/adr/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformComponentsUiIndexRoute =
+  AdminWorkspacesPlatformComponentsUiIndexRouteImport.update({
+    id: '/workspaces/platform/components/ui/',
+    path: '/workspaces/platform/components/ui/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformComponentsNavigationIndexRoute =
+  AdminWorkspacesPlatformComponentsNavigationIndexRouteImport.update({
+    id: '/workspaces/platform/components/navigation/',
+    path: '/workspaces/platform/components/navigation/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminWorkspacesPlatformComponentsMarketingIndexRoute =
+  AdminWorkspacesPlatformComponentsMarketingIndexRouteImport.update({
+    id: '/workspaces/platform/components/marketing/',
+    path: '/workspaces/platform/components/marketing/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -322,6 +503,7 @@ export interface FileRoutesByFullPath {
   '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/workspaces/': typeof AdminWorkspacesIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
   '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
@@ -332,6 +514,31 @@ export interface FileRoutesByFullPath {
   '/admin/docs/adr/': typeof AdminDocsAdrIndexRoute
   '/admin/docs/architecture/': typeof AdminDocsArchitectureIndexRoute
   '/admin/docs/phases/': typeof AdminDocsPhasesIndexRoute
+  '/admin/workspaces/content/': typeof AdminWorkspacesContentIndexRoute
+  '/admin/workspaces/operations/': typeof AdminWorkspacesOperationsIndexRoute
+  '/admin/workspaces/platform/': typeof AdminWorkspacesPlatformIndexRoute
+  '/admin/workspaces/content/kb/$slug': typeof AdminWorkspacesContentKbSlugRoute
+  '/admin/workspaces/content/media/$assetId': typeof AdminWorkspacesContentMediaAssetIdRoute
+  '/admin/workspaces/content/posts/$id': typeof AdminWorkspacesContentPostsIdRoute
+  '/admin/workspaces/content/posts/new': typeof AdminWorkspacesContentPostsNewRoute
+  '/admin/workspaces/operations/users/$userId': typeof AdminWorkspacesOperationsUsersUserIdRoute
+  '/admin/workspaces/content/kb/': typeof AdminWorkspacesContentKbIndexRoute
+  '/admin/workspaces/content/media/': typeof AdminWorkspacesContentMediaIndexRoute
+  '/admin/workspaces/content/posts/': typeof AdminWorkspacesContentPostsIndexRoute
+  '/admin/workspaces/operations/account/': typeof AdminWorkspacesOperationsAccountIndexRoute
+  '/admin/workspaces/operations/contacts/': typeof AdminWorkspacesOperationsContactsIndexRoute
+  '/admin/workspaces/operations/dashboard/': typeof AdminWorkspacesOperationsDashboardIndexRoute
+  '/admin/workspaces/operations/email/': typeof AdminWorkspacesOperationsEmailIndexRoute
+  '/admin/workspaces/operations/settings/': typeof AdminWorkspacesOperationsSettingsIndexRoute
+  '/admin/workspaces/operations/users/': typeof AdminWorkspacesOperationsUsersIndexRoute
+  '/admin/workspaces/platform/components/': typeof AdminWorkspacesPlatformComponentsIndexRoute
+  '/admin/workspaces/platform/docs/': typeof AdminWorkspacesPlatformDocsIndexRoute
+  '/admin/workspaces/platform/components/marketing/': typeof AdminWorkspacesPlatformComponentsMarketingIndexRoute
+  '/admin/workspaces/platform/components/navigation/': typeof AdminWorkspacesPlatformComponentsNavigationIndexRoute
+  '/admin/workspaces/platform/components/ui/': typeof AdminWorkspacesPlatformComponentsUiIndexRoute
+  '/admin/workspaces/platform/docs/adr/': typeof AdminWorkspacesPlatformDocsAdrIndexRoute
+  '/admin/workspaces/platform/docs/architecture/': typeof AdminWorkspacesPlatformDocsArchitectureIndexRoute
+  '/admin/workspaces/platform/docs/phases/': typeof AdminWorkspacesPlatformDocsPhasesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -366,6 +573,7 @@ export interface FileRoutesByTo {
   '/admin/media': typeof AdminMediaIndexRoute
   '/admin/settings': typeof AdminSettingsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
+  '/admin/workspaces': typeof AdminWorkspacesIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
   '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
@@ -376,6 +584,31 @@ export interface FileRoutesByTo {
   '/admin/docs/adr': typeof AdminDocsAdrIndexRoute
   '/admin/docs/architecture': typeof AdminDocsArchitectureIndexRoute
   '/admin/docs/phases': typeof AdminDocsPhasesIndexRoute
+  '/admin/workspaces/content': typeof AdminWorkspacesContentIndexRoute
+  '/admin/workspaces/operations': typeof AdminWorkspacesOperationsIndexRoute
+  '/admin/workspaces/platform': typeof AdminWorkspacesPlatformIndexRoute
+  '/admin/workspaces/content/kb/$slug': typeof AdminWorkspacesContentKbSlugRoute
+  '/admin/workspaces/content/media/$assetId': typeof AdminWorkspacesContentMediaAssetIdRoute
+  '/admin/workspaces/content/posts/$id': typeof AdminWorkspacesContentPostsIdRoute
+  '/admin/workspaces/content/posts/new': typeof AdminWorkspacesContentPostsNewRoute
+  '/admin/workspaces/operations/users/$userId': typeof AdminWorkspacesOperationsUsersUserIdRoute
+  '/admin/workspaces/content/kb': typeof AdminWorkspacesContentKbIndexRoute
+  '/admin/workspaces/content/media': typeof AdminWorkspacesContentMediaIndexRoute
+  '/admin/workspaces/content/posts': typeof AdminWorkspacesContentPostsIndexRoute
+  '/admin/workspaces/operations/account': typeof AdminWorkspacesOperationsAccountIndexRoute
+  '/admin/workspaces/operations/contacts': typeof AdminWorkspacesOperationsContactsIndexRoute
+  '/admin/workspaces/operations/dashboard': typeof AdminWorkspacesOperationsDashboardIndexRoute
+  '/admin/workspaces/operations/email': typeof AdminWorkspacesOperationsEmailIndexRoute
+  '/admin/workspaces/operations/settings': typeof AdminWorkspacesOperationsSettingsIndexRoute
+  '/admin/workspaces/operations/users': typeof AdminWorkspacesOperationsUsersIndexRoute
+  '/admin/workspaces/platform/components': typeof AdminWorkspacesPlatformComponentsIndexRoute
+  '/admin/workspaces/platform/docs': typeof AdminWorkspacesPlatformDocsIndexRoute
+  '/admin/workspaces/platform/components/marketing': typeof AdminWorkspacesPlatformComponentsMarketingIndexRoute
+  '/admin/workspaces/platform/components/navigation': typeof AdminWorkspacesPlatformComponentsNavigationIndexRoute
+  '/admin/workspaces/platform/components/ui': typeof AdminWorkspacesPlatformComponentsUiIndexRoute
+  '/admin/workspaces/platform/docs/adr': typeof AdminWorkspacesPlatformDocsAdrIndexRoute
+  '/admin/workspaces/platform/docs/architecture': typeof AdminWorkspacesPlatformDocsArchitectureIndexRoute
+  '/admin/workspaces/platform/docs/phases': typeof AdminWorkspacesPlatformDocsPhasesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -415,6 +648,7 @@ export interface FileRoutesById {
   '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/workspaces/': typeof AdminWorkspacesIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
   '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
@@ -425,6 +659,31 @@ export interface FileRoutesById {
   '/admin/docs/adr/': typeof AdminDocsAdrIndexRoute
   '/admin/docs/architecture/': typeof AdminDocsArchitectureIndexRoute
   '/admin/docs/phases/': typeof AdminDocsPhasesIndexRoute
+  '/admin/workspaces/content/': typeof AdminWorkspacesContentIndexRoute
+  '/admin/workspaces/operations/': typeof AdminWorkspacesOperationsIndexRoute
+  '/admin/workspaces/platform/': typeof AdminWorkspacesPlatformIndexRoute
+  '/admin/workspaces/content/kb/$slug': typeof AdminWorkspacesContentKbSlugRoute
+  '/admin/workspaces/content/media/$assetId': typeof AdminWorkspacesContentMediaAssetIdRoute
+  '/admin/workspaces/content/posts/$id': typeof AdminWorkspacesContentPostsIdRoute
+  '/admin/workspaces/content/posts/new': typeof AdminWorkspacesContentPostsNewRoute
+  '/admin/workspaces/operations/users/$userId': typeof AdminWorkspacesOperationsUsersUserIdRoute
+  '/admin/workspaces/content/kb/': typeof AdminWorkspacesContentKbIndexRoute
+  '/admin/workspaces/content/media/': typeof AdminWorkspacesContentMediaIndexRoute
+  '/admin/workspaces/content/posts/': typeof AdminWorkspacesContentPostsIndexRoute
+  '/admin/workspaces/operations/account/': typeof AdminWorkspacesOperationsAccountIndexRoute
+  '/admin/workspaces/operations/contacts/': typeof AdminWorkspacesOperationsContactsIndexRoute
+  '/admin/workspaces/operations/dashboard/': typeof AdminWorkspacesOperationsDashboardIndexRoute
+  '/admin/workspaces/operations/email/': typeof AdminWorkspacesOperationsEmailIndexRoute
+  '/admin/workspaces/operations/settings/': typeof AdminWorkspacesOperationsSettingsIndexRoute
+  '/admin/workspaces/operations/users/': typeof AdminWorkspacesOperationsUsersIndexRoute
+  '/admin/workspaces/platform/components/': typeof AdminWorkspacesPlatformComponentsIndexRoute
+  '/admin/workspaces/platform/docs/': typeof AdminWorkspacesPlatformDocsIndexRoute
+  '/admin/workspaces/platform/components/marketing/': typeof AdminWorkspacesPlatformComponentsMarketingIndexRoute
+  '/admin/workspaces/platform/components/navigation/': typeof AdminWorkspacesPlatformComponentsNavigationIndexRoute
+  '/admin/workspaces/platform/components/ui/': typeof AdminWorkspacesPlatformComponentsUiIndexRoute
+  '/admin/workspaces/platform/docs/adr/': typeof AdminWorkspacesPlatformDocsAdrIndexRoute
+  '/admin/workspaces/platform/docs/architecture/': typeof AdminWorkspacesPlatformDocsArchitectureIndexRoute
+  '/admin/workspaces/platform/docs/phases/': typeof AdminWorkspacesPlatformDocsPhasesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -462,6 +721,7 @@ export interface FileRouteTypes {
     | '/admin/media/'
     | '/admin/settings/'
     | '/admin/users/'
+    | '/admin/workspaces/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
     | '/api/email/webhooks/resend'
@@ -472,6 +732,31 @@ export interface FileRouteTypes {
     | '/admin/docs/adr/'
     | '/admin/docs/architecture/'
     | '/admin/docs/phases/'
+    | '/admin/workspaces/content/'
+    | '/admin/workspaces/operations/'
+    | '/admin/workspaces/platform/'
+    | '/admin/workspaces/content/kb/$slug'
+    | '/admin/workspaces/content/media/$assetId'
+    | '/admin/workspaces/content/posts/$id'
+    | '/admin/workspaces/content/posts/new'
+    | '/admin/workspaces/operations/users/$userId'
+    | '/admin/workspaces/content/kb/'
+    | '/admin/workspaces/content/media/'
+    | '/admin/workspaces/content/posts/'
+    | '/admin/workspaces/operations/account/'
+    | '/admin/workspaces/operations/contacts/'
+    | '/admin/workspaces/operations/dashboard/'
+    | '/admin/workspaces/operations/email/'
+    | '/admin/workspaces/operations/settings/'
+    | '/admin/workspaces/operations/users/'
+    | '/admin/workspaces/platform/components/'
+    | '/admin/workspaces/platform/docs/'
+    | '/admin/workspaces/platform/components/marketing/'
+    | '/admin/workspaces/platform/components/navigation/'
+    | '/admin/workspaces/platform/components/ui/'
+    | '/admin/workspaces/platform/docs/adr/'
+    | '/admin/workspaces/platform/docs/architecture/'
+    | '/admin/workspaces/platform/docs/phases/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -506,6 +791,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/settings'
     | '/admin/users'
+    | '/admin/workspaces'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
     | '/api/email/webhooks/resend'
@@ -516,6 +802,31 @@ export interface FileRouteTypes {
     | '/admin/docs/adr'
     | '/admin/docs/architecture'
     | '/admin/docs/phases'
+    | '/admin/workspaces/content'
+    | '/admin/workspaces/operations'
+    | '/admin/workspaces/platform'
+    | '/admin/workspaces/content/kb/$slug'
+    | '/admin/workspaces/content/media/$assetId'
+    | '/admin/workspaces/content/posts/$id'
+    | '/admin/workspaces/content/posts/new'
+    | '/admin/workspaces/operations/users/$userId'
+    | '/admin/workspaces/content/kb'
+    | '/admin/workspaces/content/media'
+    | '/admin/workspaces/content/posts'
+    | '/admin/workspaces/operations/account'
+    | '/admin/workspaces/operations/contacts'
+    | '/admin/workspaces/operations/dashboard'
+    | '/admin/workspaces/operations/email'
+    | '/admin/workspaces/operations/settings'
+    | '/admin/workspaces/operations/users'
+    | '/admin/workspaces/platform/components'
+    | '/admin/workspaces/platform/docs'
+    | '/admin/workspaces/platform/components/marketing'
+    | '/admin/workspaces/platform/components/navigation'
+    | '/admin/workspaces/platform/components/ui'
+    | '/admin/workspaces/platform/docs/adr'
+    | '/admin/workspaces/platform/docs/architecture'
+    | '/admin/workspaces/platform/docs/phases'
   id:
     | '__root__'
     | '/_auth'
@@ -554,6 +865,7 @@ export interface FileRouteTypes {
     | '/admin/media/'
     | '/admin/settings/'
     | '/admin/users/'
+    | '/admin/workspaces/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
     | '/api/email/webhooks/resend'
@@ -564,6 +876,31 @@ export interface FileRouteTypes {
     | '/admin/docs/adr/'
     | '/admin/docs/architecture/'
     | '/admin/docs/phases/'
+    | '/admin/workspaces/content/'
+    | '/admin/workspaces/operations/'
+    | '/admin/workspaces/platform/'
+    | '/admin/workspaces/content/kb/$slug'
+    | '/admin/workspaces/content/media/$assetId'
+    | '/admin/workspaces/content/posts/$id'
+    | '/admin/workspaces/content/posts/new'
+    | '/admin/workspaces/operations/users/$userId'
+    | '/admin/workspaces/content/kb/'
+    | '/admin/workspaces/content/media/'
+    | '/admin/workspaces/content/posts/'
+    | '/admin/workspaces/operations/account/'
+    | '/admin/workspaces/operations/contacts/'
+    | '/admin/workspaces/operations/dashboard/'
+    | '/admin/workspaces/operations/email/'
+    | '/admin/workspaces/operations/settings/'
+    | '/admin/workspaces/operations/users/'
+    | '/admin/workspaces/platform/components/'
+    | '/admin/workspaces/platform/docs/'
+    | '/admin/workspaces/platform/components/marketing/'
+    | '/admin/workspaces/platform/components/navigation/'
+    | '/admin/workspaces/platform/components/ui/'
+    | '/admin/workspaces/platform/docs/adr/'
+    | '/admin/workspaces/platform/docs/architecture/'
+    | '/admin/workspaces/platform/docs/phases/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -618,6 +955,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof PublicRouteRoute
+    }
+    '/admin/workspaces/': {
+      id: '/admin/workspaces/'
+      path: '/workspaces'
+      fullPath: '/admin/workspaces/'
+      preLoaderRoute: typeof AdminWorkspacesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/users/': {
       id: '/admin/users/'
@@ -829,6 +1173,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAccountNotificationsRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/admin/workspaces/platform/': {
+      id: '/admin/workspaces/platform/'
+      path: '/workspaces/platform'
+      fullPath: '/admin/workspaces/platform/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/': {
+      id: '/admin/workspaces/operations/'
+      path: '/workspaces/operations'
+      fullPath: '/admin/workspaces/operations/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/': {
+      id: '/admin/workspaces/content/'
+      path: '/workspaces/content'
+      fullPath: '/admin/workspaces/content/'
+      preLoaderRoute: typeof AdminWorkspacesContentIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/docs/phases/': {
       id: '/admin/docs/phases/'
       path: '/docs/phases'
@@ -897,6 +1262,160 @@ declare module '@tanstack/react-router' {
       path: '/content/posts/$id'
       fullPath: '/admin/content/posts/$id'
       preLoaderRoute: typeof AdminContentPostsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/docs/': {
+      id: '/admin/workspaces/platform/docs/'
+      path: '/workspaces/platform/docs'
+      fullPath: '/admin/workspaces/platform/docs/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformDocsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/components/': {
+      id: '/admin/workspaces/platform/components/'
+      path: '/workspaces/platform/components'
+      fullPath: '/admin/workspaces/platform/components/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformComponentsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/users/': {
+      id: '/admin/workspaces/operations/users/'
+      path: '/workspaces/operations/users'
+      fullPath: '/admin/workspaces/operations/users/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsUsersIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/settings/': {
+      id: '/admin/workspaces/operations/settings/'
+      path: '/workspaces/operations/settings'
+      fullPath: '/admin/workspaces/operations/settings/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsSettingsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/email/': {
+      id: '/admin/workspaces/operations/email/'
+      path: '/workspaces/operations/email'
+      fullPath: '/admin/workspaces/operations/email/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsEmailIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/dashboard/': {
+      id: '/admin/workspaces/operations/dashboard/'
+      path: '/workspaces/operations/dashboard'
+      fullPath: '/admin/workspaces/operations/dashboard/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsDashboardIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/contacts/': {
+      id: '/admin/workspaces/operations/contacts/'
+      path: '/workspaces/operations/contacts'
+      fullPath: '/admin/workspaces/operations/contacts/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsContactsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/account/': {
+      id: '/admin/workspaces/operations/account/'
+      path: '/workspaces/operations/account'
+      fullPath: '/admin/workspaces/operations/account/'
+      preLoaderRoute: typeof AdminWorkspacesOperationsAccountIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/posts/': {
+      id: '/admin/workspaces/content/posts/'
+      path: '/workspaces/content/posts'
+      fullPath: '/admin/workspaces/content/posts/'
+      preLoaderRoute: typeof AdminWorkspacesContentPostsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/media/': {
+      id: '/admin/workspaces/content/media/'
+      path: '/workspaces/content/media'
+      fullPath: '/admin/workspaces/content/media/'
+      preLoaderRoute: typeof AdminWorkspacesContentMediaIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/kb/': {
+      id: '/admin/workspaces/content/kb/'
+      path: '/workspaces/content/kb'
+      fullPath: '/admin/workspaces/content/kb/'
+      preLoaderRoute: typeof AdminWorkspacesContentKbIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/operations/users/$userId': {
+      id: '/admin/workspaces/operations/users/$userId'
+      path: '/workspaces/operations/users/$userId'
+      fullPath: '/admin/workspaces/operations/users/$userId'
+      preLoaderRoute: typeof AdminWorkspacesOperationsUsersUserIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/posts/new': {
+      id: '/admin/workspaces/content/posts/new'
+      path: '/workspaces/content/posts/new'
+      fullPath: '/admin/workspaces/content/posts/new'
+      preLoaderRoute: typeof AdminWorkspacesContentPostsNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/posts/$id': {
+      id: '/admin/workspaces/content/posts/$id'
+      path: '/workspaces/content/posts/$id'
+      fullPath: '/admin/workspaces/content/posts/$id'
+      preLoaderRoute: typeof AdminWorkspacesContentPostsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/media/$assetId': {
+      id: '/admin/workspaces/content/media/$assetId'
+      path: '/workspaces/content/media/$assetId'
+      fullPath: '/admin/workspaces/content/media/$assetId'
+      preLoaderRoute: typeof AdminWorkspacesContentMediaAssetIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/content/kb/$slug': {
+      id: '/admin/workspaces/content/kb/$slug'
+      path: '/workspaces/content/kb/$slug'
+      fullPath: '/admin/workspaces/content/kb/$slug'
+      preLoaderRoute: typeof AdminWorkspacesContentKbSlugRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/docs/phases/': {
+      id: '/admin/workspaces/platform/docs/phases/'
+      path: '/workspaces/platform/docs/phases'
+      fullPath: '/admin/workspaces/platform/docs/phases/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformDocsPhasesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/docs/architecture/': {
+      id: '/admin/workspaces/platform/docs/architecture/'
+      path: '/workspaces/platform/docs/architecture'
+      fullPath: '/admin/workspaces/platform/docs/architecture/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformDocsArchitectureIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/docs/adr/': {
+      id: '/admin/workspaces/platform/docs/adr/'
+      path: '/workspaces/platform/docs/adr'
+      fullPath: '/admin/workspaces/platform/docs/adr/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformDocsAdrIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/components/ui/': {
+      id: '/admin/workspaces/platform/components/ui/'
+      path: '/workspaces/platform/components/ui'
+      fullPath: '/admin/workspaces/platform/components/ui/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformComponentsUiIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/components/navigation/': {
+      id: '/admin/workspaces/platform/components/navigation/'
+      path: '/workspaces/platform/components/navigation'
+      fullPath: '/admin/workspaces/platform/components/navigation/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformComponentsNavigationIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/workspaces/platform/components/marketing/': {
+      id: '/admin/workspaces/platform/components/marketing/'
+      path: '/workspaces/platform/components/marketing'
+      fullPath: '/admin/workspaces/platform/components/marketing/'
+      preLoaderRoute: typeof AdminWorkspacesPlatformComponentsMarketingIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
   }
@@ -980,6 +1499,7 @@ interface AdminRouteRouteChildren {
   AdminMediaIndexRoute: typeof AdminMediaIndexRoute
   AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+  AdminWorkspacesIndexRoute: typeof AdminWorkspacesIndexRoute
   AdminContentPostsIdRoute: typeof AdminContentPostsIdRoute
   AdminContentPostsNewRoute: typeof AdminContentPostsNewRoute
   AdminComponentsMarketingIndexRoute: typeof AdminComponentsMarketingIndexRoute
@@ -989,6 +1509,31 @@ interface AdminRouteRouteChildren {
   AdminDocsAdrIndexRoute: typeof AdminDocsAdrIndexRoute
   AdminDocsArchitectureIndexRoute: typeof AdminDocsArchitectureIndexRoute
   AdminDocsPhasesIndexRoute: typeof AdminDocsPhasesIndexRoute
+  AdminWorkspacesContentIndexRoute: typeof AdminWorkspacesContentIndexRoute
+  AdminWorkspacesOperationsIndexRoute: typeof AdminWorkspacesOperationsIndexRoute
+  AdminWorkspacesPlatformIndexRoute: typeof AdminWorkspacesPlatformIndexRoute
+  AdminWorkspacesContentKbSlugRoute: typeof AdminWorkspacesContentKbSlugRoute
+  AdminWorkspacesContentMediaAssetIdRoute: typeof AdminWorkspacesContentMediaAssetIdRoute
+  AdminWorkspacesContentPostsIdRoute: typeof AdminWorkspacesContentPostsIdRoute
+  AdminWorkspacesContentPostsNewRoute: typeof AdminWorkspacesContentPostsNewRoute
+  AdminWorkspacesOperationsUsersUserIdRoute: typeof AdminWorkspacesOperationsUsersUserIdRoute
+  AdminWorkspacesContentKbIndexRoute: typeof AdminWorkspacesContentKbIndexRoute
+  AdminWorkspacesContentMediaIndexRoute: typeof AdminWorkspacesContentMediaIndexRoute
+  AdminWorkspacesContentPostsIndexRoute: typeof AdminWorkspacesContentPostsIndexRoute
+  AdminWorkspacesOperationsAccountIndexRoute: typeof AdminWorkspacesOperationsAccountIndexRoute
+  AdminWorkspacesOperationsContactsIndexRoute: typeof AdminWorkspacesOperationsContactsIndexRoute
+  AdminWorkspacesOperationsDashboardIndexRoute: typeof AdminWorkspacesOperationsDashboardIndexRoute
+  AdminWorkspacesOperationsEmailIndexRoute: typeof AdminWorkspacesOperationsEmailIndexRoute
+  AdminWorkspacesOperationsSettingsIndexRoute: typeof AdminWorkspacesOperationsSettingsIndexRoute
+  AdminWorkspacesOperationsUsersIndexRoute: typeof AdminWorkspacesOperationsUsersIndexRoute
+  AdminWorkspacesPlatformComponentsIndexRoute: typeof AdminWorkspacesPlatformComponentsIndexRoute
+  AdminWorkspacesPlatformDocsIndexRoute: typeof AdminWorkspacesPlatformDocsIndexRoute
+  AdminWorkspacesPlatformComponentsMarketingIndexRoute: typeof AdminWorkspacesPlatformComponentsMarketingIndexRoute
+  AdminWorkspacesPlatformComponentsNavigationIndexRoute: typeof AdminWorkspacesPlatformComponentsNavigationIndexRoute
+  AdminWorkspacesPlatformComponentsUiIndexRoute: typeof AdminWorkspacesPlatformComponentsUiIndexRoute
+  AdminWorkspacesPlatformDocsAdrIndexRoute: typeof AdminWorkspacesPlatformDocsAdrIndexRoute
+  AdminWorkspacesPlatformDocsArchitectureIndexRoute: typeof AdminWorkspacesPlatformDocsArchitectureIndexRoute
+  AdminWorkspacesPlatformDocsPhasesIndexRoute: typeof AdminWorkspacesPlatformDocsPhasesIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -1007,6 +1552,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminMediaIndexRoute: AdminMediaIndexRoute,
   AdminSettingsIndexRoute: AdminSettingsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
+  AdminWorkspacesIndexRoute: AdminWorkspacesIndexRoute,
   AdminContentPostsIdRoute: AdminContentPostsIdRoute,
   AdminContentPostsNewRoute: AdminContentPostsNewRoute,
   AdminComponentsMarketingIndexRoute: AdminComponentsMarketingIndexRoute,
@@ -1016,6 +1562,46 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDocsAdrIndexRoute: AdminDocsAdrIndexRoute,
   AdminDocsArchitectureIndexRoute: AdminDocsArchitectureIndexRoute,
   AdminDocsPhasesIndexRoute: AdminDocsPhasesIndexRoute,
+  AdminWorkspacesContentIndexRoute: AdminWorkspacesContentIndexRoute,
+  AdminWorkspacesOperationsIndexRoute: AdminWorkspacesOperationsIndexRoute,
+  AdminWorkspacesPlatformIndexRoute: AdminWorkspacesPlatformIndexRoute,
+  AdminWorkspacesContentKbSlugRoute: AdminWorkspacesContentKbSlugRoute,
+  AdminWorkspacesContentMediaAssetIdRoute:
+    AdminWorkspacesContentMediaAssetIdRoute,
+  AdminWorkspacesContentPostsIdRoute: AdminWorkspacesContentPostsIdRoute,
+  AdminWorkspacesContentPostsNewRoute: AdminWorkspacesContentPostsNewRoute,
+  AdminWorkspacesOperationsUsersUserIdRoute:
+    AdminWorkspacesOperationsUsersUserIdRoute,
+  AdminWorkspacesContentKbIndexRoute: AdminWorkspacesContentKbIndexRoute,
+  AdminWorkspacesContentMediaIndexRoute: AdminWorkspacesContentMediaIndexRoute,
+  AdminWorkspacesContentPostsIndexRoute: AdminWorkspacesContentPostsIndexRoute,
+  AdminWorkspacesOperationsAccountIndexRoute:
+    AdminWorkspacesOperationsAccountIndexRoute,
+  AdminWorkspacesOperationsContactsIndexRoute:
+    AdminWorkspacesOperationsContactsIndexRoute,
+  AdminWorkspacesOperationsDashboardIndexRoute:
+    AdminWorkspacesOperationsDashboardIndexRoute,
+  AdminWorkspacesOperationsEmailIndexRoute:
+    AdminWorkspacesOperationsEmailIndexRoute,
+  AdminWorkspacesOperationsSettingsIndexRoute:
+    AdminWorkspacesOperationsSettingsIndexRoute,
+  AdminWorkspacesOperationsUsersIndexRoute:
+    AdminWorkspacesOperationsUsersIndexRoute,
+  AdminWorkspacesPlatformComponentsIndexRoute:
+    AdminWorkspacesPlatformComponentsIndexRoute,
+  AdminWorkspacesPlatformDocsIndexRoute: AdminWorkspacesPlatformDocsIndexRoute,
+  AdminWorkspacesPlatformComponentsMarketingIndexRoute:
+    AdminWorkspacesPlatformComponentsMarketingIndexRoute,
+  AdminWorkspacesPlatformComponentsNavigationIndexRoute:
+    AdminWorkspacesPlatformComponentsNavigationIndexRoute,
+  AdminWorkspacesPlatformComponentsUiIndexRoute:
+    AdminWorkspacesPlatformComponentsUiIndexRoute,
+  AdminWorkspacesPlatformDocsAdrIndexRoute:
+    AdminWorkspacesPlatformDocsAdrIndexRoute,
+  AdminWorkspacesPlatformDocsArchitectureIndexRoute:
+    AdminWorkspacesPlatformDocsArchitectureIndexRoute,
+  AdminWorkspacesPlatformDocsPhasesIndexRoute:
+    AdminWorkspacesPlatformDocsPhasesIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

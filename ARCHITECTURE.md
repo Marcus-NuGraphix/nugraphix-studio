@@ -61,21 +61,22 @@ src/
       privacy-policy/index.tsx
     admin/                       # Protected admin routes
       route.tsx                  # Layout + beforeLoad auth guard
-      index.tsx                  # /admin
-      dashboard/index.tsx        # /admin/dashboard
-      components/index.tsx       # /admin/components
-      components/ui/index.tsx    # /admin/components/ui
-      components/navigation/index.tsx  # /admin/components/navigation
-      components/marketing/index.tsx   # /admin/components/marketing
-      docs/index.tsx             # /admin/docs
-      docs/architecture/index.tsx  # /admin/docs/architecture
-      docs/adr/index.tsx         # /admin/docs/adr
-      docs/phases/index.tsx      # /admin/docs/phases
-      account/index.tsx          # /admin/account
-      users/index.tsx            # /admin/users
-      users/$userId.tsx          # /admin/users/:userId
-      media/index.tsx            # /admin/media
-      media/$assetId.tsx         # /admin/media/:assetId
+      index.tsx                  # /admin -> /admin/workspaces/operations
+      workspaces/index.tsx       # /admin/workspaces
+      workspaces/operations/*    # Canonical operations routes
+      workspaces/content/*       # Canonical content routes
+      workspaces/platform/*      # Canonical platform routes
+      dashboard/index.tsx        # legacy redirect -> operations/dashboard
+      users/*                    # legacy redirects -> operations/users
+      contacts/index.tsx         # legacy redirect -> operations/contacts
+      email/index.tsx            # legacy redirect -> operations/email
+      account/index.tsx          # legacy redirect -> operations/account
+      settings/index.tsx         # legacy redirect -> operations/settings
+      content/*                  # legacy redirects -> content workspace
+      media/*                    # legacy redirects -> content/media
+      kb/*                       # legacy redirects -> content/kb
+      docs/*                     # legacy redirects -> platform/docs
+      components/*               # legacy redirects -> platform/components
     api/
       auth/$.ts                  # Better Auth catch-all handler
 
@@ -469,6 +470,8 @@ See ADR-0011.
 | 0031 | Local Environment Bootstrap and Migration Reconciliation | Accepted |
 | 0032 | Deterministic Bootstrap Seed Contract | Accepted |
 | 0033 | Design System Boundary and Token Exception Governance | Accepted |
+| 0034 | Dashboard Workspace Routing Rollout | Accepted |
+| 0035 | Workspace Canonical Route Ownership and Legacy Compatibility | Accepted |
 
 Canonical ADR docs:
 

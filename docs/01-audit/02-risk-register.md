@@ -27,7 +27,8 @@ Status: Active
 | R-011 | P2 | Dependencies | Moderate `esbuild` advisory remains in transitive toolchain path (`better-auth` -> `drizzle-kit` -> `@esbuild-kit/*`) | `pnpm audit --prod` (GHSA-67mh-4wv8-2f99) | Track upstream releases and remove via dependency updates when available; document local-dev exposure boundaries | Eng | Phase 0-1 | Open |
 | R-012 | P1 | Component Boundaries | Shared navigation components imported feature modules directly, increasing blast radius and reducing reusability guarantees | Resolved via route-level adapters in `src/routes/_public/route.tsx`, `src/routes/_legal/route.tsx`, `src/routes/admin/route.tsx`; shared navigation now has no direct `@/features/*` imports | Keep shared navigation feature-agnostic and enforce boundary checks in Phase 4 follow-ups | Eng | Phase 4 | Closed |
 | R-013 | P2 | Token Governance | Literal color exceptions existed in shared/chart selectors and email templates | Resolved via selector hardening in `src/components/ui/chart.tsx` and centralized email token contract in `src/features/email/server/template-tokens.ts` used by `src/features/email/server/templates.server.tsx` | Keep shared UI free of raw color literals and enforce email palette through centralized token module | Eng | Phase 4 | Closed |
-| R-014 | P2 | Accessibility Regression | Accessibility checks are mostly manual and lack CI-enforced regression coverage | `docs/04-design-system/05-accessibility-checklist.md` baseline findings | Add targeted accessibility regression checks for nav/dialog/form patterns | Eng | Phase 4-6 | Open |
+| R-014 | P2 | Accessibility Regression | Accessibility checks previously lacked CI-enforced regression coverage for core interaction patterns | Resolved with `src/components/tests/accessibility-contracts.test.ts` enforcing dialog/sheet title semantics and navigation/form labeling patterns in CI test runs | Keep extending coverage to contrast and reduced-motion standards tracked in `docs/04-design-system/05-accessibility-checklist.md` | Eng | Phase 4-6 | Closed |
+| R-015 | P1 | Dashboard Routing Migration | Workspace URL rollout can break admin deep links or breadcrumb/menu state if legacy redirect mapping is incomplete | Mitigated: operations/content/platform deep routes now use canonical workspace ownership with legacy redirect shims (`/admin/*` -> `/admin/workspaces/*`), navigation targets are canonical, and quality gates pass | Keep manual parity smoke checks (`T-021`) and monitor route regressions during Phase 5/6 changes | Eng | Phase 5 | Closed |
 
 ## Top 10 Production Blockers
 
@@ -40,4 +41,5 @@ Status: Active
 7. [x] R-012: Remove feature coupling from shared navigation components.
 8. [x] R-013: Resolve token exception drift for chart/email surfaces.
 9. [x] Lock CI quality gates with clear release blocking policy (minimum CI + bootstrap smoke gate).
-10. [ ] R-014: Add accessibility regression coverage for core interaction surfaces.
+10. [x] R-014: Add accessibility regression coverage for core interaction surfaces.
+11. [x] R-015: Execute workspace route migration with zero deep-link regressions.

@@ -17,6 +17,8 @@ Last updated: 2026-02-18
 - `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md` captures the canonical local Docker bootstrap contract and migration reconciliation policy.
 - `docs/adr/0032-deterministic-bootstrap-seed-contract.md` captures canonical local bootstrap seeding coverage for auth, content, and blog datasets.
 - `docs/adr/0033-design-system-boundary-and-token-exception-governance.md` captures Phase 4 component boundary enforcement and token exception governance controls.
+- `docs/adr/0034-dashboard-workspace-routing-rollout.md` captures staged Phase 5 workspace routing rollout strategy and legacy deep-link migration controls.
+- `docs/adr/0035-workspace-canonical-route-ownership-and-legacy-compatibility.md` captures final canonical workspace route ownership and legacy `/admin/*` redirect compatibility policy.
 
 ## ADR Rules
 
@@ -26,7 +28,7 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0034`
+- `0036`
 
 ## Current Focus
 
@@ -39,4 +41,6 @@ Last updated: 2026-02-18
   `0030` (docs-first production hardening governance), and
   `0031` (local bootstrap and migration reconciliation governance), and
   `0032` (deterministic bootstrap seeding governance), and
-  `0033` (design system boundary and token exception governance).
+  `0033` (design system boundary and token exception governance), and
+  `0034` (dashboard workspace routing rollout governance), and
+  `0035` (workspace canonical route ownership and legacy compatibility governance).

@@ -14,6 +14,6 @@ describe('lib/constants', () => {
 
   it('exposes shared admin route constants', () => {
     expect(ADMIN_BASE_PATH).toBe('/admin')
-    expect(ADMIN_DOCS_BASE_PATH).toBe('/admin/docs')
+    expect(ADMIN_DOCS_BASE_PATH).toBe('/admin/workspaces/platform/docs')
   })
 })

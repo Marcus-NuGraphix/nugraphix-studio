@@ -21,6 +21,28 @@ import type { LucideIcon } from 'lucide-react'
 
 export type AdminStaticRoutePath =
   | '/admin'
+  | '/admin/workspaces'
+  | '/admin/workspaces/operations'
+  | '/admin/workspaces/operations/dashboard'
+  | '/admin/workspaces/operations/users'
+  | '/admin/workspaces/operations/contacts'
+  | '/admin/workspaces/operations/email'
+  | '/admin/workspaces/operations/account'
+  | '/admin/workspaces/operations/settings'
+  | '/admin/workspaces/content'
+  | '/admin/workspaces/content/posts'
+  | '/admin/workspaces/content/posts/new'
+  | '/admin/workspaces/content/media'
+  | '/admin/workspaces/content/kb'
+  | '/admin/workspaces/platform'
+  | '/admin/workspaces/platform/docs'
+  | '/admin/workspaces/platform/docs/architecture'
+  | '/admin/workspaces/platform/docs/adr'
+  | '/admin/workspaces/platform/docs/phases'
+  | '/admin/workspaces/platform/components'
+  | '/admin/workspaces/platform/components/ui'
+  | '/admin/workspaces/platform/components/navigation'
+  | '/admin/workspaces/platform/components/marketing'
   | '/admin/dashboard'
   | '/admin/content'
   | '/admin/content/posts'
@@ -42,6 +64,10 @@ export type AdminStaticRoutePath =
   | '/admin/components/marketing'
 
 type AdminDynamicRoutePath =
+  | `/admin/workspaces/operations/users/${string}`
+  | `/admin/workspaces/content/posts/${string}`
+  | `/admin/workspaces/content/media/${string}`
+  | `/admin/workspaces/content/kb/${string}`
   | `/admin/content/posts/${string}`
   | `/admin/media/${string}`
   | `/admin/users/${string}`
@@ -65,19 +91,38 @@ export interface AdminNavGroup {
   items: Array<AdminNavItem>
 }
 
+export type AdminWorkspaceId = 'operations' | 'content' | 'platform'
+
+type AdminWorkspaceRoutePath =
+  | '/admin/workspaces/operations'
+  | '/admin/workspaces/content'
+  | '/admin/workspaces/platform'
+
+export interface AdminWorkspaceLink {
+  id: AdminWorkspaceId
+  title: string
+  to: AdminWorkspaceRoutePath
+}
+
+export const adminWorkspaceLinks: Array<AdminWorkspaceLink> = [
+  { id: 'operations', title: 'Operations', to: '/admin/workspaces/operations' },
+  { id: 'content', title: 'Content', to: '/admin/workspaces/content' },
+  { id: 'platform', title: 'Platform', to: '/admin/workspaces/platform' },
+]
+
 export const adminNavigationGroups: Array<AdminNavGroup> = [
   {
     title: 'Workspace',
     items: [
       {
-        title: 'Overview',
-        to: '/admin',
+        title: 'Operations',
+        to: '/admin/workspaces/operations',
         icon: PanelsTopLeft,
-        description: 'Entry point and workspace summaries',
+        description: 'Workspace landing and operations entry point',
       },
       {
         title: 'Dashboard',
-        to: '/admin/dashboard',
+        to: '/admin/workspaces/operations/dashboard',
         icon: LayoutDashboard,
         description: 'Operations snapshots and quick actions',
       },
@@ -88,24 +133,24 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
     items: [
       {
         title: 'Content Hub',
-        to: '/admin/content',
+        to: '/admin/workspaces/content',
         icon: SquareLibrary,
         description: 'Publishing and editorial workflows',
         items: [
-          { title: 'Posts', to: '/admin/content/posts' },
-          { title: 'New Post', to: '/admin/content/posts/new' },
-          { title: 'Media', to: '/admin/media' },
+          { title: 'Posts', to: '/admin/workspaces/content/posts' },
+          { title: 'New Post', to: '/admin/workspaces/content/posts/new' },
+          { title: 'Media', to: '/admin/workspaces/content/media' },
         ],
       },
       {
         title: 'Media Library',
-        to: '/admin/media',
+        to: '/admin/workspaces/content/media',
         icon: Images,
         description: 'Asset uploads, previews, and metadata lifecycle',
       },
       {
         title: 'Knowledge Base',
-        to: '/admin/kb',
+        to: '/admin/workspaces/content/kb',
         icon: BookOpenText,
         description: 'Internal documentation entries',
       },
@@ -116,13 +161,16 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
     items: [
       {
         title: 'Docs Hub',
-        to: '/admin/docs',
+        to: '/admin/workspaces/platform/docs',
         icon: BookOpenCheck,
         description: 'Architecture, ADRs, and implementation phases',
         items: [
-          { title: 'Architecture', to: '/admin/docs/architecture' },
-          { title: 'ADRs', to: '/admin/docs/adr' },
-          { title: 'Phases', to: '/admin/docs/phases' },
+          {
+            title: 'Architecture',
+            to: '/admin/workspaces/platform/docs/architecture',
+          },
+          { title: 'ADRs', to: '/admin/workspaces/platform/docs/adr' },
+          { title: 'Phases', to: '/admin/workspaces/platform/docs/phases' },
         ],
       },
     ],
@@ -132,13 +180,19 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
     items: [
       {
         title: 'Component Hub',
-        to: '/admin/components',
+        to: '/admin/workspaces/platform/components',
         icon: Component,
         description: 'Inventory and composition guides',
         items: [
-          { title: 'UI Primitives', to: '/admin/components/ui' },
-          { title: 'Navigation', to: '/admin/components/navigation' },
-          { title: 'Marketing', to: '/admin/components/marketing' },
+          { title: 'UI Primitives', to: '/admin/workspaces/platform/components/ui' },
+          {
+            title: 'Navigation',
+            to: '/admin/workspaces/platform/components/navigation',
+          },
+          {
+            title: 'Marketing',
+            to: '/admin/workspaces/platform/components/marketing',
+          },
         ],
       },
     ],
@@ -148,31 +202,31 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
     items: [
       {
         title: 'Users',
-        to: '/admin/users',
+        to: '/admin/workspaces/operations/users',
         icon: UsersRound,
         description: 'Accounts, roles, and security activity',
       },
       {
         title: 'Contacts',
-        to: '/admin/contacts',
+        to: '/admin/workspaces/operations/contacts',
         icon: Inbox,
         description: 'Inbound lead queue and follow-up ownership',
       },
       {
         title: 'Email',
-        to: '/admin/email',
+        to: '/admin/workspaces/operations/email',
         icon: Mail,
         description: 'Delivery monitoring, retries, and webhook trace',
       },
       {
         title: 'Account',
-        to: '/admin/account',
+        to: '/admin/workspaces/operations/account',
         icon: UserCircle2,
         description: 'Your own admin profile and security controls',
       },
       {
         title: 'Settings',
-        to: '/admin/settings',
+        to: '/admin/workspaces/operations/settings',
         icon: Settings,
         description: 'Platform controls and preferences',
       },
@@ -181,14 +235,14 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
 ]
 
 export const adminQuickAccessLinks: Array<AdminNavChild> = [
-  { title: 'Content', to: '/admin/content' },
-  { title: 'Media', to: '/admin/media' },
-  { title: 'Contacts', to: '/admin/contacts' },
-  { title: 'Email', to: '/admin/email' },
-  { title: 'Docs', to: '/admin/docs' },
-  { title: 'Components', to: '/admin/components' },
-  { title: 'Users', to: '/admin/users' },
-  { title: 'Account', to: '/admin/account' },
+  { title: 'Content', to: '/admin/workspaces/content' },
+  { title: 'Media', to: '/admin/workspaces/content/media' },
+  { title: 'Contacts', to: '/admin/workspaces/operations/contacts' },
+  { title: 'Email', to: '/admin/workspaces/operations/email' },
+  { title: 'Docs', to: '/admin/workspaces/platform/docs' },
+  { title: 'Components', to: '/admin/workspaces/platform/components' },
+  { title: 'Users', to: '/admin/workspaces/operations/users' },
+  { title: 'Account', to: '/admin/workspaces/operations/account' },
 ]
 
 export interface AdminBreadcrumb {
@@ -200,6 +254,46 @@ const normalizePath = (value: string) => {
   const trimmed = value.trim()
   if (!trimmed) return '/admin'
   return trimmed.length > 1 ? trimmed.replace(/\/+$/, '') : trimmed
+}
+
+const workspaceLegacyPrefixes: Record<AdminWorkspaceId, Array<string>> = {
+  operations: [
+    '/admin',
+    '/admin/dashboard',
+    '/admin/users',
+    '/admin/contacts',
+    '/admin/email',
+    '/admin/account',
+    '/admin/settings',
+  ],
+  content: ['/admin/content', '/admin/media', '/admin/kb'],
+  platform: ['/admin/docs', '/admin/components'],
+}
+
+export const getAdminWorkspaceFromPath = (pathname: string): AdminWorkspaceId => {
+  const normalized = normalizePath(pathname)
+
+  const canonicalWorkspace = adminWorkspaceLinks.find(
+    (workspace) =>
+      normalized === workspace.to || normalized.startsWith(`${workspace.to}/`),
+  )
+  if (canonicalWorkspace) {
+    return canonicalWorkspace.id
+  }
+
+  for (const [workspace, prefixes] of Object.entries(workspaceLegacyPrefixes) as Array<
+    [AdminWorkspaceId, Array<string>]
+  >) {
+    if (
+      prefixes.some(
+        (prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`),
+      )
+    ) {
+      return workspace
+    }
+  }
+
+  return 'operations'
 }
 
 export const isAdminPathActive = (pathname: string, to: string) => {
@@ -245,6 +339,16 @@ for (const group of adminNavigationGroups) {
   }
 }
 
+adminBreadcrumbMap.set('/admin/workspaces/operations', [
+  { label: 'Operations', to: '/admin/workspaces/operations' },
+])
+adminBreadcrumbMap.set('/admin/workspaces/content', [
+  { label: 'Content', to: '/admin/workspaces/content' },
+])
+adminBreadcrumbMap.set('/admin/workspaces/platform', [
+  { label: 'Platform', to: '/admin/workspaces/platform' },
+])
+
 export const getAdminBreadcrumbs = (pathname: string): Array<AdminBreadcrumb> => {
   const normalized = normalizePath(pathname)
 
@@ -254,29 +358,43 @@ export const getAdminBreadcrumbs = (pathname: string): Array<AdminBreadcrumb> =>
   }
 
   if (
-    normalized.startsWith('/admin/content/posts/') &&
-    normalized !== '/admin/content/posts/new'
+    (normalized.startsWith('/admin/workspaces/content/posts/') &&
+      normalized !== '/admin/workspaces/content/posts/new') ||
+    (normalized.startsWith('/admin/content/posts/') &&
+      normalized !== '/admin/content/posts/new')
   ) {
-    const postId = normalized.replace('/admin/content/posts/', '')
+    const postId = normalized.startsWith('/admin/workspaces/content/posts/')
+      ? normalized.replace('/admin/workspaces/content/posts/', '')
+      : normalized.replace('/admin/content/posts/', '')
     return [
-      { label: 'Content Hub', to: '/admin/content' },
-      { label: 'Posts', to: '/admin/content/posts' },
+      { label: 'Content Hub', to: '/admin/workspaces/content' },
+      { label: 'Posts', to: '/admin/workspaces/content/posts' },
       { label: toIdentifierLabel(postId, 'Post') },
     ]
   }
 
-  if (normalized.startsWith('/admin/media/')) {
-    const assetId = normalized.replace('/admin/media/', '')
+  if (
+    normalized.startsWith('/admin/workspaces/content/media/') ||
+    normalized.startsWith('/admin/media/')
+  ) {
+    const assetId = normalized.startsWith('/admin/workspaces/content/media/')
+      ? normalized.replace('/admin/workspaces/content/media/', '')
+      : normalized.replace('/admin/media/', '')
     return [
-      { label: 'Media Library', to: '/admin/media' },
+      { label: 'Media Library', to: '/admin/workspaces/content/media' },
       { label: toIdentifierLabel(assetId, 'Asset') },
     ]
   }
 
-  if (normalized.startsWith('/admin/kb/')) {
-    const slug = normalized.replace('/admin/kb/', '')
+  if (
+    normalized.startsWith('/admin/workspaces/content/kb/') ||
+    normalized.startsWith('/admin/kb/')
+  ) {
+    const slug = normalized.startsWith('/admin/workspaces/content/kb/')
+      ? normalized.replace('/admin/workspaces/content/kb/', '')
+      : normalized.replace('/admin/kb/', '')
     return [
-      { label: 'Knowledge Base', to: '/admin/kb' },
+      { label: 'Knowledge Base', to: '/admin/workspaces/content/kb' },
       { label: toLabelFromSlug(slug) || 'Entry' },
     ]
   }
@@ -284,12 +402,20 @@ export const getAdminBreadcrumbs = (pathname: string): Array<AdminBreadcrumb> =>
   if (normalized.startsWith('/admin/users/')) {
     const userId = normalized.replace('/admin/users/', '')
     return [
-      { label: 'Users', to: '/admin/users' },
+      { label: 'Users', to: '/admin/workspaces/operations/users' },
       { label: toIdentifierLabel(userId, 'User') },
     ]
   }
 
-  return [{ label: 'Dashboard', to: '/admin/dashboard' }]
+  if (normalized.startsWith('/admin/workspaces/operations/users/')) {
+    const userId = normalized.replace('/admin/workspaces/operations/users/', '')
+    return [
+      { label: 'Users', to: '/admin/workspaces/operations/users' },
+      { label: toIdentifierLabel(userId, 'User') },
+    ]
+  }
+
+  return [{ label: 'Dashboard', to: '/admin/workspaces/operations/dashboard' }]
 }
 
 export const adminSectionCards: Array<{
@@ -302,54 +428,54 @@ export const adminSectionCards: Array<{
     title: 'Content Operations',
     description: 'Editorial workflows, post lifecycle, and KB updates.',
     icon: FileText,
-    to: '/admin/content',
+    to: '/admin/workspaces/content',
   },
   {
     title: 'Media Library',
     description: 'Reusable asset management for posts and documentation.',
     icon: Images,
-    to: '/admin/media',
+    to: '/admin/workspaces/content/media',
   },
   {
     title: 'Documentation',
     description: 'Architecture references, ADR decisions, and phase guidance.',
     icon: FileStack,
-    to: '/admin/docs',
+    to: '/admin/workspaces/platform/docs',
   },
   {
     title: 'Component Governance',
     description: 'UI primitives, navigation systems, and marketing layouts.',
     icon: Navigation,
-    to: '/admin/components',
+    to: '/admin/workspaces/platform/components',
   },
   {
     title: 'Roadmap & Standards',
     description: 'Execution checkpoints and quality control by delivery phase.',
     icon: Milestone,
-    to: '/admin/docs/phases',
+    to: '/admin/workspaces/platform/docs/phases',
   },
   {
     title: 'Platform Health',
     description: 'User roles, lead flow, and configuration controls.',
     icon: Settings,
-    to: '/admin/settings',
+    to: '/admin/workspaces/operations/settings',
   },
   {
     title: 'Contact Pipeline',
     description: 'Lead intake workflow, assignment, and conversion stages.',
     icon: Inbox,
-    to: '/admin/contacts',
+    to: '/admin/workspaces/operations/contacts',
   },
   {
     title: 'Email Operations',
     description: 'Message lifecycle visibility with retry and event tracing.',
     icon: Mail,
-    to: '/admin/email',
+    to: '/admin/workspaces/operations/email',
   },
   {
     title: 'Create New Post',
     description: 'Open a new editorial draft and move it through publishing.',
     icon: PlusCircle,
-    to: '/admin/content/posts/new',
+    to: '/admin/workspaces/content/posts/new',
   },
 ]

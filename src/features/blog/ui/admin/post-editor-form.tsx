@@ -87,7 +87,9 @@ export function BlogPostEditorForm({
             <div className="flex items-center justify-between gap-2">
               <Label htmlFor="post-cover-image">Cover image URL</Label>
               <Button variant="ghost" size="sm" asChild>
-                <Link to="/admin/media">Open media library</Link>
+                <Link to="/admin/workspaces/content/media">
+                  Open media library
+                </Link>
               </Button>
             </div>
             <Input
