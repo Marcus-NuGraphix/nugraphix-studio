@@ -9,6 +9,7 @@ import {
 } from '@/components/marketing'
 import {
   blogPublicPostFiltersSchema,
+  demoPublicBlogPostListItems,
   getPublicBlogPostsFn,
 } from '@/features/blog'
 import { EmailSubscribeCard } from '@/features/email'
@@ -18,7 +19,21 @@ const blogSearchSchema = blogPublicPostFiltersSchema.partial()
 export const Route = createFileRoute('/_public/blog/')({
   validateSearch: (search) => blogSearchSchema.parse(search),
   loaderDeps: ({ search }) => blogPublicPostFiltersSchema.parse(search),
-  loader: async ({ deps }) => getPublicBlogPostsFn({ data: deps }),
+  loader: async ({ deps }) => {
+    try {
+      return await getPublicBlogPostsFn({ data: deps })
+    } catch (error) {
+      if (error instanceof Response) throw error
+      return {
+        posts: [],
+        total: 0,
+        page: deps.page,
+        pageSize: deps.pageSize,
+        totalPages: 1,
+        filters: deps,
+      }
+    }
+  },
   head: () => ({
     meta: [
       {
@@ -38,6 +53,8 @@ export const Route = createFileRoute('/_public/blog/')({
 function BlogIndexPage() {
   const data = Route.useLoaderData()
   const navigate = Route.useNavigate()
+  const useDemoPosts = data.posts.length === 0 && !data.filters.query
+  const posts = useDemoPosts ? demoPublicBlogPostListItems : data.posts
 
   return (
     <MarketingContainer>
@@ -51,13 +68,19 @@ function BlogIndexPage() {
         title="Latest posts"
         description="Published editorial insights from Nu Graphix Studio."
       >
-        {data.posts.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
-            No posts are published yet. Check back soon for new insights.
+        {useDemoPosts ? (
+          <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-5 text-sm text-muted-foreground">
+            No published posts are available yet, so demo articles are shown to preview the public blog experience.
           </div>
-        ) : (
+        ) : posts.length === 0 ? (
+          <div className="rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
+            No posts match the current filters.
+          </div>
+        ) : null}
+
+        {posts.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-3">
-            {data.posts.map((post) => (
+            {posts.map((post) => (
               <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }}>
                 <MarketingCard
                   meta={`Article · ${post.readingTimeMinutes} min read`}
@@ -68,40 +91,42 @@ function BlogIndexPage() {
               </Link>
             ))}
           </div>
-        )}
+        ) : null}
       </MarketingSection>
 
-      <div className="flex items-center justify-end gap-2">
-        <button
-          type="button"
-          className="text-sm text-muted-foreground disabled:opacity-50"
-          disabled={data.page <= 1}
-          onClick={() =>
-            navigate({
-              to: '/blog',
-              search: (prev) => ({ ...prev, page: Math.max(1, data.page - 1) }),
-            })
-          }
-        >
-          Previous
-        </button>
-        <p className="text-xs text-muted-foreground">
-          Page {data.page} / {data.totalPages}
-        </p>
-        <button
-          type="button"
-          className="text-sm text-muted-foreground disabled:opacity-50"
-          disabled={data.page >= data.totalPages}
-          onClick={() =>
-            navigate({
-              to: '/blog',
-              search: (prev) => ({ ...prev, page: data.page + 1 }),
-            })
-          }
-        >
-          Next
-        </button>
-      </div>
+      {!useDemoPosts && data.posts.length > 0 ? (
+        <div className="flex items-center justify-end gap-2">
+          <button
+            type="button"
+            className="text-sm text-muted-foreground disabled:opacity-50"
+            disabled={data.page <= 1}
+            onClick={() =>
+              navigate({
+                to: '/blog',
+                search: (prev) => ({ ...prev, page: Math.max(1, data.page - 1) }),
+              })
+            }
+          >
+            Previous
+          </button>
+          <p className="text-xs text-muted-foreground">
+            Page {data.page} / {data.totalPages}
+          </p>
+          <button
+            type="button"
+            className="text-sm text-muted-foreground disabled:opacity-50"
+            disabled={data.page >= data.totalPages}
+            onClick={() =>
+              navigate({
+                to: '/blog',
+                search: (prev) => ({ ...prev, page: data.page + 1 }),
+              })
+            }
+          >
+            Next
+          </button>
+        </div>
+      ) : null}
 
       <MarketingSection
         title="Subscribe for release updates"
