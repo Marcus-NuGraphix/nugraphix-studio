@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-export type AdminRoutePath =
+export type AdminStaticRoutePath =
   | '/admin'
   | '/admin/dashboard'
   | '/admin/content'
@@ -33,9 +33,17 @@ export type AdminRoutePath =
   | '/admin/components/navigation'
   | '/admin/components/marketing'
 
+type AdminDynamicRoutePath =
+  | `/admin/content/posts/${string}`
+  | `/admin/users/${string}`
+  | `/admin/kb/${string}`
+
+export type AdminRoutePath = AdminStaticRoutePath | AdminDynamicRoutePath
+
 export interface AdminNavChild {
   title: string
-  to: AdminRoutePath
+  to: AdminStaticRoutePath
+  description?: string
 }
 
 export interface AdminNavItem extends AdminNavChild {
@@ -56,11 +64,13 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Overview',
         to: '/admin',
         icon: PanelsTopLeft,
+        description: 'Entry point and workspace summaries',
       },
       {
         title: 'Dashboard',
         to: '/admin/dashboard',
         icon: LayoutDashboard,
+        description: 'Operations snapshots and quick actions',
       },
     ],
   },
@@ -71,6 +81,7 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Content Hub',
         to: '/admin/content',
         icon: SquareLibrary,
+        description: 'Publishing and editorial workflows',
         items: [
           { title: 'Posts', to: '/admin/content/posts' },
           { title: 'New Post', to: '/admin/content/posts/new' },
@@ -80,6 +91,7 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Knowledge Base',
         to: '/admin/kb',
         icon: BookOpenText,
+        description: 'Internal documentation entries',
       },
     ],
   },
@@ -90,10 +102,11 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Docs Hub',
         to: '/admin/docs',
         icon: BookOpenCheck,
+        description: 'Architecture, ADRs, and implementation phases',
         items: [
           { title: 'Architecture', to: '/admin/docs/architecture' },
           { title: 'ADRs', to: '/admin/docs/adr' },
-          { title: 'Phase Playbooks', to: '/admin/docs/phases' },
+          { title: 'Phases', to: '/admin/docs/phases' },
         ],
       },
     ],
@@ -105,6 +118,7 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Component Hub',
         to: '/admin/components',
         icon: Component,
+        description: 'Inventory and composition guides',
         items: [
           { title: 'UI Primitives', to: '/admin/components/ui' },
           { title: 'Navigation', to: '/admin/components/navigation' },
@@ -120,38 +134,34 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         title: 'Users',
         to: '/admin/users',
         icon: UsersRound,
+        description: 'Accounts, roles, and security activity',
       },
       {
         title: 'Settings',
         to: '/admin/settings',
         icon: Settings,
+        description: 'Platform controls and preferences',
       },
     ],
   },
 ]
 
 export const adminQuickAccessLinks: Array<AdminNavChild> = [
+  { title: 'Content', to: '/admin/content' },
   { title: 'Docs', to: '/admin/docs' },
   { title: 'Components', to: '/admin/components' },
-  { title: 'Phases', to: '/admin/docs/phases' },
+  { title: 'Users', to: '/admin/users' },
 ]
 
 export interface AdminBreadcrumb {
   label: string
-  to?: AdminRoutePath
+  to?: AdminStaticRoutePath
 }
 
 const normalizePath = (value: string) => {
   const trimmed = value.trim()
-  if (!trimmed) {
-    return '/admin'
-  }
-
-  if (trimmed.length > 1 && trimmed.endsWith('/')) {
-    return trimmed.replace(/\/+$/, '')
-  }
-
-  return trimmed
+  if (!trimmed) return '/admin'
+  return trimmed.length > 1 ? trimmed.replace(/\/+$/, '') : trimmed
 }
 
 export const isAdminPathActive = (pathname: string, to: string) => {
@@ -175,14 +185,8 @@ const toLabelFromSlug = (value: string) =>
 
 const toIdentifierLabel = (value: string, fallback: string) => {
   const normalized = value.trim()
-  if (!normalized) {
-    return fallback
-  }
-
-  if (normalized.includes('-')) {
-    return toLabelFromSlug(normalized)
-  }
-
+  if (!normalized) return fallback
+  if (normalized.includes('-')) return toLabelFromSlug(normalized)
   return normalized.length > 18
     ? `${normalized.slice(0, 10)}...`
     : normalized.toUpperCase()
@@ -235,7 +239,7 @@ export const getAdminBreadcrumbs = (pathname: string): Array<AdminBreadcrumb> =>
     const userId = normalized.replace('/admin/users/', '')
     return [
       { label: 'Users', to: '/admin/users' },
-      { label: toIdentifierLabel(userId, 'User Detail') },
+      { label: toIdentifierLabel(userId, 'User') },
     ]
   }
 
@@ -246,42 +250,41 @@ export const adminSectionCards: Array<{
   title: string
   description: string
   icon: LucideIcon
-  to: AdminRoutePath
+  to: AdminStaticRoutePath
 }> = [
   {
     title: 'Content Operations',
-    description: 'Editorial workflow, posts, and knowledge base management.',
+    description: 'Editorial workflows, post lifecycle, and KB updates.',
     icon: FileText,
     to: '/admin/content',
   },
   {
     title: 'Documentation',
-    description: 'Architecture references, ADRs, and execution phase plans.',
+    description: 'Architecture references, ADR decisions, and phase guidance.',
     icon: FileStack,
     to: '/admin/docs',
   },
   {
     title: 'Component Governance',
-    description: 'UI primitives, navigation systems, and marketing blocks.',
+    description: 'UI primitives, navigation systems, and marketing layouts.',
     icon: Navigation,
     to: '/admin/components',
   },
   {
     title: 'Roadmap & Standards',
-    description:
-      'Operating standards and implementation checkpoints for delivery quality.',
+    description: 'Execution checkpoints and quality control by delivery phase.',
     icon: Milestone,
     to: '/admin/docs/phases',
   },
   {
     title: 'Platform Health',
-    description: 'Account lifecycle, roles, and system configuration controls.',
+    description: 'User roles, account security, and configuration controls.',
     icon: Settings,
     to: '/admin/settings',
   },
   {
     title: 'Create New Post',
-    description: 'Start an editorial draft and move it through publishing flow.',
+    description: 'Open a new editorial draft and move it through publishing.',
     icon: PlusCircle,
     to: '/admin/content/posts/new',
   },

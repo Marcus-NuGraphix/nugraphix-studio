@@ -1,12 +1,23 @@
-import { Link, useNavigate } from '@tanstack/react-router'
-import { Loader2, LogOut } from 'lucide-react'
+import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
+import { ArrowRight, Loader2, LogOut, Menu, Shield } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import type { AppSession } from '@/features/auth/model/session'
-import { BrandLogo, BrandWordmark } from '@/components/brand'
-import { headerNavigationItems } from '@/components/navigation/site-navigation'
+import { BrandLockup } from '@/components/brand'
+import {
+  headerNavigationItems,
+  isSitePathActive,
+} from '@/components/navigation/site-navigation'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Button } from '@/components/ui/button'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { authClient } from '@/features/auth/client/auth-client'
 import { getRoleLandingPath } from '@/features/auth/model/post-auth'
 
@@ -16,7 +27,9 @@ interface SiteHeaderProps {
 
 export function SiteHeader({ session }: SiteHeaderProps) {
   const navigate = useNavigate()
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
   const [isSigningOut, setIsSigningOut] = useState(false)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const isAuthenticated = Boolean(session)
 
   const primaryDestination = session
@@ -53,38 +66,38 @@ export function SiteHeader({ session }: SiteHeaderProps) {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-lg">
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-20 items-center justify-between">
-          <Link to="/" className="flex shrink-0 items-center gap-2">
-            <BrandLogo />
-            <BrandWordmark />
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link
+            to="/"
+            className="focus-visible:ring-ring/60 rounded-md focus-visible:ring-2 focus-visible:outline-none"
+          >
+            <BrandLockup compact className="sm:gap-3" />
           </Link>
 
           <div className="hidden items-center gap-1 lg:flex">
             {headerNavigationItems.map((item) => (
-              <Link
+              <Button
                 key={item.to}
-                to={item.to}
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                activeProps={{
-                  className: 'bg-secondary text-foreground',
-                }}
+                asChild
+                variant={isSitePathActive(pathname, item) ? 'secondary' : 'ghost'}
+                size="sm"
               >
-                {item.label}
-              </Link>
+                <Link to={item.to}>{item.label}</Link>
+              </Button>
             ))}
           </div>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            <ThemeToggle className="hidden sm:inline-flex" />
             {isAuthenticated && session ? (
               <>
-                <div className="hidden min-w-0 text-right lg:block">
+                <div className="hidden min-w-0 text-right xl:block">
                   <p className="text-xs text-muted-foreground">Signed in as</p>
                   <p className="max-w-48 truncate text-xs font-medium text-foreground">
                     {session.user.email}
                   </p>
                 </div>
-                <Button variant="outline" className="hidden sm:inline-flex" asChild>
+                <Button variant="outline" className="hidden md:inline-flex" asChild>
                   <Link to={primaryDestination}>{primaryLabel}</Link>
                 </Button>
                 <Button
@@ -98,12 +111,14 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                   ) : (
                     <LogOut className="size-4" />
                   )}
-                  {isSigningOut ? 'Signing out...' : 'Log Out'}
+                  <span className="hidden sm:inline">
+                    {isSigningOut ? 'Signing out...' : 'Log Out'}
+                  </span>
                 </Button>
               </>
             ) : (
               <>
-                <Button variant="outline" className="hidden sm:inline-flex" asChild>
+                <Button variant="outline" className="hidden md:inline-flex" asChild>
                   <Link to="/login" search={{ redirect: undefined }}>
                     Client Login
                   </Link>
@@ -113,6 +128,112 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                 </Button>
               </>
             )}
+
+            <Sheet open={isMobileNavOpen} onOpenChange={setIsMobileNavOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon-sm"
+                  className="lg:hidden"
+                  aria-label="Toggle navigation menu"
+                >
+                  <Menu className="size-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[88vw] max-w-sm px-0">
+                <SheetHeader className="border-border border-b px-5 pb-4">
+                  <SheetTitle className="sr-only">Site Navigation</SheetTitle>
+                  <SheetDescription className="sr-only">
+                    Navigate public pages and account actions.
+                  </SheetDescription>
+                  <BrandLockup compact />
+                </SheetHeader>
+
+                <div className="space-y-6 px-5 py-5">
+                  <div className="space-y-2">
+                    {headerNavigationItems.map((item) => (
+                      <Button
+                        key={item.to}
+                        asChild
+                        variant={
+                          isSitePathActive(pathname, item) ? 'secondary' : 'ghost'
+                        }
+                        className="w-full justify-start"
+                        onClick={() => setIsMobileNavOpen(false)}
+                      >
+                        <Link to={item.to}>{item.label}</Link>
+                      </Button>
+                    ))}
+                  </div>
+
+                  <div className="space-y-2 rounded-lg border border-border bg-muted/40 p-3">
+                    <ThemeToggle showLabel className="w-full justify-start" />
+
+                    {isAuthenticated && session ? (
+                      <>
+                        <p className="text-xs text-muted-foreground">
+                          Signed in as
+                          <span className="mt-0.5 block font-medium text-foreground">
+                            {session.user.email}
+                          </span>
+                        </p>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          asChild
+                        >
+                          <Link
+                            to={primaryDestination}
+                            onClick={() => setIsMobileNavOpen(false)}
+                          >
+                            <Shield className="size-4" />
+                            {primaryLabel}
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                          onClick={() => {
+                            setIsMobileNavOpen(false)
+                            void handleSignOut()
+                          }}
+                          disabled={isSigningOut}
+                        >
+                          {isSigningOut ? (
+                            <Loader2 className="size-4 animate-spin" />
+                          ) : (
+                            <LogOut className="size-4" />
+                          )}
+                          {isSigningOut ? 'Signing out...' : 'Log Out'}
+                        </Button>
+                      </>
+                    ) : (
+                      <div className="space-y-2">
+                        <Button variant="outline" className="w-full" asChild>
+                          <Link
+                            to="/login"
+                            search={{ redirect: undefined }}
+                            onClick={() => setIsMobileNavOpen(false)}
+                          >
+                            Client Login
+                          </Link>
+                        </Button>
+                        <Button className="w-full" asChild>
+                          <Link
+                            to={primaryDestination}
+                            onClick={() => setIsMobileNavOpen(false)}
+                          >
+                            {primaryLabel}
+                            <ArrowRight className="size-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

@@ -18,3 +18,5 @@
 - `docs/reference/lib-utils.md`
 - `docs/reference/lib-errors.md`
 - `docs/reference/feature-auth.md`
+- `docs/reference/ui-component-inventory.md`
+- `docs/reference/component-composition-sets.md`

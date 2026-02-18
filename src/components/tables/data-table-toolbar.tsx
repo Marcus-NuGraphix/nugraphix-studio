@@ -1,14 +1,16 @@
-import { XIcon } from 'lucide-react'
+import { SlidersHorizontal, XIcon } from 'lucide-react'
 import type { Table } from '@tanstack/react-table'
 import type { ReactNode } from 'react'
 
+import { SearchInput } from '@/components/forms/search-input'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 type DataTableToolbarProps<TData> = {
   table: Table<TData>
   searchColumnId?: string
   searchPlaceholder?: string
+  className?: string
   children?: ReactNode
 }
 
@@ -16,6 +18,7 @@ function DataTableToolbar<TData>({
   table,
   searchColumnId,
   searchPlaceholder = 'Search...',
+  className,
   children,
 }: DataTableToolbarProps<TData>) {
   const searchColumn = searchColumnId
@@ -26,16 +29,20 @@ function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div className="flex flex-col gap-2 py-2 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      className={cn(
+        'flex flex-col gap-2 py-2 sm:flex-row sm:items-center sm:justify-between',
+        className,
+      )}
+    >
       <div className="flex flex-1 flex-wrap items-center gap-2">
         {searchColumn ? (
-          <Input
-            placeholder={searchPlaceholder}
+          <SearchInput
             value={typeof searchValue === 'string' ? searchValue : ''}
-            onChange={(event) =>
-              searchColumn.setFilterValue(event.target.value)
-            }
-            className="h-9 w-full max-w-xs border-input bg-background"
+            onValueChange={(value) => searchColumn.setFilterValue(value)}
+            onClear={() => searchColumn.setFilterValue('')}
+            placeholder={searchPlaceholder}
+            containerClassName="max-w-xs"
           />
         ) : null}
 
@@ -44,8 +51,9 @@ function DataTableToolbar<TData>({
             type="button"
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
-            className="h-9 px-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground"
+            className="h-9 px-2 text-xs text-muted-foreground hover:text-foreground sm:text-sm"
           >
+            <SlidersHorizontal className="size-3.5" />
             Reset
             <XIcon className="ml-1 size-3.5" />
           </Button>

@@ -163,6 +163,17 @@ src/
 
   components/
     ui/                          # shadcn/ui components
+    layout/                      # App-level layout composition primitives
+      app-shell.tsx
+      top-bar.tsx
+      page-header.tsx
+    metrics/
+      stat-card.tsx              # KPI/stat display card
+    forms/
+      search-input.tsx           # Search field composition
+      tag-picker.tsx             # Controlled tag entry composition
+    editor/
+      editor-shell.tsx           # Shared editor control + layout shell
     theme/                       # Theme system (SSR-safe, cookie-based)
       constants.ts               # Cookie name, max-age, media query
       theme-script.ts            # Blocking inline script (prevents FOWT)

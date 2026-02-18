@@ -1,6 +1,7 @@
 import type { BrandConfig } from '@/components/brand/brand.types'
 
 export const brandConfig: BrandConfig = {
+  legalName: 'Nu Graphix (Pty) Ltd',
   companyName: 'Nu Graphix',
   siteName: 'Nu Graphix',
   productName: 'Nu Graphix Studio',
@@ -20,8 +21,6 @@ export const brandConfig: BrandConfig = {
   social: {
     x: 'https://x.com/nugraphix',
     linkedin: 'https://linkedin.com/company/nugraphix',
-    facebook: '',
-    instagram: '',
     github: 'https://github.com/Marcus-NuGraphix',
   },
 

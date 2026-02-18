@@ -1,10 +1,12 @@
-export interface BrandSocialLinks {
-  x: string
-  linkedin: string
-  facebook: string
-  instagram: string
-  github: string
-}
+export type BrandSocialChannel =
+  | 'x'
+  | 'linkedin'
+  | 'facebook'
+  | 'instagram'
+  | 'github'
+  | 'youtube'
+
+export type BrandSocialLinks = Partial<Record<BrandSocialChannel, string>>
 
 export interface BrandAssets {
   logoPath: string
@@ -28,6 +30,7 @@ export interface BrandEmailConfig {
 }
 
 export interface BrandConfig {
+  legalName?: string
   companyName: string
   siteName: string
   productName: string

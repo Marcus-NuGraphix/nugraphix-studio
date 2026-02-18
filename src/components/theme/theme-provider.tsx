@@ -1,55 +1,68 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import {
   COOKIE_MAX_AGE_SECONDS,
   DARK_MODE_MEDIA_QUERY,
   THEME_COOKIE_NAME,
 } from './constants'
+import type { ReactNode } from 'react'
+import type { ResolvedTheme, Theme } from './constants'
 
-export type Theme = 'dark' | 'light' | 'system'
-
-type ThemeProviderState = {
+export type ThemeContextValue = {
   theme: Theme
-  resolvedTheme: 'dark' | 'light'
+  resolvedTheme: ResolvedTheme
   setTheme: (theme: Theme) => void
 }
 
-export const ThemeContext = createContext<ThemeProviderState | undefined>(
+export const ThemeContext = createContext<ThemeContextValue | undefined>(
   undefined,
 )
+ThemeContext.displayName = 'ThemeContext'
 
 function getThemeFromCookie(): Theme | null {
   if (typeof document === 'undefined') return null
   const match = document.cookie.match(
     new RegExp(`(^| )${THEME_COOKIE_NAME}=([^;]+)`),
   )
-  return match ? (match[2] as Theme) : null
+  const value = match ? decodeURIComponent(match[2]) : null
+  return value === 'light' || value === 'dark' || value === 'system'
+    ? value
+    : null
 }
 
 function persistTheme(value: Theme) {
   if (typeof document === 'undefined') return
-  document.cookie = `${THEME_COOKIE_NAME}=${value};max-age=${COOKIE_MAX_AGE_SECONDS};path=/;SameSite=Lax`
+  const secure = window.location.protocol === 'https:' ? ';Secure' : ''
+  document.cookie = `${THEME_COOKIE_NAME}=${encodeURIComponent(value)};max-age=${COOKIE_MAX_AGE_SECONDS};path=/;SameSite=Lax${secure}`
 }
 
-function getSystemTheme(): 'dark' | 'light' {
+function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') return 'light'
   return window.matchMedia(DARK_MODE_MEDIA_QUERY).matches ? 'dark' : 'light'
 }
 
-function resolveTheme(theme: Theme): 'dark' | 'light' {
+function resolveTheme(theme: Theme): ResolvedTheme {
   return theme === 'system' ? getSystemTheme() : theme
 }
 
-function applyThemeToDOM(resolved: 'dark' | 'light') {
+function applyThemeToDOM(resolved: ResolvedTheme) {
+  if (typeof document === 'undefined') return
   const root = document.documentElement
   root.classList.remove('light', 'dark')
   root.classList.add(resolved)
+  root.style.colorScheme = resolved
 }
 
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
 }: {
-  children: React.ReactNode
+  children: ReactNode
   defaultTheme?: Theme
 }) {
   // Initialize from cookie immediately — the blocking script has already
@@ -57,16 +70,13 @@ export function ThemeProvider({
   const [theme, setThemeState] = useState<Theme>(
     () => getThemeFromCookie() ?? defaultTheme,
   )
-  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>(() =>
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
     resolveTheme(theme),
   )
 
   const setTheme = useCallback((next: Theme) => {
     persistTheme(next)
     setThemeState(next)
-    const resolved = resolveTheme(next)
-    setResolvedTheme(resolved)
-    applyThemeToDOM(resolved)
   }, [])
 
   // Apply theme on mount and when theme changes
@@ -78,7 +88,7 @@ export function ThemeProvider({
 
   // Listen for OS theme changes when in system mode
   useEffect(() => {
-    if (theme !== 'system') return
+    if (theme !== 'system' || typeof window === 'undefined') return
 
     const mediaQuery = window.matchMedia(DARK_MODE_MEDIA_QUERY)
     const handleChange = () => {
@@ -87,8 +97,13 @@ export function ThemeProvider({
       applyThemeToDOM(resolved)
     }
 
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleChange)
+      return () => mediaQuery.removeEventListener('change', handleChange)
+    }
+
+    mediaQuery.addListener(handleChange)
+    return () => mediaQuery.removeListener(handleChange)
   }, [theme])
 
   const value = useMemo(

@@ -1,0 +1,5 @@
+export * from '@/components/theme/constants'
+export { ThemeProvider } from '@/components/theme/theme-provider'
+export { ThemeToggle } from '@/components/theme/theme-toggle'
+export { themeScript } from '@/components/theme/theme-script'
+export { useTheme } from '@/components/theme/use-theme'

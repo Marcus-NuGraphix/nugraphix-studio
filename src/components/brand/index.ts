@@ -7,6 +7,7 @@ export {
 export { BrandProvider } from '@/components/brand/brand-provider'
 export { useBrand } from '@/components/brand/use-brand'
 export { BrandLogo } from '@/components/brand/brand-logo'
+export { BrandLockup } from '@/components/brand/brand-lockup'
 export { BrandWordmark } from '@/components/brand/brand-wordmark'
 export { BrandBadge } from '@/components/brand/brand-badge'
 export type {
@@ -14,6 +15,7 @@ export type {
   BrandConfig,
   BrandEmailConfig,
   BrandRssConfig,
+  BrandSocialChannel,
   BrandSeoConfig,
   BrandSocialLinks,
 } from '@/components/brand/brand.types'

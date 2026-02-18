@@ -1,0 +1,69 @@
+# Shared Component Composition Sets
+
+Last updated: 2026-02-18
+
+This reference defines the first composition-layer component sets built on top
+of `src/components/ui` primitives.
+
+## Purpose
+
+Keep `routes/` and `features/` focused on domain logic by centralizing shared,
+reusable view composition in `src/components/*`.
+
+## New Component Sets
+
+### 1. Layout Set (`src/components/layout`)
+
+- `app-shell.tsx`: shared shell wrapper for sidebar + topbar + content areas.
+- `top-bar.tsx`: responsive top bar with title/subtitle/slot regions.
+- `page-header.tsx`: standardized page title/description/action header block.
+
+Primary dependencies:
+
+- `@/components/ui/sidebar`
+- `@/hooks/use-mobile`
+- `@/lib/utils` (`cn`)
+
+### 2. Metrics Set (`src/components/metrics`)
+
+- `stat-card.tsx`: reusable KPI/stat surface with optional trend and icon.
+
+Primary dependencies:
+
+- `@/components/ui/card`
+- tokenized tone mapping based on ADR-0014 (`accent`, `destructive`, `muted`)
+
+### 3. Forms Set (`src/components/forms`)
+
+- `search-input.tsx`: normalized search field with loading/clear behavior.
+- `tag-picker.tsx`: controlled tag input with keyboard support and dedupe.
+
+Primary dependencies:
+
+- `@/components/ui/input-group`, `@/components/ui/input`, `@/components/ui/badge`
+- `@/hooks/use-mobile`
+- `@/lib/utils` (`cn`, `generate-slug`)
+
+### 4. Editor Set (`src/components/editor`)
+
+- `editor-shell.tsx`: standardized editor control block (title/slug/status + actions)
+  and content/metadata panel layout.
+
+Primary dependencies:
+
+- `@/components/ui/card`, `@/components/ui/select`, `@/components/ui/input`
+- `@/hooks/use-mobile`
+- `@/lib/utils` (`cn`, `generate-slug`)
+
+## Integration Order (Recommended)
+
+1. Admin CMS routes (`/admin/content/posts/*`) adopt `EditorShell` + `PageHeader`.
+2. Admin dashboard/home routes adopt `StatCard` + `AppShell`/`TopBar` patterns.
+3. Feature screens with list filtering adopt `SearchInput`.
+4. Content taxonomy/tag workflows adopt `TagPicker`.
+
+## Guardrails
+
+- Keep business logic in feature modules/server functions, not shared components.
+- Use token classes only (`bg-card`, `text-muted-foreground`, etc.).
+- Prefer composition over introducing new primitives where existing `ui/*` covers the need.

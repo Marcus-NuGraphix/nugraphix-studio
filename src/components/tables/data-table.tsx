@@ -12,9 +12,11 @@ import type {
   ColumnFiltersState,
   PaginationState,
   SortingState,
+  Table as TanStackTable,
   VisibilityState,
 } from '@tanstack/react-table'
 
+import { EmptyState } from '@/components/empties/empty-state'
 import { DataTablePagination } from '@/components/tables/data-table-pagination'
 import {
   Table,
@@ -31,10 +33,12 @@ type DataTableProps<TData, TValue> = {
   data: Array<TData>
   className?: string
   tableClassName?: string
-  toolbar?: React.ReactNode
+  toolbar?: React.ReactNode | ((table: TanStackTable<TData>) => React.ReactNode)
   emptyState?: React.ReactNode
   initialPageSize?: number
   enablePagination?: boolean
+  enableRowSelection?: boolean
+  getRowClassName?: (row: TData) => string | undefined
   onRowClick?: (row: TData) => void
 }
 
@@ -47,6 +51,8 @@ function DataTable<TData, TValue>({
   emptyState,
   initialPageSize = 10,
   enablePagination = true,
+  enableRowSelection = false,
+  getRowClassName,
   onRowClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -76,6 +82,7 @@ function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
+    enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -86,7 +93,7 @@ function DataTable<TData, TValue>({
 
   return (
     <div className={cn('space-y-3', className)}>
-      {toolbar}
+      {typeof toolbar === 'function' ? toolbar(table) : toolbar}
 
       <div className="overflow-hidden rounded-lg border border-border bg-card">
         <Table className={cn('bg-card', tableClassName)}>
@@ -116,6 +123,7 @@ function DataTable<TData, TValue>({
                   className={cn(
                     onRowClick ? 'cursor-pointer' : null,
                     onRowClick ? 'hover:bg-muted/50' : null,
+                    getRowClassName?.(row.original),
                   )}
                   onClick={
                     onRowClick ? () => onRowClick(row.original) : undefined
@@ -134,14 +142,10 @@ function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={Math.max(table.getVisibleLeafColumns().length, 1)}
                   className="h-24 text-center"
                 >
-                  {emptyState ?? (
-                    <span className="text-sm text-muted-foreground">
-                      No results found.
-                    </span>
-                  )}
+                  {emptyState ?? <EmptyState title="No results found" />}
                 </TableCell>
               </TableRow>
             )}
