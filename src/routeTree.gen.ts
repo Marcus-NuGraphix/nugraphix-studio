@@ -18,11 +18,14 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
 import { Route as AdminKbIndexRouteImport } from './routes/admin/kb/index'
+import { Route as AdminEmailIndexRouteImport } from './routes/admin/email/index'
 import { Route as AdminDocsIndexRouteImport } from './routes/admin/docs/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 import { Route as AdminContentIndexRouteImport } from './routes/admin/content/index'
+import { Route as AdminContactsIndexRouteImport } from './routes/admin/contacts/index'
 import { Route as AdminComponentsIndexRouteImport } from './routes/admin/components/index'
 import { Route as AdminAccountIndexRouteImport } from './routes/admin/account/index'
+import { Route as PublicUnsubscribeIndexRouteImport } from './routes/_public/unsubscribe/index'
 import { Route as PublicServicesIndexRouteImport } from './routes/_public/services/index'
 import { Route as PublicPortfolioIndexRouteImport } from './routes/_public/portfolio/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
@@ -39,6 +42,7 @@ import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$user
 import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
 import { Route as PublicPortfolioSlugRouteImport } from './routes/_public/portfolio/$slug'
 import { Route as PublicBlogSlugRouteImport } from './routes/_public/blog/$slug'
+import { Route as AuthAccountNotificationsRouteImport } from './routes/_auth/account/notifications'
 import { Route as AdminDocsPhasesIndexRouteImport } from './routes/admin/docs/phases/index'
 import { Route as AdminDocsArchitectureIndexRouteImport } from './routes/admin/docs/architecture/index'
 import { Route as AdminDocsAdrIndexRouteImport } from './routes/admin/docs/adr/index'
@@ -46,6 +50,7 @@ import { Route as AdminContentPostsIndexRouteImport } from './routes/admin/conte
 import { Route as AdminComponentsUiIndexRouteImport } from './routes/admin/components/ui/index'
 import { Route as AdminComponentsNavigationIndexRouteImport } from './routes/admin/components/navigation/index'
 import { Route as AdminComponentsMarketingIndexRouteImport } from './routes/admin/components/marketing/index'
+import { Route as ApiEmailWebhooksResendRouteImport } from './routes/api/email/webhooks/resend'
 import { Route as AdminContentPostsNewRouteImport } from './routes/admin/content/posts/new'
 import { Route as AdminContentPostsIdRouteImport } from './routes/admin/content/posts/$id'
 
@@ -91,6 +96,11 @@ const AdminKbIndexRoute = AdminKbIndexRouteImport.update({
   path: '/kb/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminEmailIndexRoute = AdminEmailIndexRouteImport.update({
+  id: '/email/',
+  path: '/email/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminDocsIndexRoute = AdminDocsIndexRouteImport.update({
   id: '/docs/',
   path: '/docs/',
@@ -106,6 +116,11 @@ const AdminContentIndexRoute = AdminContentIndexRouteImport.update({
   path: '/content/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminContactsIndexRoute = AdminContactsIndexRouteImport.update({
+  id: '/contacts/',
+  path: '/contacts/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminComponentsIndexRoute = AdminComponentsIndexRouteImport.update({
   id: '/components/',
   path: '/components/',
@@ -115,6 +130,11 @@ const AdminAccountIndexRoute = AdminAccountIndexRouteImport.update({
   id: '/account/',
   path: '/account/',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const PublicUnsubscribeIndexRoute = PublicUnsubscribeIndexRouteImport.update({
+  id: '/unsubscribe/',
+  path: '/unsubscribe/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicServicesIndexRoute = PublicServicesIndexRouteImport.update({
   id: '/services/',
@@ -196,6 +216,12 @@ const PublicBlogSlugRoute = PublicBlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => PublicRouteRoute,
 } as any)
+const AuthAccountNotificationsRoute =
+  AuthAccountNotificationsRouteImport.update({
+    id: '/account/notifications',
+    path: '/account/notifications',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 const AdminDocsPhasesIndexRoute = AdminDocsPhasesIndexRouteImport.update({
   id: '/docs/phases/',
   path: '/docs/phases/',
@@ -234,6 +260,11 @@ const AdminComponentsMarketingIndexRoute =
     path: '/components/marketing/',
     getParentRoute: () => AdminRouteRoute,
   } as any)
+const ApiEmailWebhooksResendRoute = ApiEmailWebhooksResendRouteImport.update({
+  id: '/api/email/webhooks/resend',
+  path: '/api/email/webhooks/resend',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminContentPostsNewRoute = AdminContentPostsNewRouteImport.update({
   id: '/content/posts/new',
   path: '/content/posts/new',
@@ -249,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
+  '/account/notifications': typeof AuthAccountNotificationsRoute
   '/blog/$slug': typeof PublicBlogSlugRoute
   '/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
@@ -265,16 +297,20 @@ export interface FileRoutesByFullPath {
   '/contact/': typeof PublicContactIndexRoute
   '/portfolio/': typeof PublicPortfolioIndexRoute
   '/services/': typeof PublicServicesIndexRoute
+  '/unsubscribe/': typeof PublicUnsubscribeIndexRoute
   '/admin/account/': typeof AdminAccountIndexRoute
   '/admin/components/': typeof AdminComponentsIndexRoute
+  '/admin/contacts/': typeof AdminContactsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
   '/admin/docs/': typeof AdminDocsIndexRoute
+  '/admin/email/': typeof AdminEmailIndexRoute
   '/admin/kb/': typeof AdminKbIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
   '/admin/components/marketing/': typeof AdminComponentsMarketingIndexRoute
   '/admin/components/navigation/': typeof AdminComponentsNavigationIndexRoute
   '/admin/components/ui/': typeof AdminComponentsUiIndexRoute
@@ -286,6 +322,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/account/notifications': typeof AuthAccountNotificationsRoute
   '/blog/$slug': typeof PublicBlogSlugRoute
   '/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
@@ -302,16 +339,20 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactIndexRoute
   '/portfolio': typeof PublicPortfolioIndexRoute
   '/services': typeof PublicServicesIndexRoute
+  '/unsubscribe': typeof PublicUnsubscribeIndexRoute
   '/admin/account': typeof AdminAccountIndexRoute
   '/admin/components': typeof AdminComponentsIndexRoute
+  '/admin/contacts': typeof AdminContactsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
   '/admin/docs': typeof AdminDocsIndexRoute
+  '/admin/email': typeof AdminEmailIndexRoute
   '/admin/kb': typeof AdminKbIndexRoute
   '/admin/settings': typeof AdminSettingsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
   '/admin/components/marketing': typeof AdminComponentsMarketingIndexRoute
   '/admin/components/navigation': typeof AdminComponentsNavigationIndexRoute
   '/admin/components/ui': typeof AdminComponentsUiIndexRoute
@@ -328,6 +369,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/_public/': typeof PublicIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/_auth/account/notifications': typeof AuthAccountNotificationsRoute
   '/_public/blog/$slug': typeof PublicBlogSlugRoute
   '/_public/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
@@ -344,16 +386,20 @@ export interface FileRoutesById {
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/portfolio/': typeof PublicPortfolioIndexRoute
   '/_public/services/': typeof PublicServicesIndexRoute
+  '/_public/unsubscribe/': typeof PublicUnsubscribeIndexRoute
   '/admin/account/': typeof AdminAccountIndexRoute
   '/admin/components/': typeof AdminComponentsIndexRoute
+  '/admin/contacts/': typeof AdminContactsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
   '/admin/docs/': typeof AdminDocsIndexRoute
+  '/admin/email/': typeof AdminEmailIndexRoute
   '/admin/kb/': typeof AdminKbIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/api/email/webhooks/resend': typeof ApiEmailWebhooksResendRoute
   '/admin/components/marketing/': typeof AdminComponentsMarketingIndexRoute
   '/admin/components/navigation/': typeof AdminComponentsNavigationIndexRoute
   '/admin/components/ui/': typeof AdminComponentsUiIndexRoute
@@ -368,6 +414,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/'
+    | '/account/notifications'
     | '/blog/$slug'
     | '/portfolio/$slug'
     | '/admin/kb/$slug'
@@ -384,16 +431,20 @@ export interface FileRouteTypes {
     | '/contact/'
     | '/portfolio/'
     | '/services/'
+    | '/unsubscribe/'
     | '/admin/account/'
     | '/admin/components/'
+    | '/admin/contacts/'
     | '/admin/content/'
     | '/admin/dashboard/'
     | '/admin/docs/'
+    | '/admin/email/'
     | '/admin/kb/'
     | '/admin/settings/'
     | '/admin/users/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/api/email/webhooks/resend'
     | '/admin/components/marketing/'
     | '/admin/components/navigation/'
     | '/admin/components/ui/'
@@ -405,6 +456,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/account/notifications'
     | '/blog/$slug'
     | '/portfolio/$slug'
     | '/admin/kb/$slug'
@@ -421,16 +473,20 @@ export interface FileRouteTypes {
     | '/contact'
     | '/portfolio'
     | '/services'
+    | '/unsubscribe'
     | '/admin/account'
     | '/admin/components'
+    | '/admin/contacts'
     | '/admin/content'
     | '/admin/dashboard'
     | '/admin/docs'
+    | '/admin/email'
     | '/admin/kb'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/api/email/webhooks/resend'
     | '/admin/components/marketing'
     | '/admin/components/navigation'
     | '/admin/components/ui'
@@ -446,6 +502,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/_public/'
     | '/admin/'
+    | '/_auth/account/notifications'
     | '/_public/blog/$slug'
     | '/_public/portfolio/$slug'
     | '/admin/kb/$slug'
@@ -462,16 +519,20 @@ export interface FileRouteTypes {
     | '/_public/contact/'
     | '/_public/portfolio/'
     | '/_public/services/'
+    | '/_public/unsubscribe/'
     | '/admin/account/'
     | '/admin/components/'
+    | '/admin/contacts/'
     | '/admin/content/'
     | '/admin/dashboard/'
     | '/admin/docs/'
+    | '/admin/email/'
     | '/admin/kb/'
     | '/admin/settings/'
     | '/admin/users/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/api/email/webhooks/resend'
     | '/admin/components/marketing/'
     | '/admin/components/navigation/'
     | '/admin/components/ui/'
@@ -487,6 +548,7 @@ export interface RootRouteChildren {
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiEmailWebhooksResendRoute: typeof ApiEmailWebhooksResendRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -554,6 +616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKbIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/email/': {
+      id: '/admin/email/'
+      path: '/email'
+      fullPath: '/admin/email/'
+      preLoaderRoute: typeof AdminEmailIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/docs/': {
       id: '/admin/docs/'
       path: '/docs'
@@ -575,6 +644,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContentIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/contacts/': {
+      id: '/admin/contacts/'
+      path: '/contacts'
+      fullPath: '/admin/contacts/'
+      preLoaderRoute: typeof AdminContactsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/components/': {
       id: '/admin/components/'
       path: '/components'
@@ -588,6 +664,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/account/'
       preLoaderRoute: typeof AdminAccountIndexRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/_public/unsubscribe/': {
+      id: '/_public/unsubscribe/'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe/'
+      preLoaderRoute: typeof PublicUnsubscribeIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_public/services/': {
       id: '/_public/services/'
@@ -701,6 +784,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicBlogSlugRouteImport
       parentRoute: typeof PublicRouteRoute
     }
+    '/_auth/account/notifications': {
+      id: '/_auth/account/notifications'
+      path: '/account/notifications'
+      fullPath: '/account/notifications'
+      preLoaderRoute: typeof AuthAccountNotificationsRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/admin/docs/phases/': {
       id: '/admin/docs/phases/'
       path: '/docs/phases'
@@ -750,6 +840,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminComponentsMarketingIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/api/email/webhooks/resend': {
+      id: '/api/email/webhooks/resend'
+      path: '/api/email/webhooks/resend'
+      fullPath: '/api/email/webhooks/resend'
+      preLoaderRoute: typeof ApiEmailWebhooksResendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/content/posts/new': {
       id: '/admin/content/posts/new'
       path: '/content/posts/new'
@@ -768,6 +865,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteRouteChildren {
+  AuthAccountNotificationsRoute: typeof AuthAccountNotificationsRoute
   AuthAccountIndexRoute: typeof AuthAccountIndexRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
@@ -776,6 +874,7 @@ interface AuthRouteRouteChildren {
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthAccountNotificationsRoute: AuthAccountNotificationsRoute,
   AuthAccountIndexRoute: AuthAccountIndexRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
@@ -808,6 +907,7 @@ interface PublicRouteRouteChildren {
   PublicContactIndexRoute: typeof PublicContactIndexRoute
   PublicPortfolioIndexRoute: typeof PublicPortfolioIndexRoute
   PublicServicesIndexRoute: typeof PublicServicesIndexRoute
+  PublicUnsubscribeIndexRoute: typeof PublicUnsubscribeIndexRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
@@ -819,6 +919,7 @@ const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicContactIndexRoute: PublicContactIndexRoute,
   PublicPortfolioIndexRoute: PublicPortfolioIndexRoute,
   PublicServicesIndexRoute: PublicServicesIndexRoute,
+  PublicUnsubscribeIndexRoute: PublicUnsubscribeIndexRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
@@ -831,9 +932,11 @@ interface AdminRouteRouteChildren {
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
   AdminAccountIndexRoute: typeof AdminAccountIndexRoute
   AdminComponentsIndexRoute: typeof AdminComponentsIndexRoute
+  AdminContactsIndexRoute: typeof AdminContactsIndexRoute
   AdminContentIndexRoute: typeof AdminContentIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
   AdminDocsIndexRoute: typeof AdminDocsIndexRoute
+  AdminEmailIndexRoute: typeof AdminEmailIndexRoute
   AdminKbIndexRoute: typeof AdminKbIndexRoute
   AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
@@ -854,9 +957,11 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
   AdminAccountIndexRoute: AdminAccountIndexRoute,
   AdminComponentsIndexRoute: AdminComponentsIndexRoute,
+  AdminContactsIndexRoute: AdminContactsIndexRoute,
   AdminContentIndexRoute: AdminContentIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
   AdminDocsIndexRoute: AdminDocsIndexRoute,
+  AdminEmailIndexRoute: AdminEmailIndexRoute,
   AdminKbIndexRoute: AdminKbIndexRoute,
   AdminSettingsIndexRoute: AdminSettingsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
@@ -881,6 +986,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicRouteRoute: PublicRouteRouteWithChildren,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiEmailWebhooksResendRoute: ApiEmailWebhooksResendRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

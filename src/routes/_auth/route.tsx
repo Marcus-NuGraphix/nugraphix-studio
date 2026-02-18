@@ -18,7 +18,8 @@ export const Route = createFileRoute('/_auth')({
 
 function RouteComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname })
-  const isAccountRoute = pathname === '/account'
+  const isAccountRoute =
+    pathname === '/account' || pathname.startsWith('/account/')
 
   return (
     <main className="min-h-screen bg-background text-foreground">

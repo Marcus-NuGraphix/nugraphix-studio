@@ -4,7 +4,9 @@ import {
   Component,
   FileStack,
   FileText,
+  Inbox,
   LayoutDashboard,
+  Mail,
   Milestone,
   Navigation,
   PanelsTopLeft,
@@ -26,6 +28,8 @@ export type AdminStaticRoutePath =
   | '/admin/users'
   | '/admin/account'
   | '/admin/settings'
+  | '/admin/contacts'
+  | '/admin/email'
   | '/admin/docs'
   | '/admin/docs/architecture'
   | '/admin/docs/adr'
@@ -139,6 +143,18 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         description: 'Accounts, roles, and security activity',
       },
       {
+        title: 'Contacts',
+        to: '/admin/contacts',
+        icon: Inbox,
+        description: 'Inbound lead queue and follow-up ownership',
+      },
+      {
+        title: 'Email',
+        to: '/admin/email',
+        icon: Mail,
+        description: 'Delivery monitoring, retries, and webhook trace',
+      },
+      {
         title: 'Account',
         to: '/admin/account',
         icon: UserCircle2,
@@ -156,6 +172,8 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
 
 export const adminQuickAccessLinks: Array<AdminNavChild> = [
   { title: 'Content', to: '/admin/content' },
+  { title: 'Contacts', to: '/admin/contacts' },
+  { title: 'Email', to: '/admin/email' },
   { title: 'Docs', to: '/admin/docs' },
   { title: 'Components', to: '/admin/components' },
   { title: 'Users', to: '/admin/users' },
@@ -287,9 +305,21 @@ export const adminSectionCards: Array<{
   },
   {
     title: 'Platform Health',
-    description: 'User roles, account security, and configuration controls.',
+    description: 'User roles, lead flow, and configuration controls.',
     icon: Settings,
     to: '/admin/settings',
+  },
+  {
+    title: 'Contact Pipeline',
+    description: 'Lead intake workflow, assignment, and conversion stages.',
+    icon: Inbox,
+    to: '/admin/contacts',
+  },
+  {
+    title: 'Email Operations',
+    description: 'Message lifecycle visibility with retry and event tracing.',
+    icon: Mail,
+    to: '/admin/email',
   },
   {
     title: 'Create New Post',

@@ -88,7 +88,14 @@ export function AccountOverview({
             >
               Open Admin User Detail
             </Link>
-          ) : undefined
+          ) : (
+            <Link
+              to="/account/notifications"
+              className="bg-secondary text-foreground hover:bg-secondary/80 inline-flex h-9 items-center rounded-md px-3 text-sm font-medium"
+            >
+              Email Preferences
+            </Link>
+          )
         }
       />
 

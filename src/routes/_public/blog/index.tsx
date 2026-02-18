@@ -7,6 +7,7 @@ import {
   MarketingHero,
   MarketingSection,
 } from '@/components/marketing'
+import { EmailSubscribeCard } from '@/features/email'
 
 const blogPlaceholders = [
   {
@@ -70,6 +71,24 @@ function BlogIndexPage() {
               />
             </Link>
           ))}
+        </div>
+      </MarketingSection>
+
+      <MarketingSection
+        title="Subscribe for release updates"
+        description="Receive practical system architecture insights and product updates from Nu Graphix."
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <EmailSubscribeCard
+            title="Newsroom Briefing"
+            description="Weekly engineering notes and architecture insights."
+            topic="blog"
+          />
+          <EmailSubscribeCard
+            title="Product Announcements"
+            description="Platform releases, delivery improvements, and capabilities updates."
+            topic="product"
+          />
         </div>
       </MarketingSection>
 

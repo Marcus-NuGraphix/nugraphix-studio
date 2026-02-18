@@ -38,4 +38,5 @@ export { EmailMessagesTable } from '@/features/email/ui/admin/email-messages-tab
 export { EmailOverviewCards } from '@/features/email/ui/admin/email-overview-cards'
 export { EmailDeliveryFunnel } from '@/features/email/ui/admin/email-delivery-funnel'
 export { EmailDetailDrawer } from '@/features/email/ui/admin/email-detail-drawer'
+export { EmailFilters } from '@/features/email/ui/admin/email-filters'
 export { EmailSubscribeCard } from '@/features/email/ui/public/email-subscribe-card'

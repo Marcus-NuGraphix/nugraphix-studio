@@ -86,7 +86,7 @@ export const sendPasswordChangedEmail = async ({
     templateData: {
       name: user.name,
       timestamp,
-      securityUrl: toUrl('/account/security'),
+      securityUrl: toUrl('/account'),
     },
     messageType: 'transactional',
     topic: 'security',
@@ -107,7 +107,7 @@ export const sendSessionsRevokedEmail = async ({
     templateData: {
       name: user.name,
       timestamp,
-      securityUrl: toUrl('/account/sessions'),
+      securityUrl: toUrl('/account'),
     },
     messageType: 'transactional',
     topic: 'security',
@@ -135,7 +135,7 @@ export const sendBlogPublishedEmails = async (post: {
     makePayload: (recipient) => ({
       title: post.title,
       excerpt: post.excerpt,
-      postUrl: toUrl(`/news/${post.slug}`),
+      postUrl: toUrl(`/blog/${post.slug}`),
       manageUrl: toUrl('/account/notifications'),
       unsubscribeUrl: recipient.unsubscribeToken
         ? toUrl(`/unsubscribe?token=${recipient.unsubscribeToken}`)
@@ -165,7 +165,7 @@ export const sendPressPublishedEmails = async (release: {
     makePayload: (recipient) => ({
       title: release.title,
       summary: release.summary,
-      releaseUrl: toUrl(`/news/press/${release.slug}`),
+      releaseUrl: toUrl('/blog'),
       manageUrl: toUrl('/account/notifications'),
       unsubscribeUrl: recipient.unsubscribeToken
         ? toUrl(`/unsubscribe?token=${recipient.unsubscribeToken}`)
