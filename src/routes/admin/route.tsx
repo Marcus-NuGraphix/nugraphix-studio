@@ -1,30 +1,31 @@
-import { Link, Outlet, createFileRoute, redirect } from '@tanstack/react-router'
 import {
-  LayoutDashboard,
-  LibraryBig,
-  Settings,
-  ShieldUser,
-  SquareLibrary,
-  UserCog,
-} from 'lucide-react'
-import { BrandWordmark } from '@/components/brand'
+  Link,
+  Outlet,
+  createFileRoute,
+  redirect,
+  useNavigate,
+  useRouterState,
+} from '@tanstack/react-router'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { AdminSidebar } from '@/components/navigation/admin/admin-sidebar'
+import {
+  adminQuickAccessLinks,
+  getAdminBreadcrumbs,
+  isAdminPathActive,
+} from '@/components/navigation/admin/navigation'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
+import { authClient } from '@/features/auth/client/auth-client'
 import { toSafeRedirectPath } from '@/features/auth/model/redirect'
 import { getOptionalSessionFn } from '@/features/auth/server/session'
-
-const adminNavigation = [
-  {
-    icon: LayoutDashboard,
-    label: 'Dashboard',
-    to: '/admin/dashboard' as const,
-  },
-  { icon: SquareLibrary, label: 'Content Hub', to: '/admin/content' as const },
-  { icon: LibraryBig, label: 'Knowledge Base', to: '/admin/kb' as const },
-  { icon: UserCog, label: 'Users', to: '/admin/users' as const },
-  { icon: ShieldUser, label: 'Docs', to: '/admin/docs' as const },
-  { icon: Settings, label: 'Settings', to: '/admin/settings' as const },
-]
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: async ({ location }) => {
@@ -58,59 +59,109 @@ export const Route = createFileRoute('/admin')({
 
 function AdminRouteComponent() {
   const { user } = Route.useRouteContext()
+  const navigate = useNavigate()
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const breadcrumbs = getAdminBreadcrumbs(pathname)
+
+  const handleSignOut = async () => {
+    if (isSigningOut) {
+      return
+    }
+
+    setIsSigningOut(true)
+
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success('Signed out successfully.')
+          void navigate({ to: '/' })
+        },
+        onError: () => {
+          toast.error('Unable to sign out right now. Please try again.')
+        },
+      },
+    })
+
+    setIsSigningOut(false)
+  }
 
   return (
-    <div className="bg-muted/40 text-foreground min-h-screen">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8">
-        <aside className="border-border bg-card hidden w-72 shrink-0 rounded-2xl border p-4 lg:block">
-          <div className="mb-6 flex items-center justify-between gap-2">
-            <BrandWordmark compact className="text-sm text-foreground" />
-            <span className="rounded-full bg-secondary px-2 py-1 text-[11px] font-medium text-secondary-foreground">
-              Admin
-            </span>
-          </div>
-
-          <nav className="space-y-1">
-            {adminNavigation.map((item) => (
+    <SidebarProvider className="bg-muted/40 text-foreground min-h-screen">
+      <AdminSidebar
+        user={user}
+        isSigningOut={isSigningOut}
+        onSignOut={handleSignOut}
+      />
+      <SidebarInset>
+        <header className="border-border bg-background/95 sticky top-0 z-40 border-b backdrop-blur">
+          <div className="flex h-16 items-center gap-2 px-4 sm:px-6">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-1 data-[orientation=vertical]:h-4"
+            />
+            <nav
+              aria-label="Admin breadcrumbs"
+              className="flex min-w-0 items-center gap-1 text-sm"
+            >
               <Link
-                key={item.to}
-                to={item.to}
-                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                activeProps={{
-                  className:
-                    'bg-primary text-primary-foreground hover:bg-primary',
-                }}
+                to="/admin/dashboard"
+                className="text-muted-foreground truncate hover:text-foreground"
               >
-                <item.icon className="size-4" />
-                {item.label}
+                Admin
               </Link>
-            ))}
-          </nav>
-        </aside>
-
-        <div className="flex min-w-0 flex-1 flex-col gap-4">
-          <header className="border-border bg-card flex items-center justify-between rounded-2xl border p-4">
-            <div className="min-w-0">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                Nu Graphix Studio
-              </p>
-              <p className="truncate text-sm font-medium text-foreground">
-                Signed in as {user.email}
-              </p>
+              {breadcrumbs.map((crumb, index) => (
+                <div
+                  key={`${crumb.label}-${index}`}
+                  className="flex min-w-0 items-center gap-1"
+                >
+                  <span className="text-muted-foreground">/</span>
+                  {crumb.to ? (
+                    <Link
+                      to={crumb.to}
+                      className="text-muted-foreground truncate hover:text-foreground"
+                    >
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="truncate font-medium text-foreground">
+                      {crumb.label}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </nav>
+            <div className="ml-auto hidden items-center gap-1 xl:flex">
+              {adminQuickAccessLinks.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={cn(
+                    'rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
+                    isAdminPathActive(pathname, item.to) &&
+                      'bg-secondary text-foreground',
+                  )}
+                >
+                  {item.title}
+                </Link>
+              ))}
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle />
-              <Button variant="outline" asChild>
+              <Button variant="outline" size="sm" asChild>
                 <Link to="/">View Public Site</Link>
               </Button>
             </div>
-          </header>
+          </div>
+        </header>
 
-          <main className="border-border bg-card min-h-[520px] rounded-2xl border p-6">
+        <main className="flex flex-1 flex-col p-4 sm:p-6">
+          <div className="border-border bg-card min-h-[calc(100vh-7.5rem)] rounded-2xl border p-6">
             <Outlet />
-          </main>
-        </div>
-      </div>
-    </div>
+          </div>
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

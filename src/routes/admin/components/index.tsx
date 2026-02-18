@@ -2,71 +2,73 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/docs/')({
-  component: AdminDocsPage,
+export const Route = createFileRoute('/admin/components/')({
+  component: AdminComponentsPage,
 })
 
-function AdminDocsPage() {
+function AdminComponentsPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Documentation Hub
+          Component Hub
         </h1>
         <p className="text-sm text-muted-foreground">
-          Centralized technical references for architecture, decision records,
-          and phase execution playbooks.
+          Systemized UI inventory for Nu Graphix Studio across primitives,
+          navigation, and marketing blocks.
         </p>
       </header>
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
-            <CardTitle>Architecture</CardTitle>
+            <CardTitle>UI Primitives</CardTitle>
             <CardDescription>
-              Platform structure, boundaries, and implementation standards.
+              Canonical shadcn-based controls under `src/components/ui`.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              to="/admin/docs/architecture"
+              to="/admin/components/ui"
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
-              Open architecture reference
+              Open primitives
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>
         </Card>
+
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
-            <CardTitle>ADRs</CardTitle>
+            <CardTitle>Navigation</CardTitle>
             <CardDescription>
-              Decision history with rationale and implementation impact.
+              Public/admin navigation shells and route access points.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              to="/admin/docs/adr"
+              to="/admin/components/navigation"
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
-              Open ADR index
+              Open navigation set
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>
         </Card>
+
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
-            <CardTitle>Phases</CardTitle>
+            <CardTitle>Marketing</CardTitle>
             <CardDescription>
-              Delivery phase plans and operational implementation checklists.
+              Structured conversion-focused sections for public pages.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              to="/admin/docs/phases"
+              to="/admin/components/marketing"
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
-              Open phase playbooks
+              Open marketing set
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>

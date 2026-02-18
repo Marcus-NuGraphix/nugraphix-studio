@@ -62,6 +62,14 @@ src/
       route.tsx                  # Layout + beforeLoad auth guard
       index.tsx                  # /admin
       dashboard/index.tsx        # /admin/dashboard
+      components/index.tsx       # /admin/components
+      components/ui/index.tsx    # /admin/components/ui
+      components/navigation/index.tsx  # /admin/components/navigation
+      components/marketing/index.tsx   # /admin/components/marketing
+      docs/index.tsx             # /admin/docs
+      docs/architecture/index.tsx  # /admin/docs/architecture
+      docs/adr/index.tsx         # /admin/docs/adr
+      docs/phases/index.tsx      # /admin/docs/phases
       users/index.tsx            # /admin/users
       users/$userId.tsx          # /admin/users/:userId
     api/

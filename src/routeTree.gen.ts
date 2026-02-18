@@ -21,6 +21,7 @@ import { Route as AdminKbIndexRouteImport } from './routes/admin/kb/index'
 import { Route as AdminDocsIndexRouteImport } from './routes/admin/docs/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 import { Route as AdminContentIndexRouteImport } from './routes/admin/content/index'
+import { Route as AdminComponentsIndexRouteImport } from './routes/admin/components/index'
 import { Route as PublicServicesIndexRouteImport } from './routes/_public/services/index'
 import { Route as PublicPortfolioIndexRouteImport } from './routes/_public/portfolio/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
@@ -36,7 +37,13 @@ import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$user
 import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
 import { Route as PublicPortfolioSlugRouteImport } from './routes/_public/portfolio/$slug'
 import { Route as PublicBlogSlugRouteImport } from './routes/_public/blog/$slug'
+import { Route as AdminDocsPhasesIndexRouteImport } from './routes/admin/docs/phases/index'
+import { Route as AdminDocsArchitectureIndexRouteImport } from './routes/admin/docs/architecture/index'
+import { Route as AdminDocsAdrIndexRouteImport } from './routes/admin/docs/adr/index'
 import { Route as AdminContentPostsIndexRouteImport } from './routes/admin/content/posts/index'
+import { Route as AdminComponentsUiIndexRouteImport } from './routes/admin/components/ui/index'
+import { Route as AdminComponentsNavigationIndexRouteImport } from './routes/admin/components/navigation/index'
+import { Route as AdminComponentsMarketingIndexRouteImport } from './routes/admin/components/marketing/index'
 import { Route as AdminContentPostsNewRouteImport } from './routes/admin/content/posts/new'
 import { Route as AdminContentPostsIdRouteImport } from './routes/admin/content/posts/$id'
 
@@ -95,6 +102,11 @@ const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
 const AdminContentIndexRoute = AdminContentIndexRouteImport.update({
   id: '/content/',
   path: '/content/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminComponentsIndexRoute = AdminComponentsIndexRouteImport.update({
+  id: '/components/',
+  path: '/components/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const PublicServicesIndexRoute = PublicServicesIndexRouteImport.update({
@@ -172,11 +184,44 @@ const PublicBlogSlugRoute = PublicBlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => PublicRouteRoute,
 } as any)
+const AdminDocsPhasesIndexRoute = AdminDocsPhasesIndexRouteImport.update({
+  id: '/docs/phases/',
+  path: '/docs/phases/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminDocsArchitectureIndexRoute =
+  AdminDocsArchitectureIndexRouteImport.update({
+    id: '/docs/architecture/',
+    path: '/docs/architecture/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminDocsAdrIndexRoute = AdminDocsAdrIndexRouteImport.update({
+  id: '/docs/adr/',
+  path: '/docs/adr/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminContentPostsIndexRoute = AdminContentPostsIndexRouteImport.update({
   id: '/content/posts/',
   path: '/content/posts/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminComponentsUiIndexRoute = AdminComponentsUiIndexRouteImport.update({
+  id: '/components/ui/',
+  path: '/components/ui/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminComponentsNavigationIndexRoute =
+  AdminComponentsNavigationIndexRouteImport.update({
+    id: '/components/navigation/',
+    path: '/components/navigation/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminComponentsMarketingIndexRoute =
+  AdminComponentsMarketingIndexRouteImport.update({
+    id: '/components/marketing/',
+    path: '/components/marketing/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 const AdminContentPostsNewRoute = AdminContentPostsNewRouteImport.update({
   id: '/content/posts/new',
   path: '/content/posts/new',
@@ -207,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/contact/': typeof PublicContactIndexRoute
   '/portfolio/': typeof PublicPortfolioIndexRoute
   '/services/': typeof PublicServicesIndexRoute
+  '/admin/components/': typeof AdminComponentsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
   '/admin/docs/': typeof AdminDocsIndexRoute
@@ -215,7 +261,13 @@ export interface FileRoutesByFullPath {
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/components/marketing/': typeof AdminComponentsMarketingIndexRoute
+  '/admin/components/navigation/': typeof AdminComponentsNavigationIndexRoute
+  '/admin/components/ui/': typeof AdminComponentsUiIndexRoute
   '/admin/content/posts/': typeof AdminContentPostsIndexRoute
+  '/admin/docs/adr/': typeof AdminDocsAdrIndexRoute
+  '/admin/docs/architecture/': typeof AdminDocsArchitectureIndexRoute
+  '/admin/docs/phases/': typeof AdminDocsPhasesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -235,6 +287,7 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactIndexRoute
   '/portfolio': typeof PublicPortfolioIndexRoute
   '/services': typeof PublicServicesIndexRoute
+  '/admin/components': typeof AdminComponentsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
   '/admin/docs': typeof AdminDocsIndexRoute
@@ -243,7 +296,13 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/components/marketing': typeof AdminComponentsMarketingIndexRoute
+  '/admin/components/navigation': typeof AdminComponentsNavigationIndexRoute
+  '/admin/components/ui': typeof AdminComponentsUiIndexRoute
   '/admin/content/posts': typeof AdminContentPostsIndexRoute
+  '/admin/docs/adr': typeof AdminDocsAdrIndexRoute
+  '/admin/docs/architecture': typeof AdminDocsArchitectureIndexRoute
+  '/admin/docs/phases': typeof AdminDocsPhasesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -268,6 +327,7 @@ export interface FileRoutesById {
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/portfolio/': typeof PublicPortfolioIndexRoute
   '/_public/services/': typeof PublicServicesIndexRoute
+  '/admin/components/': typeof AdminComponentsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
   '/admin/docs/': typeof AdminDocsIndexRoute
@@ -276,7 +336,13 @@ export interface FileRoutesById {
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
   '/admin/content/posts/new': typeof AdminContentPostsNewRoute
+  '/admin/components/marketing/': typeof AdminComponentsMarketingIndexRoute
+  '/admin/components/navigation/': typeof AdminComponentsNavigationIndexRoute
+  '/admin/components/ui/': typeof AdminComponentsUiIndexRoute
   '/admin/content/posts/': typeof AdminContentPostsIndexRoute
+  '/admin/docs/adr/': typeof AdminDocsAdrIndexRoute
+  '/admin/docs/architecture/': typeof AdminDocsArchitectureIndexRoute
+  '/admin/docs/phases/': typeof AdminDocsPhasesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -299,6 +365,7 @@ export interface FileRouteTypes {
     | '/contact/'
     | '/portfolio/'
     | '/services/'
+    | '/admin/components/'
     | '/admin/content/'
     | '/admin/dashboard/'
     | '/admin/docs/'
@@ -307,7 +374,13 @@ export interface FileRouteTypes {
     | '/admin/users/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/admin/components/marketing/'
+    | '/admin/components/navigation/'
+    | '/admin/components/ui/'
     | '/admin/content/posts/'
+    | '/admin/docs/adr/'
+    | '/admin/docs/architecture/'
+    | '/admin/docs/phases/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -327,6 +400,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/portfolio'
     | '/services'
+    | '/admin/components'
     | '/admin/content'
     | '/admin/dashboard'
     | '/admin/docs'
@@ -335,7 +409,13 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/admin/components/marketing'
+    | '/admin/components/navigation'
+    | '/admin/components/ui'
     | '/admin/content/posts'
+    | '/admin/docs/adr'
+    | '/admin/docs/architecture'
+    | '/admin/docs/phases'
   id:
     | '__root__'
     | '/_auth'
@@ -359,6 +439,7 @@ export interface FileRouteTypes {
     | '/_public/contact/'
     | '/_public/portfolio/'
     | '/_public/services/'
+    | '/admin/components/'
     | '/admin/content/'
     | '/admin/dashboard/'
     | '/admin/docs/'
@@ -367,7 +448,13 @@ export interface FileRouteTypes {
     | '/admin/users/'
     | '/admin/content/posts/$id'
     | '/admin/content/posts/new'
+    | '/admin/components/marketing/'
+    | '/admin/components/navigation/'
+    | '/admin/components/ui/'
     | '/admin/content/posts/'
+    | '/admin/docs/adr/'
+    | '/admin/docs/architecture/'
+    | '/admin/docs/phases/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -462,6 +549,13 @@ declare module '@tanstack/react-router' {
       path: '/content'
       fullPath: '/admin/content/'
       preLoaderRoute: typeof AdminContentIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/components/': {
+      id: '/admin/components/'
+      path: '/components'
+      fullPath: '/admin/components/'
+      preLoaderRoute: typeof AdminComponentsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/_public/services/': {
@@ -569,11 +663,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicBlogSlugRouteImport
       parentRoute: typeof PublicRouteRoute
     }
+    '/admin/docs/phases/': {
+      id: '/admin/docs/phases/'
+      path: '/docs/phases'
+      fullPath: '/admin/docs/phases/'
+      preLoaderRoute: typeof AdminDocsPhasesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/docs/architecture/': {
+      id: '/admin/docs/architecture/'
+      path: '/docs/architecture'
+      fullPath: '/admin/docs/architecture/'
+      preLoaderRoute: typeof AdminDocsArchitectureIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/docs/adr/': {
+      id: '/admin/docs/adr/'
+      path: '/docs/adr'
+      fullPath: '/admin/docs/adr/'
+      preLoaderRoute: typeof AdminDocsAdrIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/content/posts/': {
       id: '/admin/content/posts/'
       path: '/content/posts'
       fullPath: '/admin/content/posts/'
       preLoaderRoute: typeof AdminContentPostsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/components/ui/': {
+      id: '/admin/components/ui/'
+      path: '/components/ui'
+      fullPath: '/admin/components/ui/'
+      preLoaderRoute: typeof AdminComponentsUiIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/components/navigation/': {
+      id: '/admin/components/navigation/'
+      path: '/components/navigation'
+      fullPath: '/admin/components/navigation/'
+      preLoaderRoute: typeof AdminComponentsNavigationIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/components/marketing/': {
+      id: '/admin/components/marketing/'
+      path: '/components/marketing'
+      fullPath: '/admin/components/marketing/'
+      preLoaderRoute: typeof AdminComponentsMarketingIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/content/posts/new': {
@@ -653,6 +789,7 @@ interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminKbSlugRoute: typeof AdminKbSlugRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminComponentsIndexRoute: typeof AdminComponentsIndexRoute
   AdminContentIndexRoute: typeof AdminContentIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
   AdminDocsIndexRoute: typeof AdminDocsIndexRoute
@@ -661,13 +798,20 @@ interface AdminRouteRouteChildren {
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminContentPostsIdRoute: typeof AdminContentPostsIdRoute
   AdminContentPostsNewRoute: typeof AdminContentPostsNewRoute
+  AdminComponentsMarketingIndexRoute: typeof AdminComponentsMarketingIndexRoute
+  AdminComponentsNavigationIndexRoute: typeof AdminComponentsNavigationIndexRoute
+  AdminComponentsUiIndexRoute: typeof AdminComponentsUiIndexRoute
   AdminContentPostsIndexRoute: typeof AdminContentPostsIndexRoute
+  AdminDocsAdrIndexRoute: typeof AdminDocsAdrIndexRoute
+  AdminDocsArchitectureIndexRoute: typeof AdminDocsArchitectureIndexRoute
+  AdminDocsPhasesIndexRoute: typeof AdminDocsPhasesIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminKbSlugRoute: AdminKbSlugRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminComponentsIndexRoute: AdminComponentsIndexRoute,
   AdminContentIndexRoute: AdminContentIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
   AdminDocsIndexRoute: AdminDocsIndexRoute,
@@ -676,7 +820,13 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminContentPostsIdRoute: AdminContentPostsIdRoute,
   AdminContentPostsNewRoute: AdminContentPostsNewRoute,
+  AdminComponentsMarketingIndexRoute: AdminComponentsMarketingIndexRoute,
+  AdminComponentsNavigationIndexRoute: AdminComponentsNavigationIndexRoute,
+  AdminComponentsUiIndexRoute: AdminComponentsUiIndexRoute,
   AdminContentPostsIndexRoute: AdminContentPostsIndexRoute,
+  AdminDocsAdrIndexRoute: AdminDocsAdrIndexRoute,
+  AdminDocsArchitectureIndexRoute: AdminDocsArchitectureIndexRoute,
+  AdminDocsPhasesIndexRoute: AdminDocsPhasesIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

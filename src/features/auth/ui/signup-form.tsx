@@ -22,6 +22,10 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 import { authClient } from '@/features/auth/client/auth-client'
+import {
+  resolvePostAuthRedirect,
+  toUserRole,
+} from '@/features/auth/model/post-auth'
 import { toSafeAuthErrorMessage } from '@/features/auth/model/safe-errors'
 import { signupSchema } from '@/features/auth/schemas/auth'
 import {
@@ -44,7 +48,7 @@ interface SignupFormProps {
   redirectTo?: string
 }
 
-export function SignupForm({ redirectTo = '/' }: SignupFormProps) {
+export function SignupForm({ redirectTo }: SignupFormProps) {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -69,8 +73,24 @@ export function SignupForm({ redirectTo = '/' }: SignupFormProps) {
         email: value.email,
         password: value.password,
         fetchOptions: {
-          onSuccess: () => {
-            void navigate({ to: redirectTo })
+          onSuccess: async () => {
+            const session = await authClient.getSession()
+            const role = toUserRole(
+              (
+                session.data as {
+                  user?: {
+                    role?: unknown
+                  }
+                } | null
+              )?.user?.role,
+            )
+
+            const destination = resolvePostAuthRedirect({
+              requestedRedirect: redirectTo,
+              role,
+            })
+
+            void navigate({ to: destination })
             toast.success('Account created successfully.')
           },
           onError: ({ error }) => {

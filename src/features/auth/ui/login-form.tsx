@@ -21,6 +21,10 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 import { authClient } from '@/features/auth/client/auth-client'
+import {
+  resolvePostAuthRedirect,
+  toUserRole,
+} from '@/features/auth/model/post-auth'
 import { toSafeAuthErrorMessage } from '@/features/auth/model/safe-errors'
 import { loginSchema } from '@/features/auth/schemas/auth'
 import {
@@ -34,7 +38,7 @@ interface LoginFormProps {
   redirectTo?: string
 }
 
-export function LoginForm({ redirectTo = '/' }: LoginFormProps) {
+export function LoginForm({ redirectTo }: LoginFormProps) {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -55,8 +59,24 @@ export function LoginForm({ redirectTo = '/' }: LoginFormProps) {
         email: value.email,
         password: value.password,
         fetchOptions: {
-          onSuccess: () => {
-            void navigate({ to: redirectTo })
+          onSuccess: async () => {
+            const session = await authClient.getSession()
+            const role = toUserRole(
+              (
+                session.data as {
+                  user?: {
+                    role?: unknown
+                  }
+                } | null
+              )?.user?.role,
+            )
+
+            const destination = resolvePostAuthRedirect({
+              requestedRedirect: redirectTo,
+              role,
+            })
+
+            void navigate({ to: destination })
             toast.success('Logged in successfully.')
           },
           onError: ({ error }) => {

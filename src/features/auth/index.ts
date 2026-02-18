@@ -5,6 +5,11 @@ export { authClient } from '@/features/auth/client/auth-client'
 export type { AppSession, UserRole } from '@/features/auth/model/session'
 export { roleValues } from '@/features/auth/model/session'
 export { hasPermission } from '@/features/auth/model/permissions'
+export {
+  getRoleLandingPath,
+  resolvePostAuthRedirect,
+  toUserRole,
+} from '@/features/auth/model/post-auth'
 export { toSafeAuthErrorMessage } from '@/features/auth/model/safe-errors'
 export { toSafeRedirectPath } from '@/features/auth/model/redirect'
 

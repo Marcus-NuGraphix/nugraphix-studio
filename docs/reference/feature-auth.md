@@ -18,6 +18,9 @@ server-side permission enforcement.
    - Protected routes must enforce auth via `beforeLoad` + session helpers
 4. Redirect safety:
    - All auth redirect/callback paths must pass `toSafeRedirectPath(...)`
+   - Default post-auth landing is role-aware:
+     - `admin` → `/admin/dashboard`
+     - `user` → `/blog`
 
 ## Shared Infrastructure Integration
 

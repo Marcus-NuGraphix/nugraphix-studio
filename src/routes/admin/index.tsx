@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
+import { adminSectionCards } from '@/components/navigation/admin/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/admin/')({
@@ -14,47 +15,32 @@ function AdminHome() {
           Admin Workspace
         </h1>
         <p className="text-sm text-muted-foreground">
-          Phase 02 route scaffolding is complete. Select an area to continue
-          implementation.
+          Navigate platform operations using route-aligned sections that mirror
+          the current repository scaffolding.
         </p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card className="border-border bg-card shadow-none">
-          <CardHeader>
-            <CardTitle>Content Operations</CardTitle>
-            <CardDescription>
-              Manage blog and CMS workflow scaffolds.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link
-              to="/admin/content"
-              className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
-            >
-              Open content hub
-              <ArrowRight className="size-4" />
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card className="border-border bg-card shadow-none">
-          <CardHeader>
-            <CardTitle>System Administration</CardTitle>
-            <CardDescription>
-              Review users, platform settings, and implementation docs.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link
-              to="/admin/dashboard"
-              className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
-            >
-              Open dashboard
-              <ArrowRight className="size-4" />
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {adminSectionCards.map((section) => (
+          <Card key={section.to} className="border-border bg-card shadow-none">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <section.icon className="size-4 text-primary" />
+                {section.title}
+              </CardTitle>
+              <CardDescription>{section.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link
+                to={section.to}
+                className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
+              >
+                Open section
+                <ArrowRight className="size-4" />
+              </Link>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </section>
   )
