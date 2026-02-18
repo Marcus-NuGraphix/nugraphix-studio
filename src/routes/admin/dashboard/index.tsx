@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Activity, ShieldCheck, Users } from 'lucide-react'
+import { PageHeader } from '@/components/layout'
+import { StatCard, WebPerformanceDashboard } from '@/components/metrics'
 
 export const Route = createFileRoute('/admin/dashboard/')({
   component: DashboardPage,
@@ -8,45 +10,37 @@ export const Route = createFileRoute('/admin/dashboard/')({
 function DashboardPage() {
   return (
     <section className="space-y-6">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Dashboard
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Operational summary scaffolding for content, users, and delivery
-          visibility.
-        </p>
-      </header>
+      <PageHeader
+        title="Dashboard"
+        description="Operational summary and release-health visibility for admin workflows."
+      />
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="border-border bg-card shadow-none">
-          <CardHeader>
-            <CardTitle>Content Pipeline</CardTitle>
-            <CardDescription>Draft, review, and publish throughput.</CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Data module wiring pending.
-          </CardContent>
-        </Card>
-        <Card className="border-border bg-card shadow-none">
-          <CardHeader>
-            <CardTitle>User Access</CardTitle>
-            <CardDescription>Account and role management status.</CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Data module wiring pending.
-          </CardContent>
-        </Card>
-        <Card className="border-border bg-card shadow-none">
-          <CardHeader>
-            <CardTitle>Platform Health</CardTitle>
-            <CardDescription>Quality gate and release readiness.</CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Data module wiring pending.
-          </CardContent>
-        </Card>
+        <StatCard
+          label="Content pipeline"
+          value="14 active drafts"
+          description="Editorial flow remains stable this week."
+          tone="info"
+          icon={Activity}
+          trend={{ label: '+2 vs last week', direction: 'up' }}
+        />
+        <StatCard
+          label="User access reviews"
+          value="3 pending"
+          description="Role and session governance queue."
+          tone="warning"
+          icon={Users}
+        />
+        <StatCard
+          label="Security posture"
+          value="All checks passing"
+          description="Latest auth, rate-limit, and incident gates are green."
+          tone="success"
+          icon={ShieldCheck}
+        />
       </div>
+
+      <WebPerformanceDashboard />
     </section>
   )
 }

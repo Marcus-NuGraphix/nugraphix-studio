@@ -1,11 +1,13 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowRight, Newspaper, Sparkles } from 'lucide-react'
+import type { BlogPublicPostListItem } from '@/features/blog'
 import { getBrandMetaDescription, getBrandPageTitle } from '@/components/brand'
 import {
   CardSlider,
   MarketingContainer,
   MarketingHero,
   MarketingSection,
+  NewsFeed,
 } from '@/components/marketing'
 import { Button } from '@/components/ui/button'
 import {
@@ -61,6 +63,7 @@ function BlogIndexPage() {
   const sliderPosts = featuredPosts.length > 0 ? featuredPosts : posts.slice(0, 6)
   const publishedCount = posts.length
   const latestPostDate = posts.at(0)?.publishedAt ?? null
+  const newsFeedItems = posts.slice(0, 8).map((post) => toNewsFeedItem(post))
 
   return (
     <MarketingContainer>
@@ -79,7 +82,7 @@ function BlogIndexPage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-accent/40 bg-accent/10 text-accent-foreground hover:bg-accent/20"
+              className="border-accent/40 bg-accent/10 text-foreground hover:bg-accent/20"
             >
               <a href="#release-updates">Subscribe to updates</a>
             </Button>
@@ -134,6 +137,23 @@ function BlogIndexPage() {
         </MarketingSection>
       ) : null}
 
+      {newsFeedItems.length > 0 ? (
+        <MarketingSection
+          title="Latest updates"
+          description="Filter quick editorial summaries before opening a full article."
+        >
+          <NewsFeed
+            items={newsFeedItems}
+            onOpenItem={(item) =>
+              void navigate({
+                to: '/blog/$slug',
+                params: { slug: item.id },
+              })
+            }
+          />
+        </MarketingSection>
+      ) : null}
+
       <div id="latest-posts">
         <MarketingSection
           title="Latest posts"
@@ -182,7 +202,7 @@ function BlogIndexPage() {
             type="button"
             size="sm"
             variant="outline"
-            className="border-accent/35 bg-accent/10 text-accent-foreground hover:bg-accent/20"
+            className="border-accent/35 bg-accent/10 text-foreground hover:bg-accent/20"
             disabled={data.page >= data.totalPages}
             onClick={() =>
               navigate({
@@ -228,3 +248,21 @@ function BlogIndexPage() {
     </MarketingContainer>
   )
 }
+
+const toNewsFeedItem = (post: BlogPublicPostListItem) => ({
+  id: post.slug,
+  title: post.title,
+  summary: post.excerpt ?? 'Editorial summary will be available after publishing.',
+  category: post.featured ? 'Featured' : 'Editorial',
+  publishedLabel: post.publishedAt.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  }),
+  readTimeLabel: `${post.readingTimeMinutes} min read`,
+  author: {
+    name: 'Nu Graphix Editorial',
+    role: post.featured ? 'Featured dispatch' : 'Editorial desk',
+  },
+  trending: post.featured,
+})

@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { NotificationCenter } from '@/components/feedback'
+import { PageHeader } from '@/components/layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/admin/components/ui/')({
@@ -8,15 +10,10 @@ export const Route = createFileRoute('/admin/components/ui/')({
 function AdminUiComponentsPage() {
   return (
     <section className="space-y-6">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          UI Primitives
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Foundation-level controls for consistent interactions and visual
-          standards across the platform.
-        </p>
-      </header>
+      <PageHeader
+        title="UI Primitives"
+        description="Foundation-level controls for consistent interactions and visual standards across the platform."
+      />
 
       <Card className="border-border bg-card shadow-none">
         <CardHeader>
@@ -31,10 +28,19 @@ function AdminUiComponentsPage() {
             This area will provide grouped previews, usage constraints, and
             token alignment checks for `src/components/ui/*`.
           </p>
-          <p>
-            Pending implementation: component matrix, accessibility checklist,
-            and variant documentation.
-          </p>
+          <p>Live demo: expandable notification surfaces built from primitives.</p>
+        </CardContent>
+      </Card>
+
+      <Card className="border-border bg-card shadow-none">
+        <CardHeader>
+          <CardTitle>Feedback Composition Example</CardTitle>
+          <CardDescription>
+            Token-safe notification patterns with keyboard support and reduced-motion behavior.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <NotificationCenter />
         </CardContent>
       </Card>
     </section>

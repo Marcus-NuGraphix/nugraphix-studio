@@ -180,11 +180,18 @@ src/
       page-header.tsx
     metrics/
       stat-card.tsx              # KPI/stat display card
+      web-performance-dashboard.tsx  # Performance and Core Web Vitals panel
     forms/
       search-input.tsx           # Search field composition
       tag-picker.tsx             # Controlled tag entry composition
     editor/
       editor-shell.tsx           # Shared editor control + layout shell
+    marketing/                   # Public marketing composition surfaces
+      page-sections.tsx
+      card-slider.tsx
+      news-feed.tsx
+    feedback/                    # Shared status/notification composition
+      notification-center.tsx
     theme/                       # Theme system (SSR-safe, cookie-based)
       constants.ts               # Cookie name, max-age, media query
       theme-script.ts            # Blocking inline script (prevents FOWT)

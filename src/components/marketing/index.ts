@@ -6,3 +6,4 @@ export {
   MarketingSection,
 } from '@/components/marketing/page-sections'
 export { CardSlider } from '@/components/marketing/card-slider'
+export { NewsFeed, type NewsFeedItem } from '@/components/marketing/news-feed'

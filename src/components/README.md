@@ -11,7 +11,9 @@ This directory provides the shared UI layer for Nu Graphix Studio.
 - `editor/`: content editing shell composition (`EditorShell`).
 - `navigation/`: public/admin navigation systems.
 - `tables/`: TanStack Table wrappers and utilities.
-- `marketing/`: public-page section composition and reusable card slider molecule.
+- `marketing/`: public-page section composition, reusable card slider, and curated `NewsFeed`.
+- `metrics/`: KPI surfaces and dashboard-level performance panels.
+- `feedback/`: cross-feature notification and feedback composition patterns.
 - `brand/`, `theme/`, `errors/`, `empties/`: cross-cutting presentation utilities.
 
 ## Rules
