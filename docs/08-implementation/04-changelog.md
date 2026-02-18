@@ -74,3 +74,41 @@ Status: Active
     - `/admin/dashboard` => `41.80 ms`
 - Updated `src/lib/db/index.ts` to instantiate and use an explicit `pg.Pool`
   (`dbPool`) for Drizzle runtime, preserving existing `db` import contract.
+- Replaced `/admin/docs/phases` placeholder route with active docs links and
+  phase status visibility (`src/routes/admin/docs/phases/index.tsx`), wired to
+  current system-of-record documents in `docs/`.
+- Completed Phase 4 design-system baseline documentation set:
+  - activated `docs/04-design-system/*` with concrete inventory, conventions,
+    token/a11y baseline findings, and remediation queue
+  - added evidence artifact:
+    `docs/04-design-system/artifacts/component-audit-2026-02-18.md`
+- Updated implementation governance for Phase 4 execution:
+  - task board entries `T-012` through `T-016`
+  - risk register additions `R-012` through `R-014`
+  - decisions log updates for controlled exception policy and audit-gate workflow
+- Published ADR-0033 (`docs/adr/0033-design-system-boundary-and-token-exception-governance.md`)
+  and updated ADR indexes (`docs/adr/README.md`, `ARCHITECTURE.md`) to remove stale references.
+- Added Phase 4 `src/lib` boundary/expansion map:
+  - `docs/04-design-system/06-lib-foundation-boundaries.md`
+  - task progression moved `T-016` to done and opened implementation step `T-017`
+- Implemented Phase 4B `src/lib` expansion skeletons:
+  - new shared modules: `src/lib/config`, `src/lib/constants`, `src/lib/flags`
+  - updated shared barrel exports in `src/lib/index.ts`
+  - added unit tests for each new module contract
+  - updated library and architecture docs to include new domains
+- Completed navigation boundary decoupling (Phase 4 `T-013`):
+  - removed direct feature imports from shared navigation components:
+    - `src/components/navigation/site-header.tsx`
+    - `src/components/navigation/site-footer.tsx`
+    - `src/components/navigation/admin/admin-sidebar.tsx`
+  - moved auth/email behavior wiring to route-level adapters:
+    - `src/routes/_public/route.tsx`
+    - `src/routes/_legal/route.tsx`
+- Completed token-governance cleanup (Phase 4 `T-014`):
+  - removed hardcoded color literal matching in shared chart overrides
+    (`src/components/ui/chart.tsx`)
+  - centralized email template palette in
+    `src/features/email/server/template-tokens.ts` and consumed it from
+    `src/features/email/server/templates.server.tsx`
+  - added token contract coverage in
+    `src/features/email/tests/template-tokens.test.ts`

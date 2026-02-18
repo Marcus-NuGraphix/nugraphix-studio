@@ -16,6 +16,7 @@ Last updated: 2026-02-18
 - `docs/adr/0030-production-readiness-docs-first-hardening-program.md` captures the post-MVP docs-first production hardening program and system-of-record structure.
 - `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md` captures the canonical local Docker bootstrap contract and migration reconciliation policy.
 - `docs/adr/0032-deterministic-bootstrap-seed-contract.md` captures canonical local bootstrap seeding coverage for auth, content, and blog datasets.
+- `docs/adr/0033-design-system-boundary-and-token-exception-governance.md` captures Phase 4 component boundary enforcement and token exception governance controls.
 
 ## ADR Rules
 
@@ -25,7 +26,7 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0033`
+- `0034`
 
 ## Current Focus
 
@@ -37,4 +38,5 @@ Last updated: 2026-02-18
   `0029` (example component motion and functional integration), and
   `0030` (docs-first production hardening governance), and
   `0031` (local bootstrap and migration reconciliation governance), and
-  `0032` (deterministic bootstrap seeding governance).
+  `0032` (deterministic bootstrap seeding governance), and
+  `0033` (design system boundary and token exception governance).

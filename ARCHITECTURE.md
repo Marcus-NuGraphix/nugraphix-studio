@@ -143,6 +143,11 @@ src/
 
   lib/                           # Core infrastructure
     index.ts                     # Re-exports shared infrastructure barrels
+    config/
+      index.ts                   # Shared app config composition (identity/routes/feature flags)
+    constants/
+      app.ts                     # Cross-feature app and route constants
+      index.ts                   # Constants barrel export
     db/
       index.ts                   # Drizzle client (env.DATABASE_URL)
       schema.ts                  # Barrel export for all schemas
@@ -162,6 +167,8 @@ src/
       server-result.ts           # ServerResult<T> type + ok/fail helpers
       to-server-fail.ts          # Error → ServerFail converter
       safe-action-error.ts       # User-friendly error messages
+    flags/
+      index.ts                   # Shared feature flag defaults and parsers
     observability/
       logger.ts                  # Structured logger with redaction
       mutation-log.ts            # Mutation log helper contract
@@ -460,6 +467,8 @@ See ADR-0011.
 | 0029 | Example Component Motion and Functional Integration | Accepted |
 | 0030 | Production Readiness Docs-First Hardening Program | Accepted |
 | 0031 | Local Environment Bootstrap and Migration Reconciliation | Accepted |
+| 0032 | Deterministic Bootstrap Seed Contract | Accepted |
+| 0033 | Design System Boundary and Token Exception Governance | Accepted |
 
 Canonical ADR docs:
 

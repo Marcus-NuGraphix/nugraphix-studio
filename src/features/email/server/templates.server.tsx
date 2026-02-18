@@ -14,42 +14,43 @@ import {
 import { render } from '@react-email/render'
 import type { EmailTemplateKey } from '@/features/email/model/types'
 import { brandConfig } from '@/components/brand/brand.config'
+import { emailTemplateTokens } from '@/features/email/server/template-tokens'
 
 const styles = {
   body: {
-    backgroundColor: '#f6f9fc',
-    fontFamily: 'Inter, Arial, sans-serif',
+    backgroundColor: emailTemplateTokens.colors.bodyBackground,
+    fontFamily: emailTemplateTokens.typography.fontFamily,
     margin: 0,
     padding: 0,
   },
   container: {
     margin: '0 auto',
-    padding: '24px',
+    padding: emailTemplateTokens.spacing.containerPadding,
     maxWidth: '560px',
-    backgroundColor: '#ffffff',
+    backgroundColor: emailTemplateTokens.colors.surface,
   },
   heading: {
     fontSize: '22px',
     fontWeight: '700',
     lineHeight: '1.35',
     margin: '0 0 12px',
-    color: '#0f172a',
+    color: emailTemplateTokens.colors.textHeading,
   },
   text: {
     fontSize: '15px',
     lineHeight: '1.6',
-    color: '#334155',
+    color: emailTemplateTokens.colors.textBody,
     margin: '0 0 12px',
   },
   muted: {
     fontSize: '12px',
     lineHeight: '1.5',
-    color: '#64748b',
+    color: emailTemplateTokens.colors.textMuted,
     margin: 0,
   },
   button: {
-    backgroundColor: '#0f172a',
-    color: '#ffffff',
+    backgroundColor: emailTemplateTokens.colors.ctaBackground,
+    color: emailTemplateTokens.colors.ctaForeground,
     borderRadius: '8px',
     textDecoration: 'none',
     padding: '10px 18px',
@@ -168,7 +169,7 @@ const renderTemplate = async ({
           ))}
 
           {primaryCta ? (
-            <Section style={{ margin: '20px 0' }}>
+            <Section style={{ margin: emailTemplateTokens.spacing.sectionMargin }}>
               <Button href={primaryCta.href} style={styles.button}>
                 {primaryCta.label}
               </Button>
@@ -177,7 +178,12 @@ const renderTemplate = async ({
 
           {footer ? (
             <>
-              <Hr style={{ margin: '20px 0', borderColor: '#e2e8f0' }} />
+              <Hr
+                style={{
+                  margin: emailTemplateTokens.spacing.sectionMargin,
+                  borderColor: emailTemplateTokens.colors.divider,
+                }}
+              />
               <Text style={styles.muted}>
                 <Link href={footer.href}>{footer.label}</Link>
               </Text>

@@ -1,7 +1,7 @@
 # Risk Register
 
 Last updated: 2026-02-18
-Status: Draft
+Status: Active
 
 ## Severity Model
 
@@ -25,6 +25,9 @@ Status: Draft
 | R-009 | P2 | Env Contract | `.env.example` previously advertised unsupported `sendgrid` provider | `.env.example` vs `src/lib/env/server.ts` | Remove stale provider guidance and keep schema-driven env docs | Eng | Phase 0 | Closed |
 | R-010 | P1 | DB Migrations | Migration artifacts were incomplete for current schema (`db:migrate` previously did not create auth tables like `user`) causing seed failure on clean local DB | Resolved via `drizzle/0002_schema_reconciliation.sql`; clean bootstrap now verified with `pnpm db:migrate` + `pnpm db:seed` | Keep migration artifacts synchronized and retain migrate-first bootstrap checks | Eng | Phase 1 | Closed |
 | R-011 | P2 | Dependencies | Moderate `esbuild` advisory remains in transitive toolchain path (`better-auth` -> `drizzle-kit` -> `@esbuild-kit/*`) | `pnpm audit --prod` (GHSA-67mh-4wv8-2f99) | Track upstream releases and remove via dependency updates when available; document local-dev exposure boundaries | Eng | Phase 0-1 | Open |
+| R-012 | P1 | Component Boundaries | Shared navigation components imported feature modules directly, increasing blast radius and reducing reusability guarantees | Resolved via route-level adapters in `src/routes/_public/route.tsx`, `src/routes/_legal/route.tsx`, `src/routes/admin/route.tsx`; shared navigation now has no direct `@/features/*` imports | Keep shared navigation feature-agnostic and enforce boundary checks in Phase 4 follow-ups | Eng | Phase 4 | Closed |
+| R-013 | P2 | Token Governance | Literal color exceptions existed in shared/chart selectors and email templates | Resolved via selector hardening in `src/components/ui/chart.tsx` and centralized email token contract in `src/features/email/server/template-tokens.ts` used by `src/features/email/server/templates.server.tsx` | Keep shared UI free of raw color literals and enforce email palette through centralized token module | Eng | Phase 4 | Closed |
+| R-014 | P2 | Accessibility Regression | Accessibility checks are mostly manual and lack CI-enforced regression coverage | `docs/04-design-system/05-accessibility-checklist.md` baseline findings | Add targeted accessibility regression checks for nav/dialog/form patterns | Eng | Phase 4-6 | Open |
 
 ## Top 10 Production Blockers
 
@@ -34,7 +37,7 @@ Status: Draft
 4. [ ] R-011: Resolve transitive `esbuild` advisory via upstream dependency updates.
 5. [ ] R-005: Investigate and fix Vitest hanging-process timeout.
 6. [ ] R-004: Reduce build warning noise to preserve signal quality.
-7. [ ] Review admin docs route placeholders for current system-of-record links.
-8. [ ] Validate auth/cookie/origin/rate-limit hardening checklist outcomes.
+7. [x] R-012: Remove feature coupling from shared navigation components.
+8. [x] R-013: Resolve token exception drift for chart/email surfaces.
 9. [x] Lock CI quality gates with clear release blocking policy (minimum CI + bootstrap smoke gate).
-10. [ ] Track framework patch/minor updates after Phase 1 stabilization.
+10. [ ] R-014: Add accessibility regression coverage for core interaction surfaces.

@@ -1,6 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router'
 import { ChevronRight, Loader2, LogOut } from 'lucide-react'
-import type { AppSession } from '@/features/auth/model/session'
 import { BrandLockup } from '@/components/brand'
 import {
   adminNavigationGroups,
@@ -29,8 +28,13 @@ import {
 } from '@/components/ui/sidebar'
 import { cn, getInitials } from '@/lib/utils'
 
+export interface AdminSidebarUser {
+  email: string
+  name: string
+}
+
 interface AdminSidebarProps {
-  user: AppSession['user']
+  user: AdminSidebarUser
   isSigningOut?: boolean
   onSignOut?: () => Promise<void> | void
 }

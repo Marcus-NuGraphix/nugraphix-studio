@@ -21,7 +21,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { BrandLockup, brandConfig } from '@/components/brand'
 import { quickNavigationLinks } from '@/components/navigation/site-navigation'
-import { subscribeToEmailTopicFn } from '@/features/email/client/email'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -68,7 +67,11 @@ const socialIconMap = {
 
 type SocialLabelKey = keyof typeof socialLabels
 
-export function SiteFooter() {
+interface SiteFooterProps {
+  onNewsletterSubscribe?: (email: string) => Promise<void>
+}
+
+export function SiteFooter({ onNewsletterSubscribe }: SiteFooterProps) {
   const shouldReduceMotion = useReducedMotion() ?? false
   const year = new Date().getFullYear()
   const [email, setEmail] = useState('')
@@ -178,13 +181,11 @@ export function SiteFooter() {
 
                 setIsSubmitting(true)
                 try {
-                  await subscribeToEmailTopicFn({
-                    data: {
-                      email,
-                      topic: 'blog',
-                      source: 'public-footer',
-                    },
-                  })
+                  if (!onNewsletterSubscribe) {
+                    throw new Error('Newsletter subscription is unavailable.')
+                  }
+
+                  await onNewsletterSubscribe(email)
                   setEmail('')
                   toast.success('Subscribed to newsletter updates.')
                 } catch (error) {

@@ -1,8 +1,6 @@
-import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
+import { Link, useRouterState } from '@tanstack/react-router'
 import { ArrowRight, Loader2, LogOut, Menu, Shield } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
-import type { AppSession } from '@/features/auth/model/session'
 import { BrandLockup } from '@/components/brand'
 import {
   headerNavigationItems,
@@ -18,22 +16,38 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { authClient } from '@/features/auth/client/auth-client'
-import { getRoleLandingPath } from '@/features/auth/model/post-auth'
 
-interface SiteHeaderProps {
-  session: AppSession | null
+type SiteUserRole = 'admin' | 'user'
+
+export interface SiteHeaderSession {
+  user: {
+    email: string
+    role: SiteUserRole
+  }
 }
 
-export function SiteHeader({ session }: SiteHeaderProps) {
-  const navigate = useNavigate()
+interface SiteHeaderProps {
+  session: SiteHeaderSession | null
+  onSignOut?: () => Promise<void> | void
+  resolveRoleLandingPath?: (role: SiteUserRole) => string
+}
+
+const defaultResolveRoleLandingPath = (role: SiteUserRole) => {
+  return role === 'admin' ? '/admin/dashboard' : '/blog'
+}
+
+export function SiteHeader({
+  session,
+  onSignOut,
+  resolveRoleLandingPath = defaultResolveRoleLandingPath,
+}: SiteHeaderProps) {
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const isAuthenticated = Boolean(session)
 
   const primaryDestination = session
-    ? getRoleLandingPath(session.user.role)
+    ? resolveRoleLandingPath(session.user.role)
     : '/contact'
   const primaryLabel = session
     ? session.user.role === 'admin'
@@ -53,19 +67,11 @@ export function SiteHeader({ session }: SiteHeaderProps) {
 
     setIsSigningOut(true)
 
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success('Signed out successfully.')
-          void navigate({ to: '/' })
-        },
-        onError: () => {
-          toast.error('Unable to sign out right now. Please try again.')
-        },
-      },
-    })
-
-    setIsSigningOut(false)
+    try {
+      await onSignOut?.()
+    } finally {
+      setIsSigningOut(false)
+    }
   }
 
   return (
@@ -127,7 +133,7 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                     variant="ghost"
                     size="sm"
                     onClick={handleSignOut}
-                    disabled={isSigningOut}
+                    disabled={!onSignOut || isSigningOut}
                     className="rounded-full px-3 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
                   >
                     {isSigningOut ? (
@@ -144,7 +150,7 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                   variant="ghost"
                   size="icon-sm"
                   onClick={handleSignOut}
-                  disabled={isSigningOut}
+                  disabled={!onSignOut || isSigningOut}
                   className="md:hidden"
                   aria-label={isSigningOut ? 'Signing out' : 'Log out'}
                 >
@@ -251,7 +257,7 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                             setIsMobileNavOpen(false)
                             void handleSignOut()
                           }}
-                          disabled={isSigningOut}
+                          disabled={!onSignOut || isSigningOut}
                         >
                           {isSigningOut ? (
                             <Loader2 className="size-4 animate-spin" />

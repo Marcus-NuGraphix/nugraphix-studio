@@ -132,7 +132,7 @@ Scale component system and shared library boundaries safely.
 
 ### Tasks
 
-- [ ] Complete component audit and prioritization.
+- [x] Complete component audit and prioritization (`docs/04-design-system/02-component-audit.md`, artifact snapshot on 2026-02-18).
 - [ ] Standardize conventions and token usage.
 - [ ] Expand `lib` with strict boundaries (`env`, `config`, `constants`, `logging`, `errors`, `validation`, `permissions`, `api`, `db`, `flags`, `cache`).
 
