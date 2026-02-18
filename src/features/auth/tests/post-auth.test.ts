@@ -3,6 +3,7 @@ import {
   getRoleLandingPath,
   resolvePostAuthRedirect,
   toUserRole,
+  toUserRoleFromClientSession,
 } from '@/features/auth/model/post-auth'
 
 describe('post-auth redirect helpers', () => {
@@ -34,5 +35,15 @@ describe('post-auth redirect helpers', () => {
 
   it('normalizes unknown role-like values to user', () => {
     expect(toUserRole('owner')).toBe('user')
+  })
+
+  it('resolves role from client session payload', () => {
+    expect(toUserRoleFromClientSession({ user: { role: 'admin' } })).toBe(
+      'admin',
+    )
+    expect(toUserRoleFromClientSession({ user: { role: 'something-else' } })).toBe(
+      'user',
+    )
+    expect(toUserRoleFromClientSession(null)).toBe('user')
   })
 })

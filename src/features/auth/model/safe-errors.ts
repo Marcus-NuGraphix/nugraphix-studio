@@ -1,3 +1,5 @@
+import { toSafeActionErrorMessage } from '@/lib/errors'
+
 const GENERIC_LOGIN_ERROR =
   'Unable to sign in. Check your credentials and try again.'
 
@@ -107,5 +109,8 @@ export const toSafeAuthErrorMessage = ({
     }
   }
 
-  return fallback
+  return toSafeActionErrorMessage({
+    error,
+    fallback,
+  })
 }

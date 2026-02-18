@@ -36,12 +36,13 @@ Auth integrates directly with shared infrastructure:
 10. `server/auth.ts`: Better Auth instance and plugin wiring.
 11. `server/session.server.ts`: server-side auth/session guards.
 12. `server/session.ts`: TanStack server function wrappers for sessions.
-13. `server/authorize.ts`: permission assertion boundary.
-14. `server/request-context.ts`: IP/user-agent extraction and auth rate-limit key helpers.
-15. `server/rate-limit.ts`: auth rate-limit wrappers over shared limiter.
-16. `server/security.ts`: password/session security actions.
-17. `ui/*`: auth route UI components and shared form shell.
-18. `tests/*`: auth unit test suite.
+13. `server/entry-redirect.ts`: shared auth-page redirect guard for authenticated sessions.
+14. `server/authorize.ts`: permission assertion boundary.
+15. `server/request-context.ts`: IP/user-agent extraction and auth rate-limit key helpers.
+16. `server/rate-limit.ts`: auth rate-limit wrappers over shared limiter.
+17. `server/security.ts`: password/session security actions.
+18. `ui/*`: auth route UI components and shared form shell.
+19. `tests/*`: auth unit test suite.
 
 ## Operational Rules
 

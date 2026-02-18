@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
-import { BrandLogo, BrandWordmark } from '@/components/brand'
+import { BrandLockup } from '@/components/brand'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardDescription } from '@/components/ui/card'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 
 export const AUTH_INPUT_CLASSNAME =
@@ -36,14 +37,16 @@ export function AuthFormCard({
   children,
   className,
 }: AuthFormCardProps) {
+  const isMobile = useIsMobile()
+  const mobileHighlights = panelHighlights.slice(0, 2)
+
   return (
     <div className={cn('flex w-full flex-col gap-5', className)}>
       <Card className="overflow-hidden border-border bg-card p-0 shadow-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="p-6 md:p-8">
-            <div className="mb-5 flex items-center gap-3">
-              <BrandLogo className="size-11 rounded-xl border border-border bg-background p-1.5 shadow-sm" />
-              <BrandWordmark compact className="text-base text-foreground" />
+            <div className="mb-5">
+              <BrandLockup compact />
             </div>
 
             <div className="mb-6 flex flex-col items-center gap-2 text-center md:items-start md:text-left">
@@ -52,6 +55,33 @@ export function AuthFormCard({
             </div>
 
             {children}
+
+            {isMobile ? (
+              <Card className="mt-6 border-border bg-muted/30 shadow-none">
+                <CardContent className="space-y-3 p-4">
+                  <Badge variant="secondary" className="rounded-full">
+                    {panelBadge}
+                  </Badge>
+                  <h2 className="text-base font-semibold text-foreground">
+                    {panelTitle}
+                  </h2>
+                  <CardDescription className="text-sm leading-6">
+                    {panelDescription}
+                  </CardDescription>
+                  <ul className="space-y-2">
+                    {mobileHighlights.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-sm text-muted-foreground"
+                      >
+                        <span className="mt-1.5 inline-block size-2 shrink-0 rounded-full bg-primary/60" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ) : null}
           </div>
 
           <aside className="relative hidden overflow-hidden md:block">
@@ -73,7 +103,11 @@ export function AuthFormCard({
 
             <div className="relative flex h-full flex-col justify-between gap-8 p-8 text-primary-foreground">
               <div className="space-y-4">
-                <BrandWordmark className="text-lg font-semibold text-primary-foreground" />
+                <BrandLockup
+                  className="text-primary-foreground"
+                  logoClassName="border border-primary-foreground/20 bg-primary-foreground/10 p-1"
+                  textClassName="text-primary-foreground"
+                />
 
                 <Badge className="rounded-full border border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground">
                   {panelBadge}

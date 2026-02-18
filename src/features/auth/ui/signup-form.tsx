@@ -24,7 +24,7 @@ import {
 import { authClient } from '@/features/auth/client/auth-client'
 import {
   resolvePostAuthRedirect,
-  toUserRole,
+  toUserRoleFromClientSession,
 } from '@/features/auth/model/post-auth'
 import { toSafeAuthErrorMessage } from '@/features/auth/model/safe-errors'
 import { signupSchema } from '@/features/auth/schemas/auth'
@@ -75,15 +75,7 @@ export function SignupForm({ redirectTo }: SignupFormProps) {
         fetchOptions: {
           onSuccess: async () => {
             const session = await authClient.getSession()
-            const role = toUserRole(
-              (
-                session.data as {
-                  user?: {
-                    role?: unknown
-                  }
-                } | null
-              )?.user?.role,
-            )
+            const role = toUserRoleFromClientSession(session.data)
 
             const destination = resolvePostAuthRedirect({
               requestedRedirect: redirectTo,

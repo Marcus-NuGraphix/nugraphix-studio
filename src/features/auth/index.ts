@@ -8,6 +8,7 @@ export { hasPermission } from '@/features/auth/model/permissions'
 export {
   getRoleLandingPath,
   resolvePostAuthRedirect,
+  toUserRoleFromClientSession,
   toUserRole,
 } from '@/features/auth/model/post-auth'
 export { toSafeAuthErrorMessage } from '@/features/auth/model/safe-errors'
@@ -27,6 +28,7 @@ export { passwordPolicySchema } from '@/features/auth/schemas/password'
 // Server
 export { auth } from '@/features/auth/server/auth'
 export { getSessionFn, getOptionalSessionFn, getAdminSessionFn } from '@/features/auth/server/session'
+export { redirectAuthenticatedAuthEntry } from '@/features/auth/server/entry-redirect'
 export { assertPermission } from '@/features/auth/server/authorize'
 
 // UI
