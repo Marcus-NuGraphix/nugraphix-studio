@@ -2,6 +2,7 @@
 
 Date: 2026-02-18
 Scope: docs governance, ADR indexing, planning surface, root document alignment
+Status: Historical snapshot (superseded by production-hardening docs system)
 
 ## Summary
 
@@ -33,7 +34,7 @@ a single active roadmap focused on Blog MVP, and updated agent/audit guidance.
 
 ## Recommended Next Fix Order
 
-1. Implement Blog MVP plan items in `docs/plans/ROADMAP-2026-BLOG-MVP.md`.
+1. Implement Blog MVP plan items in `docs/archive/roadmaps/ROADMAP-2026-BLOG-MVP.md` (historical context only).
 2. Replace admin docs route placeholders with generated indexes sourced from docs metadata.
 3. Add blog feature reference doc updates after each implementation milestone.
 

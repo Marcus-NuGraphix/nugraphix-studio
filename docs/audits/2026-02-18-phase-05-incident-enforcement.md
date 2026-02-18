@@ -30,7 +30,6 @@ Scope: Incident and debugging governance controls for Blog MVP publish flow.
 1. `src/lib/observability/incident-log.ts`
 2. `src/lib/observability/failure-escalation.ts`
 3. `src/features/blog/server/posts.ts`
-4. `docs/phases/phase-05.md`
+4. `docs/archive/phases/phase-05.md`
 5. `docs/adr/0025-phase-05-incident-management-enforcement.md`
 6. `docs/reference/incident-debug-protocol.md`
-

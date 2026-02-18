@@ -10,7 +10,7 @@ contract standards.
 
 ## Current Workstream
 
-- Active roadmap: `docs/plans/ROADMAP-2026-BLOG-MVP.md`
+- Active roadmap at time of phase: `docs/archive/roadmaps/ROADMAP-2026-BLOG-MVP.md`
 
 ## Execution Checklist
 

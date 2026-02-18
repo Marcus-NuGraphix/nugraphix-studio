@@ -16,8 +16,9 @@
 ## Docs placement
 
 - Active roadmap: `docs/plans/`
-- Legacy roadmap archive: `docs/plans/archive/`
-- Execution phases: `docs/phases/`
+- Legacy roadmap archive: `docs/archive/roadmaps/`
+- Active execution board and phases: `docs/08-implementation/`
+- Historical MVP phases: `docs/archive/phases/`
 - Agent contracts: `docs/agent/`
 - Audits and snapshots: `docs/audits/`
 - Technical references: `docs/reference/`

@@ -23,7 +23,7 @@ and more stable than task-specific notes.
 - `docs/reference/ui-component-inventory.md`
 - `docs/reference/component-composition-sets.md`
 
-## Delivery-Focus References
+## Workflow References
 
 - `docs/reference/blog-editor-mvp.md`
 - `docs/reference/routing-surface-map.md`

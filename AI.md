@@ -7,9 +7,10 @@ Before making changes, review in this order:
 1. `ARCHITECTURE.md`
 2. `docs/adr/README.md`
 3. `docs/adr/ADR-SUMMARY-0001-0022.md`
-4. `docs/plans/ROADMAP-2026-BLOG-MVP.md`
-5. `docs/phases/README.md`
-6. `docs/agent/README.md`
+4. `docs/00-index.md`
+5. `docs/plans/ROADMAP-2026-PRODUCTION-HARDENING.md`
+6. `docs/08-implementation/01-phased-plan.md`
+7. `docs/agent/README.md`
 
 ## Skill packs
 
@@ -47,10 +48,12 @@ export const featureVerbNounFn = createServerFn({ method: 'POST' })
 
 ## Current Delivery Focus
 
-- Complete the Blog MVP workflow:
-  - admin post authoring and publish controls
-  - public blog listing and detail rendering
-  - production quality gates and docs updates
+- Execute the production-readiness hardening program:
+  - environment reliability (local Docker + production-dev runtime)
+  - performance and latency decision track
+  - design-system and `lib` boundary hardening
+  - dashboard workspace IA/routing/permission hardening
+  - auth/security and CI/release readiness gates
 
 ## Output format
 

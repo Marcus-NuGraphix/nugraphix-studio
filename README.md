@@ -49,12 +49,14 @@ src/
   lib/           Shared infrastructure
   components/    UI primitives and composition sets
 docs/
+  00-index.md    Active documentation system of record
+  01-08/         Active audit, environment, hosting, design, security, and implementation tracks
+  plans/         Active roadmap
   adr/           ADR summary + archive
-  plans/         Active roadmap + archived plans
-  phases/        Execution phase board
   reference/     Technical contract references
   audits/        Audit workflow and snapshots
   agent/         Agent operating contract
+  archive/       Historical roadmaps and phase records
 ```
 
 ## Documentation
@@ -62,12 +64,13 @@ docs/
 - `ARCHITECTURE.md` - architecture reference and implementation standards
 - `AI.md` - AI execution constraints and read-first contract
 - `CONTRIBUTING.md` - branch, commit, and release discipline
+- `docs/00-index.md` - active documentation system of record
 - `docs/README.md` - full documentation index
 - `docs/adr/ADR-SUMMARY-0001-0022.md` - consolidated ADR summary
-- `docs/plans/ROADMAP-2026-BLOG-MVP.md` - active delivery roadmap
+- `docs/plans/ROADMAP-2026-PRODUCTION-HARDENING.md` - active delivery roadmap
 
 ## ADR Status
 
 - ADR archive is complete for `0001` through `0022`.
-- Active ADR set: `0023` through `0026`.
-- Next ADR number: `0027`.
+- Active ADR set: `0023` through `0030`.
+- Next ADR number: `0031`.

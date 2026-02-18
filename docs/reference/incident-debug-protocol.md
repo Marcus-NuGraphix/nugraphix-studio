@@ -5,8 +5,8 @@ Status: Active
 
 ## Scope
 
-Operational contract for incident triage and debugging during Blog MVP
-expansion.
+Operational contract for incident triage and debugging during production-readiness
+hardening and post-MVP expansion.
 
 ## Severity Model
 
@@ -52,6 +52,5 @@ Instrumentation path:
 1. Halt additional migration or lifecycle changes.
 2. Identify latest known-good commit/tag.
 3. Revert publish-state mutation path first, then schema changes if required.
-4. Re-run release smoke checks from `docs/phases/phase-06.md`.
+4. Re-run release smoke checks from `docs/07-quality/03-release-readiness.md`.
 5. Publish incident summary with root cause and prevention rule.
-

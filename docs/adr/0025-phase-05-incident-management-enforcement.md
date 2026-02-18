@@ -66,9 +66,8 @@ blog publish-state mutation paths.
 ## References
 
 - Incident runbook: `docs/reference/incident-debug-protocol.md`
-- Phase doc: `docs/phases/phase-05.md`
+- Phase doc (archived): `docs/archive/phases/phase-05.md`
 - Blog server lifecycle: `src/features/blog/server/posts.ts`
 - Observability primitives:
   - `src/lib/observability/incident-log.ts`
   - `src/lib/observability/failure-escalation.ts`
-

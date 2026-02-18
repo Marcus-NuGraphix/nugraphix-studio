@@ -457,6 +457,8 @@ See ADR-0011.
 | 0026 | Media Library Integration and Admin Routing | Accepted |
 | 0027 | Example Component Integration Color and Contrast Governance | Accepted |
 | 0028 | Observability Telemetry and Admin Performance Integration | Accepted |
+| 0029 | Example Component Motion and Functional Integration | Accepted |
+| 0030 | Production Readiness Docs-First Hardening Program | Accepted |
 
 Canonical ADR docs:
 
@@ -483,8 +485,9 @@ Completed foundation and integration milestones:
 
 Current active delivery target:
 
-- [ ] Complete Blog MVP editor and publish pipeline (see `docs/plans/ROADMAP-2026-BLOG-MVP.md`)
-- [ ] Replace scaffolded blog/admin docs route placeholders with production implementations
-- [ ] Validate Blog MVP quality gates (`lint`, `typecheck`, `test`, `build`) on final scope
+- [ ] Execute Phase 1 and Phase 2 environment hardening from `docs/08-implementation/01-phased-plan.md`
+- [ ] Complete hosting/latency decision and migration planning from `docs/03-hosting/*`
+- [ ] Deliver dashboard workspaces + auth/security hardening in phased scope
+- [ ] Hold green quality gates (`lint`, `typecheck`, `test`, `build`) per phase exit
 
 ---

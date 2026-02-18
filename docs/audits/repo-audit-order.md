@@ -26,10 +26,11 @@ Use this order for full audits so controls and contracts are validated before de
 
 ## 4. Architecture and Decision Contracts
 
+- `docs/00-index.md`
 - `docs/adr/README.md`
 - `docs/adr/ADR-SUMMARY-0001-0022.md`
-- `docs/phases/*`
 - `docs/plans/*`
+- `docs/08-implementation/*`
 - Confirm implementation still respects accepted ADR decisions.
 
 ## 5. Routing, Layout Shells, and Access Control
@@ -58,12 +59,12 @@ Use this order for full audits so controls and contracts are validated before de
 - `src/features/email`
 - Confirm validation, authorization, server/client boundaries, and route integration.
 
-## 9. Blog MVP Readiness Pass (Current Priority)
+## 9. Production-Readiness Program Pass (Current Priority)
 
-- Admin routes: `src/routes/admin/content/posts/*`
-- Public routes: `src/routes/_public/blog/*`
-- DB schema and content model alignment for post lifecycle.
-- Editor save/publish flow, slug uniqueness, preview safety, and publish-state visibility.
+- Environment reliability artifacts (`docs/02-environments/*`).
+- Hosting/latency decision artifacts (`docs/03-hosting/*`).
+- Dashboard workspace and permissions artifacts (`docs/05-dashboard/*`).
+- Auth hardening and security controls (`docs/06-security/*`).
 
 ## 10. Data and Migration Discipline
 
