@@ -8,6 +8,7 @@ import {
   MarketingSection,
 } from '@/components/marketing'
 import { Button } from '@/components/ui/button'
+import { NewsletterSignupPanel } from '@/features/email'
 
 export const Route = createFileRoute('/_public/')({
   head: () => ({
@@ -89,6 +90,17 @@ function HomePage() {
             description="We align your team around the new system so process quality improves and results compound."
           />
         </div>
+      </MarketingSection>
+
+      <MarketingSection
+        title="Follow our systems newsletter"
+        description="Get practical architecture notes and release updates from Nu Graphix Studio."
+      >
+        <NewsletterSignupPanel
+          topic="blog"
+          source="public-home"
+          subscriberLabel="Join subscribers tracking systems architecture and delivery insights."
+        />
       </MarketingSection>
 
       <MarketingCta

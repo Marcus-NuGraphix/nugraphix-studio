@@ -40,3 +40,4 @@ export { EmailDeliveryFunnel } from '@/features/email/ui/admin/email-delivery-fu
 export { EmailDetailDrawer } from '@/features/email/ui/admin/email-detail-drawer'
 export { EmailFilters } from '@/features/email/ui/admin/email-filters'
 export { EmailSubscribeCard } from '@/features/email/ui/public/email-subscribe-card'
+export { NewsletterSignupPanel } from '@/features/email/ui/public/newsletter-signup-panel'

@@ -1,6 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import type { GalleryGridImageItem } from '@/components/marketing'
 import { getBrandMetaDescription, getBrandPageTitle } from '@/components/brand'
 import {
+  GalleryGridWithLightbox,
   MarketingCard,
   MarketingContainer,
   MarketingHero,
@@ -13,20 +15,45 @@ const portfolioEntries = [
     title: 'Field Operations Control Center',
     summary:
       'Unified dispatch, ticketing, and reporting for distributed service teams.',
+    category: 'Operations',
+    imageSrc:
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80',
+    imageAlt:
+      'Operational analytics dashboard displayed across multiple charts and KPIs.',
   },
   {
     slug: 'workflow-automation-for-compliance',
     title: 'Workflow Automation for Compliance',
     summary:
       'Process automation architecture for audit trails, approvals, and policy enforcement.',
+    category: 'Automation',
+    imageSrc:
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
+    imageAlt:
+      'Team reviewing workflow and compliance tasks on laptops in a meeting room.',
   },
   {
     slug: 'management-reporting-modernization',
     title: 'Management Reporting Modernization',
     summary:
       'Structured reporting layer replacing ad-hoc spreadsheet consolidation cycles.',
+    category: 'Reporting',
+    imageSrc:
+      'https://images.unsplash.com/photo-1551281044-8b8f3c4bcb8f?auto=format&fit=crop&w=1600&q=80',
+    imageAlt:
+      'Executive reporting dashboard with trend charts and performance summaries.',
   },
 ]
+
+const portfolioGalleryItems: Array<GalleryGridImageItem> = portfolioEntries.map(
+  (entry) => ({
+    id: entry.slug,
+    title: entry.title,
+    category: entry.category,
+    imageSrc: entry.imageSrc,
+    imageAlt: entry.imageAlt,
+  }),
+)
 
 export const Route = createFileRoute('/_public/portfolio/')({
   head: () => ({
@@ -74,6 +101,17 @@ function PortfolioPage() {
             </Link>
           ))}
         </div>
+      </MarketingSection>
+
+      <MarketingSection
+        title="Visual project gallery"
+        description="Interactive view of representative delivery environments and workflow surfaces."
+      >
+        <GalleryGridWithLightbox
+          items={portfolioGalleryItems}
+          title="Portfolio highlights"
+          description="Filter by delivery category and inspect each image in a focused lightbox."
+        />
       </MarketingSection>
     </MarketingContainer>
   )
