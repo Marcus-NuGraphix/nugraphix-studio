@@ -28,7 +28,6 @@ Reliable local development startup with Docker Desktop and minimal prerequisites
 - `docker info`
 - `docker compose up -d`
 - `pnpm db:migrate`
-- `pnpm db:push` (temporary local bootstrap fallback until migration chain is reconciled)
 - `pnpm db:seed`
 - `pnpm dev`
 
@@ -38,7 +37,6 @@ Reliable local development startup with Docker Desktop and minimal prerequisites
 $env:DATABASE_URL='postgresql://username:password@localhost:5432/mydb'
 docker compose up -d postgres minio minio-create-bucket mailpit redis
 pnpm db:migrate
-pnpm db:push
 pnpm db:seed
 ```
 
@@ -49,9 +47,8 @@ pnpm db:seed
 - `docker compose config` - pass.
 - `docker compose up -d` - pass (`postgres`, `redis`, `mailpit`, `minio` running).
 - `pnpm db:migrate` with local `DATABASE_URL` - pass.
-- `pnpm db:seed` after migrate-only path - fails (`relation "user" does not exist`).
-- `pnpm db:push` with local `DATABASE_URL` - pass.
-- `pnpm db:seed` after push path - pass (`8` demo posts upserted).
+- `pnpm db:seed` after migrate path - pass (`8` demo posts upserted).
+- Local DB sanity check - pass (`user_count=1`, `post_count=8`).
 
 ## Verification Checklist
 
@@ -63,12 +60,13 @@ pnpm db:seed
 
 ## Troubleshooting
 
-- `db:migrate` succeeds but seed fails if schema drift exists (workaround: `db:push`).
-- If `db:push` prompts about renaming `users` -> `account`, remove legacy local
-  `users` table and rerun push against a clean local DB.
+- Migration artifacts were reconciled in `drizzle/0002_schema_reconciliation.sql`.
+- Legacy local databases that still contain `users` can be normalized by rerunning
+  `pnpm db:migrate` (migration `0002` migrates/drop-in replaces legacy table).
 
 ```powershell
-docker exec nugraphixstudiolocal-postgres-1 psql -U username -d mydb -c "DROP TABLE IF EXISTS users CASCADE;"
+$env:DATABASE_URL='postgresql://username:password@localhost:5432/mydb'
+pnpm db:migrate
 ```
 
 - Port conflicts (`5432`, `6379`, `9000`, `9001`, `1025`, `8025`).

@@ -27,7 +27,6 @@ Make schema changes and seed data deterministic across environments.
 
 - `pnpm db:generate`
 - `pnpm db:migrate`
-- `pnpm db:push` (local fallback only, not release migration authority)
 - `pnpm db:seed`
 - `pnpm test`
 
@@ -36,17 +35,19 @@ Make schema changes and seed data deterministic across environments.
 - `db:seed` now maps to `tools/seed-blog-demo.ts`.
 - Seed flow currently provides deterministic blog demo content; dedicated
   admin/user bootstrap seeding remains a follow-up task.
-- Observed on clean local DB:
-  - `db:migrate` succeeds but does not materialize current auth schema (`user` table missing).
-  - `db:seed` fails after migrate-only path.
-  - `db:push` then `db:seed` succeeds.
-- Drizzle official guidance allows `push` for rapid local iteration, but repo
-  release flow must still rely on migration artifacts as system of record.
+- Migration `drizzle/0002_schema_reconciliation.sql` backfills full schema
+  coverage after legacy `0000`/`0001` baseline.
+- Clean local verification now passes with migrate-only bootstrap:
+  - `pnpm db:migrate` (local Postgres) - pass
+  - `pnpm db:seed` - pass
+  - Seed sanity check: `user_count=1`, `post_count=8`
+- `db:push` remains optional for rapid local iteration only and is not part of
+  canonical bootstrap or release migration authority.
 
 ## Immediate Remediation Track
 
-- [ ] Backfill/normalize migration SQL so `db:migrate` alone can bootstrap a clean local DB.
-- [ ] Keep `db:push` documented as temporary local fallback only until drift is resolved.
+- [x] Backfill/normalize migration SQL so `db:migrate` alone can bootstrap a clean local DB.
+- [x] Keep `db:push` as optional local iteration helper, not canonical bootstrap.
 - [ ] Add migration integrity check to fail Phase 1 exit when seed cannot run after migrate-only path.
 
 ## Failure Recovery

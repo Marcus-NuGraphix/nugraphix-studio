@@ -50,20 +50,18 @@ Reliable local dev via Docker Desktop.
 ### Tasks
 
 - [x] Validate required local services only.
-- [ ] Ensure deterministic migration + seed (`db:migrate` currently insufficient on clean local DB).
+- [x] Ensure deterministic migration + seed (`drizzle/0002_schema_reconciliation.sql`).
 - [x] Document troubleshooting flow.
 
 ### Verification
 
 - Fresh clone setup succeeds in <= 15 minutes.
-  - Local compose startup now passes; current blocker is migration/schema drift
-    requiring `db:push` before seed.
+  - Local compose + migrate + seed path now passes on clean local DB.
 
 ### Exit Criteria
 
 - New developer can run stack without guesswork.
-- Current gap: migration artifacts must be reconciled so `db:migrate` alone
-  supports seed/bootstrap on clean DB.
+- Remaining validation gap: timed fresh-clone onboarding and route/login smoke checks.
 
 ## Phase 2 - Production-Dev Runtime on VM
 

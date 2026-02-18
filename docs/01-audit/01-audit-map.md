@@ -60,7 +60,15 @@ Create a measurement-first baseline before hardening or refactor work.
 - `docker info` - pass (engine running).
 - `docker compose up -d` - pass (`postgres`, `redis`, `minio`, `mailpit` healthy).
 - `pnpm db:migrate` against local Postgres - pass.
-- `pnpm db:seed` after migrate-only path - failed (`relation "user" does not exist`).
-- `pnpm db:push` + `pnpm db:seed` against local Postgres - pass.
-- Conclusion: local Docker runtime is validated, but migration artifacts are not
-  yet sufficient for full clean bootstrap without a schema push step.
+- Added migration reconciliation artifacts:
+  - `drizzle/0002_schema_reconciliation.sql`
+  - `drizzle/meta/0002_snapshot.json`
+  - `drizzle/meta/_journal.json` entry for `0002_schema_reconciliation`
+- `pnpm db:seed` after migrate-only path - pass.
+- Conclusion: local Docker runtime and migrate-first bootstrap are both validated.
+
+## Dependency Hotfix Follow-up (2026-02-18)
+
+- Added `pnpm.overrides.fast-xml-parser=5.3.6` in `package.json` to patch AWS SDK transitive chain.
+- `pnpm list fast-xml-parser --depth 12` confirms resolved runtime graph now uses `5.3.6`.
+- `pnpm audit --prod` now reports no high vulnerabilities; only moderate `esbuild` advisory remains.

@@ -6,28 +6,26 @@ Scope: Docker Desktop local runtime, database bootstrap, migration/seed workflow
 ## Summary
 
 Local Docker runtime validation is now operational. Compose services start and
-health checks pass. A migration coverage gap remains: `db:migrate` alone does
-not materialize full schema required by seed scripts on a clean local database.
+health checks pass. Migration coverage was reconciled with
+`drizzle/0002_schema_reconciliation.sql`, and clean bootstrap now works with
+`db:migrate` then `db:seed` (no `db:push` required).
 
 ## Findings
 
-### High
+### High (Resolved)
 
-1. Migration chain drift blocks deterministic seed after migrate-only path.
-   - Evidence:
-     - `pnpm db:migrate` (local Postgres) succeeded.
-     - `pnpm db:seed` failed with `relation "user" does not exist`.
-     - `pnpm db:push` followed by `pnpm db:seed` succeeded.
+1. Migration chain drift previously blocked deterministic seed after
+   migrate-only path.
+   - Resolution:
+     - Added migration `drizzle/0002_schema_reconciliation.sql`.
+     - Added `drizzle/meta/0002_snapshot.json` and journal entry.
+     - Revalidated on wiped local DB with migrate-only path.
+
+### Medium (Resolved)
+
+1. Legacy `users` table artifact is normalized during migration reconciliation.
    - Impact:
-     - Phase 1 exit criteria are not fully met.
-     - Clean local bootstrap relies on schema push fallback.
-
-### Medium
-
-1. Legacy migration artifact (`users` table) conflicts with current auth schema
-   naming (`user`) during schema push prompts unless the legacy table is absent.
-   - Impact:
-     - Non-deterministic push behavior on existing local databases.
+     - Fresh local bootstrap no longer depends on manual table cleanup.
 
 ### Low
 
@@ -41,17 +39,12 @@ not materialize full schema required by seed scripts on a clean local database.
 - `docker compose up -d postgres minio minio-create-bucket mailpit redis`
 - `docker compose ps -a`
 - `pnpm db:migrate` (with local `DATABASE_URL`)
-- `pnpm db:seed` (fails after migrate-only path)
-- `docker exec ... DROP TABLE IF EXISTS users CASCADE` (clear legacy local table for push conflict)
-- `pnpm db:push` (local fallback path)
-- `pnpm db:seed` (passes after push path)
+- `pnpm db:seed` (passes after migrate-only path)
 - `docker exec ... psql ...` sanity check:
   - `user_count = 1`
   - `post_count = 8`
 
 ## Recommended Fix Order
 
-1. Backfill and normalize migration artifacts so `db:migrate` fully provisions
-   current schema on clean local databases.
-2. Keep `db:push` documented as temporary local fallback only.
-3. Add migration/seed smoke check to Phase 1 verification gate.
+1. Add migration/seed smoke check to Phase 1 verification gate.
+2. Expand seed coverage for admin/user bootstrap (beyond blog demo dataset).

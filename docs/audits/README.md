@@ -10,6 +10,7 @@ Last updated: 2026-02-18
 - `docs/audits/2026-02-18-production-hardening-docs-scaffold.md` - production-readiness docs-first scaffold baseline and stale-reference cleanup.
 - `docs/audits/2026-02-18-phase-0-repo-audit.md` - Phase 0 outside-in repo audit with severity-ranked findings and fix order.
 - `docs/audits/2026-02-18-phase-1-local-env-validation.md` - Phase 1 local Docker/runtime validation with migration-chain drift findings.
+- `docs/audits/2026-02-18-fast-xml-parser-mitigation.md` - targeted dependency audit showing closure of high `fast-xml-parser` advisory.
 
 ## Audit Cadence
 
