@@ -1,6 +1,6 @@
 # Nu Graphix Studio — Architecture Reference
 
-> Last validated: 2026-02-17
+> Last validated: 2026-02-18
 
 ---
 
@@ -55,6 +55,7 @@ src/
       signup/index.tsx
       forgot-password/index.tsx
       reset-password/index.tsx
+      account/index.tsx          # /account
     _legal/                      # Legal pages (pathless layout)
       route.tsx
       privacy-policy/index.tsx
@@ -70,6 +71,7 @@ src/
       docs/architecture/index.tsx  # /admin/docs/architecture
       docs/adr/index.tsx         # /admin/docs/adr
       docs/phases/index.tsx      # /admin/docs/phases
+      account/index.tsx          # /admin/account
       users/index.tsx            # /admin/users
       users/$userId.tsx          # /admin/users/:userId
     api/
@@ -119,9 +121,11 @@ src/
         account/                 # User-facing email preferences
         admin/                   # Admin email dashboard components
         public/                  # Public subscription card
-    users/                       # User management (admin)
-      model/                     # Filters, types
+    users/                       # User account + admin governance
+      model/                     # Filters, types, event labels
       schemas/                   # Account, admin schemas
+      server/                    # account/admin server functions
+      ui/account/                # User/admin account center components
       ui/admin/                  # Admin user management components
 
   lib/                           # Core infrastructure
@@ -246,7 +250,7 @@ TanStack Router pathless layout routes (`_prefix`) group routes under shared lay
 | Layout | URL prefix | Purpose |
 |--------|-----------|---------|
 | `_public` | `/` | Marketing pages, public content |
-| `_auth` | `/login`, `/signup`, etc. | Auth flows (centered layout) |
+| `_auth` | `/login`, `/signup`, `/account`, etc. | Auth + account flows |
 | `_legal` | `/privacy-policy`, etc. | Legal pages |
 | `admin` | `/admin/*` | Protected admin area |
 
@@ -421,6 +425,8 @@ See ADR-0011.
 | 0017 | Error Taxonomy and ServerFail Conversion | Accepted |
 | 0018 | Cross-Cutting Infrastructure Layer Organization | Accepted |
 | 0019 | Auth Feature Hardening and Lib Integration | Accepted |
+| 0020 | Shared Component Composition Layer | Accepted |
+| 0021 | Users Account and Admin Route Integration | Accepted |
 
 ---
 
@@ -438,10 +444,10 @@ Completed items from the initial checklist:
 
 Remaining before CMS/KB features:
 
-- [ ] Add `beforeLoad` auth guard to `admin/route.tsx`
+- [x] Add `beforeLoad` auth guard to `admin/route.tsx`
 - [ ] Test redirect flow: unauthenticated → login → redirect back
 - [ ] Create first admin user via seed script (`pnpm seed:editorial`)
-- [ ] Wire up admin user management to server functions
+- [x] Wire up admin user management to server functions
 - [ ] Implement blog CRUD server functions
 - [ ] Implement content CMS server functions
 

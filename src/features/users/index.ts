@@ -1,5 +1,9 @@
 // Model
 export { userAdminFiltersSchema } from '@/features/users/model/filters'
+export {
+  toAuditActionLabel,
+  toSecurityEventLabel,
+} from '@/features/users/model/event-labels'
 export { usersQueryKeys } from '@/features/users/lib/query-keys'
 
 // Server
@@ -26,6 +30,7 @@ export { ProfileForm } from '@/features/users/ui/account/profile-form'
 export { ChangePasswordForm } from '@/features/users/ui/account/change-password-form'
 export { SessionList } from '@/features/users/ui/account/session-list'
 export { SecurityEventsList } from '@/features/users/ui/account/security-events-list'
+export { AccountOverview } from '@/features/users/ui/account/account-overview'
 
 // UI — Admin
 export { UsersTable } from '@/features/users/ui/admin/users-table'

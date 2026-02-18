@@ -11,6 +11,7 @@ import {
   PlusCircle,
   Settings,
   SquareLibrary,
+  UserCircle2,
   UsersRound,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -23,6 +24,7 @@ export type AdminStaticRoutePath =
   | '/admin/content/posts/new'
   | '/admin/kb'
   | '/admin/users'
+  | '/admin/account'
   | '/admin/settings'
   | '/admin/docs'
   | '/admin/docs/architecture'
@@ -137,6 +139,12 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         description: 'Accounts, roles, and security activity',
       },
       {
+        title: 'Account',
+        to: '/admin/account',
+        icon: UserCircle2,
+        description: 'Your own admin profile and security controls',
+      },
+      {
         title: 'Settings',
         to: '/admin/settings',
         icon: Settings,
@@ -151,6 +159,7 @@ export const adminQuickAccessLinks: Array<AdminNavChild> = [
   { title: 'Docs', to: '/admin/docs' },
   { title: 'Components', to: '/admin/components' },
   { title: 'Users', to: '/admin/users' },
+  { title: 'Account', to: '/admin/account' },
 ]
 
 export interface AdminBreadcrumb {

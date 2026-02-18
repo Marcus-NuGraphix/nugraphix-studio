@@ -1,6 +1,13 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowUpRight, MailCheck, ShieldCheck, User2 } from 'lucide-react'
+import {
+  ArrowUpRight,
+  Clock3,
+  MailCheck,
+  ShieldCheck,
+  User2,
+} from 'lucide-react'
 import type { UserAuditItem } from '@/features/users/model/types'
+import { EmptyState } from '@/components/empties/empty-state'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -10,6 +17,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { toAuditActionLabel } from '@/features/users/model/event-labels'
 import { UserStatusBadge } from '@/features/users/ui/admin/user-status-badge'
 
 interface UserDetailDrawerData {
@@ -170,65 +179,62 @@ export function UserDetailDrawer({
                 </div>
               </section>
 
-              <section className="space-y-2 rounded-xl border border-border bg-card p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-foreground">
-                    Recent Sessions
-                  </p>
-                  <span className="text-xs text-muted-foreground">
-                    {sessionCount} total
-                  </span>
-                </div>
+              <Tabs defaultValue="sessions" className="rounded-xl border border-border bg-card p-4">
+                <TabsList variant="line">
+                  <TabsTrigger value="sessions">
+                    Sessions ({sessionCount})
+                  </TabsTrigger>
+                  <TabsTrigger value="audit">Audit ({auditCount})</TabsTrigger>
+                </TabsList>
 
-                {recentSessions.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">
-                    No active sessions.
-                  </p>
-                ) : (
-                  recentSessions.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="rounded-lg border border-border bg-muted/30 p-2 text-xs text-muted-foreground"
-                    >
-                      <p className="text-foreground/90">
-                        {entry.userAgent ?? 'Unknown device'}
-                      </p>
-                      <p>IP: {entry.ipAddress ?? 'Unknown'}</p>
-                      <p>Expires: {entry.expiresAt.toLocaleString()}</p>
-                    </div>
-                  ))
-                )}
-              </section>
+                <TabsContent value="sessions" className="space-y-2 pt-2">
+                  {recentSessions.length === 0 ? (
+                    <EmptyState
+                      icon={Clock3}
+                      title="No active sessions"
+                      description="Session activity will appear here for this user."
+                      className="border-border bg-card text-foreground"
+                    />
+                  ) : (
+                    recentSessions.map((entry) => (
+                      <div
+                        key={entry.id}
+                        className="rounded-lg border border-border bg-muted/30 p-2 text-xs text-muted-foreground"
+                      >
+                        <p className="text-foreground/90">
+                          {entry.userAgent ?? 'Unknown device'}
+                        </p>
+                        <p>IP: {entry.ipAddress ?? 'Unknown'}</p>
+                        <p>Expires: {entry.expiresAt.toLocaleString()}</p>
+                      </div>
+                    ))
+                  )}
+                </TabsContent>
 
-              <section className="space-y-2 rounded-xl border border-border bg-card p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-foreground">
-                    Recent Audit Events
-                  </p>
-                  <span className="text-xs text-muted-foreground">
-                    {auditCount} total
-                  </span>
-                </div>
-
-                {recentAudit.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">
-                    No audit events.
-                  </p>
-                ) : (
-                  recentAudit.map((event) => (
-                    <div
-                      key={event.id}
-                      className="rounded-lg border border-border bg-muted/30 p-2 text-xs text-muted-foreground"
-                    >
-                      <p className="font-medium text-foreground">
-                        {event.action}
-                      </p>
-                      <p>Actor: {event.actorEmail ?? 'system'}</p>
-                      <p>{event.createdAt.toLocaleString()}</p>
-                    </div>
-                  ))
-                )}
-              </section>
+                <TabsContent value="audit" className="space-y-2 pt-2">
+                  {recentAudit.length === 0 ? (
+                    <EmptyState
+                      icon={Clock3}
+                      title="No audit events"
+                      description="Audit timeline entries for this user appear here."
+                      className="border-border bg-card text-foreground"
+                    />
+                  ) : (
+                    recentAudit.map((event) => (
+                      <div
+                        key={event.id}
+                        className="rounded-lg border border-border bg-muted/30 p-2 text-xs text-muted-foreground"
+                      >
+                        <p className="font-medium text-foreground">
+                          {toAuditActionLabel(event.action)}
+                        </p>
+                        <p>Actor: {event.actorEmail ?? 'system'}</p>
+                        <p>{event.createdAt.toLocaleString()}</p>
+                      </div>
+                    ))
+                  )}
+                </TabsContent>
+              </Tabs>
 
               <div className="flex justify-end">
                 <Button variant="outline" asChild className="hover:bg-muted">

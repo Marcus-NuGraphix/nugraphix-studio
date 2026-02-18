@@ -1,8 +1,9 @@
-import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import { Link, Outlet, createFileRoute, useRouterState } from '@tanstack/react-router'
 
 import { ArrowLeft } from 'lucide-react'
 import { BrandLockup, getBrandPageTitle } from '@/components/brand'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/_auth')({
   head: () => ({
@@ -16,6 +17,9 @@ export const Route = createFileRoute('/_auth')({
 })
 
 function RouteComponent() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
+  const isAccountRoute = pathname === '/account'
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-8 sm:px-6 lg:px-8">
@@ -30,7 +34,12 @@ function RouteComponent() {
           </Button>
         </div>
 
-        <section className="mx-auto flex w-full max-w-5xl flex-1 items-center py-8 md:py-12">
+        <section
+          className={cn(
+            'mx-auto flex w-full flex-1 py-8 md:py-12',
+            isAccountRoute ? 'max-w-6xl items-start' : 'max-w-5xl items-center',
+          )}
+        >
           <Outlet />
         </section>
       </div>

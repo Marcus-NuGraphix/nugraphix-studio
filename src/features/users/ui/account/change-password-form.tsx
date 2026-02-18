@@ -1,8 +1,34 @@
+import { useForm } from '@tanstack/react-form'
+import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/components/ui/input-group'
 import { Switch } from '@/components/ui/switch'
+
+const changePasswordFormSchema = z
+  .object({
+    currentPassword: z.string().min(8),
+    newPassword: z.string().min(10).max(128),
+    confirmPassword: z.string().min(10).max(128),
+    revokeOtherSessions: z.boolean(),
+  })
+  .refine((value) => value.newPassword === value.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 export function ChangePasswordForm({
   onSubmit,
@@ -14,91 +40,209 @@ export function ChangePasswordForm({
     revokeOtherSessions: boolean
   }) => Promise<void>
 }) {
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [revokeOtherSessions, setRevokeOtherSessions] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const form = useForm({
+    defaultValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      revokeOtherSessions: true,
+    },
+    validators: {
+      onChange: changePasswordFormSchema,
+      onSubmit: changePasswordFormSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await onSubmit(value)
+      form.reset({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+        revokeOtherSessions: value.revokeOtherSessions,
+      })
+    },
+  })
 
   return (
     <form
       className="space-y-5"
       onSubmit={(event) => {
         event.preventDefault()
-        setIsSaving(true)
-        void onSubmit({
-          currentPassword,
-          newPassword,
-          confirmPassword,
-          revokeOtherSessions,
-        }).finally(() => setIsSaving(false))
+        void form.handleSubmit()
       }}
     >
-      <div className="space-y-2">
-        <Label htmlFor="current-password" className="text-foreground">
-          Current Password
-        </Label>
-        <Input
-          id="current-password"
-          type="password"
-          value={currentPassword}
-          onChange={(event) => setCurrentPassword(event.target.value)}
-          autoComplete="current-password"
-          className="border-input bg-background"
+      <FieldGroup>
+        <form.Field
+          name="currentPassword"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Current Password</FieldLabel>
+                <InputGroup className="border-input bg-background">
+                  <InputGroupInput
+                    id={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    aria-invalid={isInvalid}
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      size="icon-sm"
+                      aria-label={
+                        showCurrentPassword
+                          ? 'Hide current password'
+                          : 'Show current password'
+                      }
+                      onClick={() => setShowCurrentPassword((value) => !value)}
+                    >
+                      {showCurrentPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+                {isInvalid ? (
+                  <FieldError errors={field.state.meta.errors} />
+                ) : null}
+              </Field>
+            )
+          }}
         />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="new-password" className="text-foreground">
-          New Password
-        </Label>
-        <Input
-          id="new-password"
-          type="password"
-          value={newPassword}
-          onChange={(event) => setNewPassword(event.target.value)}
-          autoComplete="new-password"
-          className="border-input bg-background"
+        <form.Field
+          name="newPassword"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>New Password</FieldLabel>
+                <InputGroup className="border-input bg-background">
+                  <InputGroupInput
+                    id={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    type={showNewPassword ? 'text' : 'password'}
+                    autoComplete="new-password"
+                    aria-invalid={isInvalid}
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      size="icon-sm"
+                      aria-label={
+                        showNewPassword
+                          ? 'Hide new password'
+                          : 'Show new password'
+                      }
+                      onClick={() => setShowNewPassword((value) => !value)}
+                    >
+                      {showNewPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+                {isInvalid ? (
+                  <FieldError errors={field.state.meta.errors} />
+                ) : null}
+              </Field>
+            )
+          }}
         />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="confirm-password" className="text-foreground">
-          Confirm New Password
-        </Label>
-        <Input
-          id="confirm-password"
-          type="password"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
-          autoComplete="new-password"
-          className="border-input bg-background"
+        <form.Field
+          name="confirmPassword"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>
+                  Confirm New Password
+                </FieldLabel>
+                <InputGroup className="border-input bg-background">
+                  <InputGroupInput
+                    id={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    autoComplete="new-password"
+                    aria-invalid={isInvalid}
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      size="icon-sm"
+                      aria-label={
+                        showConfirmPassword
+                          ? 'Hide password confirmation'
+                          : 'Show password confirmation'
+                      }
+                      onClick={() => setShowConfirmPassword((value) => !value)}
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+                {isInvalid ? (
+                  <FieldError errors={field.state.meta.errors} />
+                ) : null}
+              </Field>
+            )
+          }}
         />
-      </div>
 
-      <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 p-3">
-        <Switch
-          checked={revokeOtherSessions}
-          onCheckedChange={setRevokeOtherSessions}
-          id="revoke-other-sessions"
+        <form.Field
+          name="revokeOtherSessions"
+          children={(field) => (
+            <Field className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 p-3">
+              <Switch
+                checked={field.state.value}
+                onCheckedChange={field.handleChange}
+                id={field.name}
+              />
+              <FieldLabel htmlFor={field.name}>
+                Revoke my other sessions after password change
+              </FieldLabel>
+            </Field>
+          )}
         />
-        <Label htmlFor="revoke-other-sessions" className="text-foreground">
-          Revoke my other sessions after password change
-        </Label>
-      </div>
 
-      <p className="text-xs text-muted-foreground">
-        Password must be at least 10 characters and should be unique to this
-        account.
-      </p>
+        <FieldDescription>
+          Password must be at least 10 characters and should be unique to this
+          account.
+        </FieldDescription>
 
-      <Button
-        type="submit"
-        disabled={isSaving}
-        className="bg-primary text-primary-foreground hover:bg-primary/90"
-      >
-        {isSaving ? 'Updating...' : 'Update Password'}
-      </Button>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          children={([canSubmit, isSubmitting]) => (
+            <Button
+              type="submit"
+              disabled={!canSubmit || isSubmitting}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              {isSubmitting ? 'Updating...' : 'Update Password'}
+            </Button>
+          )}
+        />
+      </FieldGroup>
     </form>
   )
 }

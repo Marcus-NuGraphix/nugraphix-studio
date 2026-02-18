@@ -1,26 +1,14 @@
-import { Clock3 } from 'lucide-react'
+import { Clock3, ShieldCheck } from 'lucide-react'
 import type { UserAuditItem } from '@/features/users/model/types'
 import { EmptyState } from '@/components/empties/empty-state'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { toAuditActionLabel } from '@/features/users/model/event-labels'
 
 interface UserAuditTabProps {
   items: Array<UserAuditItem>
   onOpenUser: (userId: string) => void
 }
-
-const actionLabels: Record<string, string> = {
-  'user-created': 'User Created',
-  'profile-updated': 'Profile Updated',
-  'password-changed': 'Password Changed',
-  'role-updated': 'Role Updated',
-  'status-suspended': 'Account Suspended',
-  'status-reactivated': 'Account Reactivated',
-  'sessions-revoked': 'Sessions Revoked',
-  'session-revoked': 'Session Revoked',
-  'account-deleted': 'Account Deleted',
-}
-
-const toActionLabel = (value: string) => actionLabels[value] ?? value
 
 export function UserAuditTab({ items, onOpenUser }: UserAuditTabProps) {
   if (items.length === 0) {
@@ -46,9 +34,10 @@ export function UserAuditTab({ items, onOpenUser }: UserAuditTabProps) {
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-foreground">
-                  {toActionLabel(item.action)}
-                </p>
+                <Badge className="border-border bg-muted text-foreground">
+                  <ShieldCheck className="size-3.5" />
+                  {toAuditActionLabel(item.action)}
+                </Badge>
 
                 <p className="text-xs text-muted-foreground">
                   Actor: {item.actorEmail ?? 'System'}

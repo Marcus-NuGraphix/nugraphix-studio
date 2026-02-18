@@ -1,7 +1,9 @@
 import {
   ArrowUpRight,
+  MoreHorizontal,
   ShieldCheck,
   ShieldOff,
+  ShieldX,
   Trash2,
   Users,
 } from 'lucide-react'
@@ -9,15 +11,17 @@ import { useMemo } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { EmptyState } from '@/components/empties/empty-state'
 import { DataTable, DataTableColumnHeader } from '@/components/tables'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { getInitials } from '@/lib/utils'
 import { UserStatusBadge } from '@/features/users/ui/admin/user-status-badge'
 
 export interface UsersTableRow {
@@ -60,7 +64,13 @@ export function UsersTable({
           <DataTableColumnHeader column={column} title="User" />
         ),
         cell: ({ row }) => (
-          <div className="flex max-w-65 flex-col gap-0.5">
+          <div className="flex max-w-65 items-center gap-2">
+            <Avatar size="sm">
+              <AvatarFallback>
+                {getInitials(row.original.name, { fallback: 'NG' })}
+              </AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
             <button
               type="button"
               onClick={(event) => {
@@ -74,6 +84,7 @@ export function UsersTable({
             <span className="line-clamp-1 text-xs text-muted-foreground">
               {row.original.email}
             </span>
+            </div>
           </div>
         ),
       },
@@ -82,30 +93,16 @@ export function UsersTable({
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title="Role" />
         ),
-        cell: ({ row }) => {
-          const entry = row.original
-          const isSelf = entry.id === currentUserId
-
-          return (
-            <div onClick={(event) => event.stopPropagation()}>
-              <Select
-                value={entry.role}
-                onValueChange={(value) =>
-                  onRoleChange(entry.id, value as 'user' | 'admin')
-                }
-                disabled={isSelf}
-              >
-                <SelectTrigger className="h-8 w-28 border-input bg-background">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          )
-        },
+        cell: ({ row }) => (
+          <Badge className="border-border bg-muted text-foreground">
+            {row.original.role === 'admin' ? (
+              <ShieldCheck className="size-3.5" />
+            ) : (
+              <ShieldOff className="size-3.5" />
+            )}
+            {row.original.role}
+          </Badge>
+        ),
       },
       {
         accessorKey: 'status',
@@ -157,75 +154,68 @@ export function UsersTable({
           const isSelf = entry.id === currentUserId
 
           return (
-            <div className="flex flex-wrap justify-end gap-1.5">
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-background text-foreground hover:bg-muted"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  onOpenDetail(entry.id)
-                }}
-              >
-                Inspect
-                <ArrowUpRight className="size-3.5" />
-              </Button>
-
-              {entry.status === 'suspended' ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-background text-foreground hover:bg-muted"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    onReactivate(entry.id)
-                  }}
+            <div className="flex justify-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={`Open actions for ${entry.name}`}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <MoreHorizontal className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-56"
+                  onClick={(event) => event.stopPropagation()}
                 >
-                  <ShieldCheck className="size-4" />
-                  Reactivate
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-background text-foreground hover:bg-muted"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    onSuspend(entry.id)
-                  }}
-                  disabled={isSelf}
-                >
-                  <ShieldOff className="size-4" />
-                  Suspend
-                </Button>
-              )}
+                  <DropdownMenuItem onClick={() => onOpenDetail(entry.id)}>
+                    Open profile
+                    <ArrowUpRight className="ml-auto size-4" />
+                  </DropdownMenuItem>
 
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-background text-foreground hover:bg-muted"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  onRevokeSessions(entry.id)
-                }}
-              >
-                Revoke Sessions
-              </Button>
+                  <DropdownMenuItem
+                    disabled={isSelf}
+                    onClick={() =>
+                      onRoleChange(entry.id, entry.role === 'admin' ? 'user' : 'admin')
+                    }
+                  >
+                    {entry.role === 'admin' ? 'Set as user' : 'Set as admin'}
+                  </DropdownMenuItem>
 
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-destructive/40 bg-background text-destructive hover:bg-destructive/10"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  onDelete(entry.id)
-                }}
-                disabled={isSelf}
-                aria-label={`Delete ${entry.name}`}
-              >
-                <Trash2 className="size-4" />
-                Delete
-              </Button>
+                  {entry.status === 'suspended' ? (
+                    <DropdownMenuItem onClick={() => onReactivate(entry.id)}>
+                      Reactivate account
+                      <ShieldCheck className="ml-auto size-4" />
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      disabled={isSelf}
+                      onClick={() => onSuspend(entry.id)}
+                    >
+                      Suspend account
+                      <ShieldOff className="ml-auto size-4" />
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem onClick={() => onRevokeSessions(entry.id)}>
+                    Revoke all sessions
+                    <ShieldX className="ml-auto size-4" />
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    disabled={isSelf}
+                    className="text-destructive focus:text-destructive"
+                    onClick={() => onDelete(entry.id)}
+                  >
+                    Delete user
+                    <Trash2 className="ml-auto size-4" />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )
         },

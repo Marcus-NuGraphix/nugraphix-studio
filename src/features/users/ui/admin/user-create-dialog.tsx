@@ -1,5 +1,7 @@
 import { UserPlus } from 'lucide-react'
 import { useState } from 'react'
+import { useForm } from '@tanstack/react-form'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,8 +12,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -19,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { roleValues } from '@/features/auth/model/session'
 
 type UserRole = 'user' | 'admin'
 
@@ -31,32 +40,52 @@ interface UserCreateDialogProps {
   }) => Promise<void>
 }
 
+const userCreateSchema = z.object({
+  name: z.string().trim().min(2).max(80),
+  email: z.email(),
+  password: z.string().min(10),
+  role: z.enum(roleValues),
+})
+
 export function UserCreateDialog({ onSubmit }: UserCreateDialogProps) {
   const [open, setOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [role, setRole] = useState<UserRole>('user')
 
-  const resetForm = () => {
-    setName('')
-    setEmail('')
-    setPassword('')
-    setRole('user')
-  }
-
-  const canSubmit =
-    name.trim().length >= 2 &&
-    email.trim().length > 0 &&
-    password.trim().length >= 10
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      role: 'user' as UserRole,
+    },
+    validators: {
+      onChange: userCreateSchema,
+      onSubmit: userCreateSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await onSubmit(value)
+      setOpen(false)
+      form.reset({
+        name: '',
+        email: '',
+        password: '',
+        role: 'user',
+      })
+    },
+  })
 
   return (
     <Dialog
       open={open}
       onOpenChange={(next) => {
         setOpen(next)
-        if (!next) resetForm()
+        if (!next) {
+          form.reset({
+            name: '',
+            email: '',
+            password: '',
+            role: 'user',
+          })
+        }
       }}
     >
       <DialogTrigger asChild>
@@ -79,91 +108,133 @@ export function UserCreateDialog({ onSubmit }: UserCreateDialogProps) {
           className="space-y-4"
           onSubmit={(event) => {
             event.preventDefault()
-            if (!canSubmit) return
-            setIsSubmitting(true)
-            void onSubmit({
-              name: name.trim(),
-              email: email.trim(),
-              password: password.trim(),
-              role,
-            })
-              .then(() => {
-                setOpen(false)
-                resetForm()
-              })
-              .finally(() => setIsSubmitting(false))
+            void form.handleSubmit()
           }}
         >
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="create-user-name" className="text-foreground">
-                Full Name
-              </Label>
-              <Input
-                id="create-user-name"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Community Team Member"
-                className="border-input bg-background"
-                autoComplete="name"
+          <FieldGroup>
+            <div className="grid gap-4 md:grid-cols-2">
+              <form.Field
+                name="name"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(event) =>
+                          field.handleChange(event.target.value)
+                        }
+                        placeholder="Operations Team Member"
+                        className="border-input bg-background"
+                        autoComplete="name"
+                        aria-invalid={isInvalid}
+                      />
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="role"
+                children={(field) => (
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Role</FieldLabel>
+                    <Select
+                      value={field.state.value}
+                      onValueChange={(value) =>
+                        field.handleChange(value as UserRole)
+                      }
+                    >
+                      <SelectTrigger
+                        id={field.name}
+                        className="border-input bg-background"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FieldDescription>
+                      Assign least privilege by default and elevate only when
+                      required.
+                    </FieldDescription>
+                  </Field>
+                )}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="create-user-role" className="text-foreground">
-                Role
-              </Label>
-              <Select
-                value={role}
-                onValueChange={(value) => setRole(value as UserRole)}
-              >
-                <SelectTrigger
-                  id="create-user-role"
-                  className="border-input bg-background"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="create-user-email" className="text-foreground">
-              Email Address
-            </Label>
-            <Input
-              id="create-user-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="user@nugraphix.co.za"
-              className="border-input bg-background"
-              autoComplete="email"
+            <form.Field
+              name="email"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Email Address</FieldLabel>
+                    <Input
+                      id={field.name}
+                      type="email"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      placeholder="user@nugraphix.co.za"
+                      className="border-input bg-background"
+                      autoComplete="email"
+                      aria-invalid={isInvalid}
+                    />
+                    {isInvalid ? (
+                      <FieldError errors={field.state.meta.errors} />
+                    ) : null}
+                  </Field>
+                )
+              }}
             />
-          </div>
 
-          <div className="space-y-2">
-            <Label
-              htmlFor="create-user-password"
-              className="text-foreground"
-            >
-              Temporary Password
-            </Label>
-            <Input
-              id="create-user-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="border-input bg-background"
-              autoComplete="new-password"
+            <form.Field
+              name="password"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>
+                      Temporary Password
+                    </FieldLabel>
+                    <Input
+                      id={field.name}
+                      type="password"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      className="border-input bg-background"
+                      autoComplete="new-password"
+                      aria-invalid={isInvalid}
+                    />
+                    <FieldDescription>
+                      Minimum 10 characters. Share securely and enforce
+                      rotation on first login.
+                    </FieldDescription>
+                    {isInvalid ? (
+                      <FieldError errors={field.state.meta.errors} />
+                    ) : null}
+                  </Field>
+                )
+              }}
             />
-            <p className="text-xs text-muted-foreground">
-              Minimum 10 characters. Share securely and rotate on first login.
-            </p>
-          </div>
+          </FieldGroup>
         </form>
 
         <DialogFooter className="border-border bg-muted/50">
@@ -173,13 +244,18 @@ export function UserCreateDialog({ onSubmit }: UserCreateDialogProps) {
           >
             Cancel
           </Button>
-          <Button
-            form="create-user-form"
-            type="submit"
-            disabled={!canSubmit || isSubmitting}
-          >
-            {isSubmitting ? 'Creating...' : 'Create User'}
-          </Button>
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <Button
+                form="create-user-form"
+                type="submit"
+                disabled={!canSubmit || isSubmitting}
+              >
+                {isSubmitting ? 'Creating...' : 'Create User'}
+              </Button>
+            )}
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,5 +1,6 @@
 import { RotateCcw } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { SearchInput } from '@/components/forms/search-input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -16,31 +17,69 @@ type Props = {
   role?: 'user' | 'admin'
   status?: 'active' | 'suspended' | 'invited'
   emailVerified?: boolean
+  fromDate?: string
+  toDate?: string
+  pageSize: number
   sort: 'created-desc' | 'created-asc' | 'name-asc' | 'name-desc'
   onChange: (next: {
     query?: string
     role?: 'user' | 'admin'
     status?: 'active' | 'suspended' | 'invited'
     emailVerified?: boolean
+    fromDate?: string
+    toDate?: string
     sort?: 'created-desc' | 'created-asc' | 'name-asc' | 'name-desc'
+    pageSize?: number
     page?: number
   }) => void
 }
+
+const toDateInputValue = (value?: string) =>
+  value ? new Date(value).toISOString().slice(0, 10) : ''
+
+const toStartDateISOString = (value: string) =>
+  `${value.trim()}T00:00:00.000Z`
+
+const toEndDateISOString = (value: string) =>
+  `${value.trim()}T23:59:59.999Z`
 
 export function UserFilters({
   query,
   role,
   status,
   emailVerified,
+  fromDate,
+  toDate,
+  pageSize,
   sort,
   onChange,
 }: Props) {
   const [queryInput, setQueryInput] = useState(query ?? '')
+  const [fromDateInput, setFromDateInput] = useState(toDateInputValue(fromDate))
+  const [toDateInput, setToDateInput] = useState(toDateInputValue(toDate))
+
+  useEffect(() => {
+    setQueryInput(query ?? '')
+  }, [query])
+
+  useEffect(() => {
+    setFromDateInput(toDateInputValue(fromDate))
+    setToDateInput(toDateInputValue(toDate))
+  }, [fromDate, toDate])
+
+  const hasDateRange = useMemo(
+    () => Boolean(fromDateInput.trim() || toDateInput.trim()),
+    [fromDateInput, toDateInput],
+  )
+
   const activeFilterCount =
     Number(Boolean(query)) +
     Number(Boolean(role)) +
     Number(Boolean(status)) +
     Number(emailVerified !== undefined) +
+    Number(Boolean(fromDate)) +
+    Number(Boolean(toDate)) +
+    Number(pageSize !== 20) +
     Number(sort !== 'created-desc')
 
   return (
@@ -60,18 +99,25 @@ export function UserFilters({
       </div>
 
       <div className="flex flex-col gap-2 lg:flex-row">
-        <Input
+        <SearchInput
           value={queryInput}
-          onChange={(event) => setQueryInput(event.target.value)}
+          onValueChange={setQueryInput}
           placeholder="Search by name or email"
-          className="h-9 border-input bg-background lg:max-w-sm"
+          containerClassName="lg:max-w-md"
+          aria-label="Search users"
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
+              onChange({ query: queryInput.trim() || undefined, page: 1 })
+            }
+          }}
         />
         <Button
           onClick={() =>
             onChange({ query: queryInput.trim() || undefined, page: 1 })
           }
         >
-          Apply Search
+          Apply
         </Button>
         <Button
           variant="outline"
@@ -82,7 +128,10 @@ export function UserFilters({
               role: undefined,
               status: undefined,
               emailVerified: undefined,
+              fromDate: undefined,
+              toDate: undefined,
               sort: 'created-desc',
+              pageSize: 20,
               page: 1,
             })
           }}
@@ -92,7 +141,7 @@ export function UserFilters({
         </Button>
       </div>
 
-      <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-5">
         <Select
           value={role ?? 'all'}
           onValueChange={(value) =>
@@ -173,6 +222,65 @@ export function UserFilters({
             <SelectItem value="name-desc">Name Z-A</SelectItem>
           </SelectContent>
         </Select>
+
+        <Select
+          value={String(pageSize)}
+          onValueChange={(value) =>
+            onChange({
+              pageSize: Number(value),
+              page: 1,
+            })
+          }
+        >
+          <SelectTrigger className="h-9 border-input bg-background">
+            <SelectValue placeholder="Rows" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10">10 rows</SelectItem>
+            <SelectItem value="20">20 rows</SelectItem>
+            <SelectItem value="50">50 rows</SelectItem>
+            <SelectItem value="100">100 rows</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">Created from</p>
+          <Input
+            type="date"
+            value={fromDateInput}
+            onChange={(event) => setFromDateInput(event.target.value)}
+            className="h-9 border-input bg-background"
+          />
+        </div>
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">Created to</p>
+          <Input
+            type="date"
+            value={toDateInput}
+            onChange={(event) => setToDateInput(event.target.value)}
+            className="h-9 border-input bg-background"
+          />
+        </div>
+        <div className="md:col-span-2 xl:col-span-2 xl:justify-end">
+          <Button
+            type="button"
+            variant={hasDateRange ? 'default' : 'outline'}
+            className="w-full md:w-auto"
+            onClick={() =>
+              onChange({
+                fromDate: fromDateInput
+                  ? toStartDateISOString(fromDateInput)
+                  : undefined,
+                toDate: toDateInput ? toEndDateISOString(toDateInput) : undefined,
+                page: 1,
+              })
+            }
+          >
+            Apply Date Range
+          </Button>
+        </div>
       </div>
     </div>
   )

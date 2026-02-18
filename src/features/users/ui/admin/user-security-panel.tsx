@@ -1,4 +1,8 @@
+import { MonitorSmartphone, ShieldCheck } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { EmptyState } from '@/components/empties/empty-state'
+import { toSecurityEventLabel } from '@/features/users/model/event-labels'
 
 type SecurityEvent = {
   id: string
@@ -32,7 +36,12 @@ export function UserSecurityPanel({
 
         <CardContent className="space-y-3">
           {sessions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No active sessions.</p>
+            <EmptyState
+              icon={MonitorSmartphone}
+              title="No active sessions"
+              description="Sessions appear after user authentication."
+              className="border-border bg-card text-foreground"
+            />
           ) : (
             sessions.map((entry) => (
               <div
@@ -63,14 +72,21 @@ export function UserSecurityPanel({
 
         <CardContent className="space-y-3">
           {events.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No security events.</p>
+            <EmptyState
+              icon={ShieldCheck}
+              title="No security events"
+              description="Security events will appear once account actions are captured."
+              className="border-border bg-card text-foreground"
+            />
           ) : (
             events.map((entry) => (
               <div
                 key={entry.id}
                 className="rounded-xl border border-border bg-card p-4 text-sm"
               >
-                <p className="font-semibold text-foreground">{entry.type}</p>
+                <Badge className="border-border bg-muted text-foreground">
+                  {toSecurityEventLabel(entry.type)}
+                </Badge>
 
                 <p className="text-muted-foreground">
                   IP: {entry.ipAddress || 'Unknown'}

@@ -22,6 +22,7 @@ import { Route as AdminDocsIndexRouteImport } from './routes/admin/docs/index'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 import { Route as AdminContentIndexRouteImport } from './routes/admin/content/index'
 import { Route as AdminComponentsIndexRouteImport } from './routes/admin/components/index'
+import { Route as AdminAccountIndexRouteImport } from './routes/admin/account/index'
 import { Route as PublicServicesIndexRouteImport } from './routes/_public/services/index'
 import { Route as PublicPortfolioIndexRouteImport } from './routes/_public/portfolio/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
@@ -32,6 +33,7 @@ import { Route as AuthSignupIndexRouteImport } from './routes/_auth/signup/index
 import { Route as AuthResetPasswordIndexRouteImport } from './routes/_auth/reset-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/_auth/forgot-password/index'
+import { Route as AuthAccountIndexRouteImport } from './routes/_auth/account/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
 import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
@@ -109,6 +111,11 @@ const AdminComponentsIndexRoute = AdminComponentsIndexRouteImport.update({
   path: '/components/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAccountIndexRoute = AdminAccountIndexRouteImport.update({
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const PublicServicesIndexRoute = PublicServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -157,6 +164,11 @@ const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
   id: '/forgot-password/',
   path: '/forgot-password/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthAccountIndexRoute = AuthAccountIndexRouteImport.update({
+  id: '/account/',
+  path: '/account/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -242,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/account/': typeof AuthAccountIndexRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/login/': typeof AuthLoginIndexRoute
   '/reset-password/': typeof AuthResetPasswordIndexRoute
@@ -252,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/contact/': typeof PublicContactIndexRoute
   '/portfolio/': typeof PublicPortfolioIndexRoute
   '/services/': typeof PublicServicesIndexRoute
+  '/admin/account/': typeof AdminAccountIndexRoute
   '/admin/components/': typeof AdminComponentsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
@@ -277,6 +291,7 @@ export interface FileRoutesByTo {
   '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/account': typeof AuthAccountIndexRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
   '/login': typeof AuthLoginIndexRoute
   '/reset-password': typeof AuthResetPasswordIndexRoute
@@ -287,6 +302,7 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactIndexRoute
   '/portfolio': typeof PublicPortfolioIndexRoute
   '/services': typeof PublicServicesIndexRoute
+  '/admin/account': typeof AdminAccountIndexRoute
   '/admin/components': typeof AdminComponentsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
@@ -317,6 +333,7 @@ export interface FileRoutesById {
   '/admin/kb/$slug': typeof AdminKbSlugRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_auth/account/': typeof AuthAccountIndexRoute
   '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
@@ -327,6 +344,7 @@ export interface FileRoutesById {
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/portfolio/': typeof PublicPortfolioIndexRoute
   '/_public/services/': typeof PublicServicesIndexRoute
+  '/admin/account/': typeof AdminAccountIndexRoute
   '/admin/components/': typeof AdminComponentsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
@@ -355,6 +373,7 @@ export interface FileRouteTypes {
     | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
+    | '/account/'
     | '/forgot-password/'
     | '/login/'
     | '/reset-password/'
@@ -365,6 +384,7 @@ export interface FileRouteTypes {
     | '/contact/'
     | '/portfolio/'
     | '/services/'
+    | '/admin/account/'
     | '/admin/components/'
     | '/admin/content/'
     | '/admin/dashboard/'
@@ -390,6 +410,7 @@ export interface FileRouteTypes {
     | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
+    | '/account'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
@@ -400,6 +421,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/portfolio'
     | '/services'
+    | '/admin/account'
     | '/admin/components'
     | '/admin/content'
     | '/admin/dashboard'
@@ -429,6 +451,7 @@ export interface FileRouteTypes {
     | '/admin/kb/$slug'
     | '/admin/users/$userId'
     | '/api/auth/$'
+    | '/_auth/account/'
     | '/_auth/forgot-password/'
     | '/_auth/login/'
     | '/_auth/reset-password/'
@@ -439,6 +462,7 @@ export interface FileRouteTypes {
     | '/_public/contact/'
     | '/_public/portfolio/'
     | '/_public/services/'
+    | '/admin/account/'
     | '/admin/components/'
     | '/admin/content/'
     | '/admin/dashboard/'
@@ -558,6 +582,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminComponentsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/account/': {
+      id: '/admin/account/'
+      path: '/account'
+      fullPath: '/admin/account/'
+      preLoaderRoute: typeof AdminAccountIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_public/services/': {
       id: '/_public/services/'
       path: '/services'
@@ -626,6 +657,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password/'
       preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/account/': {
+      id: '/_auth/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthAccountIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/api/auth/$': {
@@ -730,6 +768,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteRouteChildren {
+  AuthAccountIndexRoute: typeof AuthAccountIndexRoute
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
   AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute
@@ -737,6 +776,7 @@ interface AuthRouteRouteChildren {
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthAccountIndexRoute: AuthAccountIndexRoute,
   AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
   AuthResetPasswordIndexRoute: AuthResetPasswordIndexRoute,
@@ -789,6 +829,7 @@ interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminKbSlugRoute: typeof AdminKbSlugRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminAccountIndexRoute: typeof AdminAccountIndexRoute
   AdminComponentsIndexRoute: typeof AdminComponentsIndexRoute
   AdminContentIndexRoute: typeof AdminContentIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
@@ -811,6 +852,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminKbSlugRoute: AdminKbSlugRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminAccountIndexRoute: AdminAccountIndexRoute,
   AdminComponentsIndexRoute: AdminComponentsIndexRoute,
   AdminContentIndexRoute: AdminContentIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,

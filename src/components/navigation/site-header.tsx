@@ -40,6 +40,11 @@ export function SiteHeader({ session }: SiteHeaderProps) {
       ? 'Admin Dashboard'
       : 'Go to Blog'
     : 'Book a Strategy Call'
+  const accountDestination = session
+    ? session.user.role === 'admin'
+      ? '/admin/account'
+      : '/account'
+    : null
 
   const handleSignOut = async () => {
     if (isSigningOut) {
@@ -100,6 +105,11 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                 <Button variant="outline" className="hidden md:inline-flex" asChild>
                   <Link to={primaryDestination}>{primaryLabel}</Link>
                 </Button>
+                {accountDestination ? (
+                  <Button variant="secondary" className="hidden lg:inline-flex" asChild>
+                    <Link to={accountDestination}>My Account</Link>
+                  </Button>
+                ) : null}
                 <Button
                   variant="ghost"
                   onClick={handleSignOut}
@@ -191,6 +201,20 @@ export function SiteHeader({ session }: SiteHeaderProps) {
                             {primaryLabel}
                           </Link>
                         </Button>
+                        {accountDestination ? (
+                          <Button
+                            variant="secondary"
+                            className="w-full justify-start"
+                            asChild
+                          >
+                            <Link
+                              to={accountDestination}
+                              onClick={() => setIsMobileNavOpen(false)}
+                            >
+                              My Account
+                            </Link>
+                          </Button>
+                        ) : null}
                         <Button
                           variant="ghost"
                           className="w-full justify-start"

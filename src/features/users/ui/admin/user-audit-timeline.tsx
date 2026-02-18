@@ -1,6 +1,8 @@
 import { Clock3 } from 'lucide-react'
 import { EmptyState } from '@/components/empties/empty-state'
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { toAuditActionLabel } from '@/features/users/model/event-labels'
 
 type AuditItem = {
   id: string
@@ -34,7 +36,9 @@ export function UserAuditTimeline({ items }: { items: Array<AuditItem> }) {
               <div className="mt-1 hidden size-2 rounded-full bg-primary md:block" />
 
               <div className="space-y-1.5">
-                <p className="font-semibold text-foreground">{item.action}</p>
+                <Badge className="border-border bg-muted text-foreground">
+                  {toAuditActionLabel(item.action)}
+                </Badge>
 
                 <p className="text-muted-foreground">
                   Actor: {item.actorEmail ?? 'system'}
