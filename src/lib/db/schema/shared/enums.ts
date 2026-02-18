@@ -100,3 +100,24 @@ export const emailEventType = pgEnum('email_event_type', [
   'email.failed',
   'email.suppressed',
 ])
+
+export const webVitalMetric = pgEnum('web_vital_metric', [
+  'lcp',
+  'inp',
+  'cls',
+  'fcp',
+  'ttfb',
+])
+
+export const webVitalRating = pgEnum('web_vital_rating', [
+  'good',
+  'needs-improvement',
+  'poor',
+])
+
+export const systemNotificationType = pgEnum('system_notification_type', [
+  'success',
+  'info',
+  'warning',
+  'error',
+])

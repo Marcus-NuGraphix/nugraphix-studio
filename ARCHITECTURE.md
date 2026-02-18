@@ -134,6 +134,12 @@ src/
       schemas/                   # Metadata and upload contracts
       server/                    # Repository, uploads, storage adapter
       ui/admin/                  # Filters, grid/table, preview, upload
+    observability/               # Runtime telemetry and admin performance signal workflows
+      client/                    # Client wrappers for observability server functions
+      model/                     # Typed telemetry/notification DTOs
+      schemas/                   # Zod validation contracts
+      server/                    # Telemetry ingestion + admin overview queries
+      ui/                        # Browser metrics instrumentation components
 
   lib/                           # Core infrastructure
     index.ts                     # Re-exports shared infrastructure barrels
@@ -146,6 +152,7 @@ src/
         content/                 # contentEntry, contentRevision, contentPublication
         email/                   # emailMessage, emailEvent, preferences, subscriptions
         media/                   # mediaAsset
+        observability/           # web-vitals metrics and system notifications
         shared/                  # enums, timestamps, contactSubmission
       tests/                     # Schema contract & migration tests
     env/
@@ -158,6 +165,7 @@ src/
     observability/
       logger.ts                  # Structured logger with redaction
       mutation-log.ts            # Mutation log helper contract
+      web-vitals.ts              # Shared web-vitals normalization and rating helpers
     rateLimit/
       limiter.ts                 # Durable limiter with memory fallback
     search/
@@ -165,6 +173,7 @@ src/
     server/
       index.ts                   # Exports server runtime utilities
       background-tasks.ts        # Persistent job queue (Postgres-backed)
+      request-context.ts         # Header normalization + scoped rate-limit key helpers
     utils/
       index.ts                   # Barrel export
       cn.ts                      # clsx + tailwind-merge
@@ -348,7 +357,7 @@ See ADR-0013.
 - Drizzle Kit discovers schemas via glob: `**/index.ts`
 - Migrations output to `./drizzle/`
 
-**Schema domains:** auth, blog, content, email, media, shared
+**Schema domains:** auth, blog, content, email, media, observability, shared
 
 ---
 
@@ -446,6 +455,8 @@ See ADR-0011.
 | 0024 | Security and Quality Gate Enforcement | Accepted |
 | 0025 | Phase-05 Incident Management Enforcement | Accepted |
 | 0026 | Media Library Integration and Admin Routing | Accepted |
+| 0027 | Example Component Integration Color and Contrast Governance | Accepted |
+| 0028 | Observability Telemetry and Admin Performance Integration | Accepted |
 
 Canonical ADR docs:
 

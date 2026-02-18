@@ -20,9 +20,10 @@ typed schema, DB client setup, and migration artifact verification.
 6. `schema/content/*`: managed content entries and revisions.
 7. `schema/email/*`: email lifecycle tables.
 8. `schema/media/*`: media assets.
-9. `schema/shared/*`: enums, timestamps, and shared relational primitives.
-10. `migrations/verify-artifacts.ts`: Drizzle SQL/meta/journal consistency checks.
-11. `tests/*`: schema/barrel/migration contract tests.
+9. `schema/observability/*`: web-vitals telemetry and system notifications.
+10. `schema/shared/*`: enums, timestamps, and shared relational primitives.
+11. `migrations/verify-artifacts.ts`: Drizzle SQL/meta/journal consistency checks.
+12. `tests/*`: schema/barrel/migration contract tests.
 
 ## Import Conventions
 

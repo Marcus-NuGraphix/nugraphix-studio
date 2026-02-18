@@ -12,7 +12,8 @@ only and does not belong to a feature module.
 ## File map
 
 1. `background-tasks.ts`: queue schema bootstrap, enqueue, and drain logic.
-2. `index.ts`: server runtime export surface.
+2. `request-context.ts`: normalized server header helpers (IP, user-agent, typed headers, scoped rate-limit keys).
+3. `index.ts`: server runtime export surface.
 
 ## Related Infrastructure
 

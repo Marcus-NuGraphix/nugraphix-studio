@@ -1,1 +1,5 @@
-export { NotificationCenter } from '@/components/feedback/notification-center'
+export {
+  NotificationCenter,
+  type NotificationFeedItem,
+  type NotificationType,
+} from '@/components/feedback/notification-center'

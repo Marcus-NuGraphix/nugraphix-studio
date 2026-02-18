@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
-type NotificationType = 'success' | 'error' | 'warning' | 'info'
+export type NotificationType = 'success' | 'error' | 'warning' | 'info'
 
 interface NotificationTemplate {
   title: string
@@ -25,10 +25,25 @@ interface NotificationTemplate {
   actionLabel: string
 }
 
+export interface NotificationFeedItem {
+  id: string
+  type: NotificationType
+  title: string
+  message: string
+  description?: string | null
+  actionLabel?: string
+}
+
 interface NotificationCenterProps {
   className?: string
   autoDismissMs?: number
+  mode?: 'simulator' | 'inbox'
+  items?: Array<NotificationFeedItem>
+  title?: string
+  description?: string
   templates?: Partial<Record<NotificationType, NotificationTemplate>>
+  onActionItem?: (item: NotificationFeedItem) => void
+  onDismissItem?: (id: string) => void | Promise<void>
   onAction?: (type: NotificationType) => void
 }
 
@@ -118,9 +133,16 @@ const createNotificationId = () => {
 export function NotificationCenter({
   className,
   autoDismissMs = 8_000,
+  mode = 'simulator',
+  items = [],
+  title,
+  description,
   templates,
+  onActionItem,
+  onDismissItem,
   onAction,
 }: NotificationCenterProps) {
+  const isInboxMode = mode === 'inbox'
   const prefersReducedMotion = useReducedMotion() ?? false
   const [notifications, setNotifications] = useState<Array<ActiveNotification>>(
     [],
@@ -174,15 +196,50 @@ export function NotificationCenter({
     [],
   )
 
+  const simulatorTitle = 'Notification simulation'
+  const simulatorDescription =
+    'Trigger contextual notifications and expand details for recovery actions.'
+
+  const renderedNotifications = isInboxMode
+    ? items.map((item) => ({
+        id: item.id,
+        type: item.type,
+        template: {
+          title: item.title,
+          message: item.message,
+          description:
+            item.description?.trim() ||
+            'No additional notification context is available.',
+          actionLabel: item.actionLabel ?? 'Open details',
+        },
+        onAction: () => onActionItem?.(item),
+        onDismiss: () => {
+          void onDismissItem?.(item.id)
+        },
+      }))
+    : notifications.map((notification) => {
+        const template = mergedTemplates[notification.type]
+
+        return {
+          id: notification.id,
+          type: notification.type,
+          template,
+          onAction: () => onAction?.(notification.type),
+          onDismiss: () => removeNotification(notification.id),
+        }
+      })
+
   return (
     <section className={cn('relative space-y-4', className)}>
       <header className="space-y-1">
         <h2 className="text-lg font-semibold text-foreground">
-          Notification simulation
+          {title ?? (isInboxMode ? 'System notifications' : simulatorTitle)}
         </h2>
         <p className="text-sm text-muted-foreground">
-          Trigger contextual notifications and expand details for recovery
-          actions.
+          {description ??
+            (isInboxMode
+              ? 'Persisted notifications generated from platform telemetry and operational signals.'
+              : simulatorDescription)}
         </p>
       </header>
 
@@ -190,12 +247,20 @@ export function NotificationCenter({
         <div
           aria-live="polite"
           role="status"
-          className="pointer-events-none absolute inset-x-0 top-0 z-30 p-3"
+          className={cn(
+            isInboxMode
+              ? 'relative'
+              : 'pointer-events-none absolute inset-x-0 top-0 z-30 p-3',
+          )}
         >
-          <div className="pointer-events-auto mx-auto flex max-w-xl flex-col gap-3">
+          <div
+            className={cn(
+              'mx-auto flex max-w-xl flex-col gap-3',
+              isInboxMode ? '' : 'pointer-events-auto',
+            )}
+          >
             <AnimatePresence initial={false}>
-              {notifications.map((notification) => {
-                const template = mergedTemplates[notification.type]
+              {renderedNotifications.map((notification) => {
                 const icon = ICONS[notification.type]
                 const toneStyle = TONE_STYLES[notification.type]
 
@@ -204,12 +269,12 @@ export function NotificationCenter({
                     key={notification.id}
                     id={notification.id}
                     type={notification.type}
-                    template={template}
+                    template={notification.template}
                     icon={icon}
                     toneStyle={toneStyle}
                     prefersReducedMotion={prefersReducedMotion}
-                    onDismiss={() => removeNotification(notification.id)}
-                    onAction={() => onAction?.(notification.type)}
+                    onDismiss={notification.onDismiss}
+                    onAction={notification.onAction}
                   />
                 )
               })}
@@ -217,17 +282,31 @@ export function NotificationCenter({
           </div>
         </div>
 
-        <div className="grid min-h-64 content-center gap-3 pt-8 sm:grid-cols-2 lg:grid-cols-4">
-          {(['success', 'error', 'warning', 'info'] as const).map((type) => (
-            <TriggerButton
-              key={type}
-              type={type}
-              label={BUTTON_LABELS[type]}
-              prefersReducedMotion={prefersReducedMotion}
-              onClick={() => addNotification(type)}
-            />
-          ))}
-        </div>
+        {isInboxMode ? (
+          renderedNotifications.length === 0 ? (
+            <div className="rounded-xl border border-border/70 bg-background/75 p-6 text-center">
+              <p className="text-sm font-medium text-foreground">
+                No active notifications.
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                New alerts will appear here when platform signals cross
+                configured thresholds.
+              </p>
+            </div>
+          ) : null
+        ) : (
+          <div className="grid min-h-64 content-center gap-3 pt-8 sm:grid-cols-2 lg:grid-cols-4">
+            {(['success', 'error', 'warning', 'info'] as const).map((type) => (
+              <TriggerButton
+                key={type}
+                type={type}
+                label={BUTTON_LABELS[type]}
+                prefersReducedMotion={prefersReducedMotion}
+                onClick={() => addNotification(type)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

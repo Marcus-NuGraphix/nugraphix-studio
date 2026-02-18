@@ -6,7 +6,10 @@ import {
   emailMessageStatus,
   emailProvider,
   postStatus,
+  systemNotificationType,
   userRole,
+  webVitalMetric,
+  webVitalRating,
 } from '../schema/shared/enums'
 
 const schemaDir = path.resolve(process.cwd(), 'src/lib/db/schema')
@@ -52,6 +55,24 @@ describe('db enum contracts', () => {
       'opened',
       'clicked',
       'suppressed',
+    ])
+    expect(webVitalMetric.enumValues).toEqual([
+      'lcp',
+      'inp',
+      'cls',
+      'fcp',
+      'ttfb',
+    ])
+    expect(webVitalRating.enumValues).toEqual([
+      'good',
+      'needs-improvement',
+      'poor',
+    ])
+    expect(systemNotificationType.enumValues).toEqual([
+      'success',
+      'info',
+      'warning',
+      'error',
     ])
   })
 })

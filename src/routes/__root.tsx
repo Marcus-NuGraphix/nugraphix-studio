@@ -17,6 +17,7 @@ import { NotFound } from '@/components/errors/not-found'
 import { ThemeProvider } from '@/components/theme/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { WebVitalsReporter } from '@/features/observability'
 
 export const Route = createRootRoute({
   errorComponent: ({ error, reset }) => (
@@ -97,6 +98,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <ThemeProvider>
           <BrandProvider>
             <QueryClientProvider client={queryClient}>
+              <WebVitalsReporter />
               <TooltipProvider>{children}</TooltipProvider>
               {import.meta.env.DEV ? (
                 <TanStackDevtools
