@@ -12,7 +12,7 @@ Capture baseline facts and deliver quick production-readiness wins.
 - [x] Finalize docs scaffold and index links.
 - [x] Run baseline quality gates and log results.
 - [x] Build initial risk register with top `P0/P1` blockers.
-- [x] Validate local Docker startup flow from clean state (compose/services now verified; migration artifact drift remains open).
+- [x] Validate local Docker startup flow from clean state (compose/services verified; migrate-first bootstrap and deterministic seed now validated).
 
 ## Day 2 (24-48h)
 

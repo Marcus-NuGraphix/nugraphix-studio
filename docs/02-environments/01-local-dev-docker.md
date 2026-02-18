@@ -47,16 +47,31 @@ pnpm db:seed
 - `docker compose config` - pass.
 - `docker compose up -d` - pass (`postgres`, `redis`, `mailpit`, `minio` running).
 - `pnpm db:migrate` with local `DATABASE_URL` - pass.
-- `pnpm db:seed` after migrate path - pass (`8` demo posts upserted).
-- Local DB sanity check - pass (`user_count=1`, `post_count=8`).
+- `pnpm db:seed` after migrate path - pass (`2` auth users + `4` content entries + `8` demo posts upserted).
+- `pnpm db:seed` rerun idempotence check - pass (counts unchanged).
+- Local DB sanity check - pass:
+  - `user_count=3`
+  - `credential_accounts=2`
+  - `post_count=8`
+  - `content_entry_count=4`
+- Seeded admin credential verification (`auth.api.signInEmail`) - pass.
 
 ## Verification Checklist
 
 - [x] Docker engine starts and `docker compose up -d` succeeds.
 - [ ] Fresh machine setup works in <= 15 minutes.
-- [ ] App can log in with seeded account.
+- [x] App can authenticate with seeded admin credentials.
 - [ ] Admin routes and core public routes load.
 - [ ] No manual database interventions required.
+
+## Seeded Accounts
+
+- Admin (env override supported):
+  - `SEED_ADMIN_EMAIL` (default: `admin@demo.co.za`)
+  - `SEED_ADMIN_PASSWORD` (default: `DevDemo!123`)
+- Standard user (env override supported):
+  - `SEED_USER_EMAIL` (default: `user@demo.co.za`)
+  - `SEED_USER_PASSWORD` (default: `DevDemo!123`)
 
 ## Troubleshooting
 

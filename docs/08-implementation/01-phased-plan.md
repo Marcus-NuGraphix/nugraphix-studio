@@ -50,7 +50,7 @@ Reliable local dev via Docker Desktop.
 ### Tasks
 
 - [x] Validate required local services only.
-- [x] Ensure deterministic migration + seed (`drizzle/0002_schema_reconciliation.sql`).
+- [x] Ensure deterministic migration + bootstrap seed (`drizzle/0002_schema_reconciliation.sql`, `tools/seed-bootstrap.ts`).
 - [x] Document troubleshooting flow.
 
 ### Verification
@@ -61,7 +61,7 @@ Reliable local dev via Docker Desktop.
 ### Exit Criteria
 
 - New developer can run stack without guesswork.
-- Remaining validation gap: timed fresh-clone onboarding and route/login smoke checks.
+- Remaining validation gap: timed fresh-clone onboarding and route-level smoke checks.
 
 ## Phase 2 - Production-Dev Runtime on VM
 

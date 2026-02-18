@@ -36,3 +36,15 @@ Status: Active
 - Updated lockfile dependency graph and verified:
   - `pnpm list fast-xml-parser --depth 12` resolves AWS SDK chain to `5.3.6`
   - `pnpm audit --prod` no longer reports a high vulnerability.
+- Added deterministic bootstrap seeding:
+  - new `tools/seed-bootstrap.ts` for auth users + content baseline + blog demo orchestration
+  - `db:seed` now points to bootstrap flow (`db:seed:bootstrap`)
+  - `db:seed:blog-demo` kept for blog-only reseeding
+- Updated `.env.example` with local seed user credential overrides
+  (`SEED_USER_EMAIL`, `SEED_USER_NAME`, `SEED_USER_PASSWORD`).
+- Revalidated local seed outputs:
+  - `pnpm db:migrate` - pass
+  - `pnpm db:seed` - pass
+  - `pnpm db:seed` rerun (idempotence) - pass
+  - auth credential verification via `auth.api.signInEmail` - pass
+  - DB sanity checks: `user_count=3`, `credential_accounts=2`, `post_count=8`, `content_entry_count=4`

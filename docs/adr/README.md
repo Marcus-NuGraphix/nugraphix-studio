@@ -15,6 +15,7 @@ Last updated: 2026-02-18
 - `docs/adr/0029-example-component-motion-and-functional-integration.md` captures motion-fidelity and production data-wiring rules for adapted example components across public and admin surfaces.
 - `docs/adr/0030-production-readiness-docs-first-hardening-program.md` captures the post-MVP docs-first production hardening program and system-of-record structure.
 - `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md` captures the canonical local Docker bootstrap contract and migration reconciliation policy.
+- `docs/adr/0032-deterministic-bootstrap-seed-contract.md` captures canonical local bootstrap seeding coverage for auth, content, and blog datasets.
 
 ## ADR Rules
 
@@ -24,7 +25,7 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0032`
+- `0033`
 
 ## Current Focus
 
@@ -35,4 +36,5 @@ Last updated: 2026-02-18
   `0028` (observability telemetry and admin performance integration), and
   `0029` (example component motion and functional integration), and
   `0030` (docs-first production hardening governance), and
-  `0031` (local bootstrap and migration reconciliation governance).
+  `0031` (local bootstrap and migration reconciliation governance), and
+  `0032` (deterministic bootstrap seeding governance).

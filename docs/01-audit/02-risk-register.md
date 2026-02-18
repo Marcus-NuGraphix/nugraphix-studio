@@ -21,7 +21,7 @@ Status: Draft
 | R-005 | P2 | Test Stability | Vitest reports shutdown timeout warning despite passing tests | `pnpm test` output (`hanging-process` hint) | Investigate hanging resource and harden test teardown | Eng | Phase 7 | Open |
 | R-006 | P0 | Dependencies | High vulnerability (`fast-xml-parser`) in production dependency chain via AWS SDK | `pnpm audit --prod`, GHSA-jmr7-xgp7-cmfj; mitigated by `pnpm` override with installed graph resolving to `fast-xml-parser@5.3.6` | Keep override in place until AWS SDK publishes patched downstream metadata; recheck on dependency bumps | Eng | Phase 0 | Closed |
 | R-007 | P1 | Local Runtime | Docker engine not running blocks Phase 1 local environment verification | `docker compose up -d` pipe error (`dockerDesktopLinuxEngine`) | Added explicit Docker engine preflight check and re-ran local startup validation successfully | Eng | Phase 1 | Closed |
-| R-008 | P1 | Seed Workflow | Generic `db:seed` command missing caused docs/runtime mismatch | `pnpm run` script list vs environment docs | Added `db:seed` alias; add admin/bootstrap seed path follow-up | Eng | Phase 1 | Mitigated |
+| R-008 | P1 | Seed Workflow | Generic `db:seed` command missing caused docs/runtime mismatch | Resolved with deterministic bootstrap seed flow (`tools/seed-bootstrap.ts`) and local credential verification via `auth.api.signInEmail` | Keep bootstrap seeds idempotent and tied to migrate-first local flow | Eng | Phase 1 | Closed |
 | R-009 | P2 | Env Contract | `.env.example` previously advertised unsupported `sendgrid` provider | `.env.example` vs `src/lib/env/server.ts` | Remove stale provider guidance and keep schema-driven env docs | Eng | Phase 0 | Closed |
 | R-010 | P1 | DB Migrations | Migration artifacts were incomplete for current schema (`db:migrate` previously did not create auth tables like `user`) causing seed failure on clean local DB | Resolved via `drizzle/0002_schema_reconciliation.sql`; clean bootstrap now verified with `pnpm db:migrate` + `pnpm db:seed` | Keep migration artifacts synchronized and retain migrate-first bootstrap checks | Eng | Phase 1 | Closed |
 | R-011 | P2 | Dependencies | Moderate `esbuild` advisory remains in transitive toolchain path (`better-auth` -> `drizzle-kit` -> `@esbuild-kit/*`) | `pnpm audit --prod` (GHSA-67mh-4wv8-2f99) | Track upstream releases and remove via dependency updates when available; document local-dev exposure boundaries | Eng | Phase 0-1 | Open |
@@ -30,7 +30,7 @@ Status: Draft
 
 1. [ ] R-002: Capture ZA latency baseline and hosting candidate comparisons.
 2. [ ] R-003: Finalize env/runtime runbooks and deterministic setup flow.
-3. [ ] R-008: Add admin/bootstrap seed flow beyond blog demo data.
+3. [x] R-008: Add admin/bootstrap seed flow beyond blog demo data.
 4. [ ] R-011: Resolve transitive `esbuild` advisory via upstream dependency updates.
 5. [ ] R-005: Investigate and fix Vitest hanging-process timeout.
 6. [ ] R-004: Reduce build warning noise to preserve signal quality.

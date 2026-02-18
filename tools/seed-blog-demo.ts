@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { config as loadDotEnv } from 'dotenv'
 import { eq } from 'drizzle-orm'
 import {
@@ -383,7 +384,7 @@ const seedPostsToDatabase = async (
   }
 }
 
-const main = async () => {
+export const seedBlogDemo = async () => {
   const dbClient = await importDb()
   const authorId = await ensureDemoAuthor(dbClient)
   await seedPostsToDatabase(dbClient, authorId)
@@ -393,8 +394,19 @@ const main = async () => {
   )
 }
 
-main().catch((error) => {
-  console.error('[seed-blog-demo] Failed to seed demo blog posts.')
-  console.error(error)
-  process.exitCode = 1
-})
+const isDirectInvocation = () => {
+  const entryPoint = process.argv[1]
+  if (!entryPoint) {
+    return false
+  }
+
+  return resolve(entryPoint) === fileURLToPath(import.meta.url)
+}
+
+if (isDirectInvocation()) {
+  seedBlogDemo().catch((error) => {
+    console.error('[seed-blog-demo] Failed to seed demo blog posts.')
+    console.error(error)
+    process.exitCode = 1
+  })
+}
