@@ -76,6 +76,10 @@ export const toSafeAuthErrorMessage = ({
     return GENERIC_RATE_LIMITED_ERROR
   }
 
+  if (mode === 'forgot-password') {
+    return GENERIC_FORGOT_PASSWORD_ERROR
+  }
+
   if (mode === 'login') {
     if (
       code === 'UNAUTHORIZED' ||

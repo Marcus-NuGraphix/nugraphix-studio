@@ -1,7 +1,7 @@
 # Roadmap 2026 - Blog MVP
 
 Last updated: 2026-02-18
-Status: Active
+Status: Completed (MVP baseline shipped)
 Target: Deliver a production-ready blog and editor workflow managed from admin.
 
 ## Objective
@@ -37,21 +37,17 @@ Completed:
 
 - Stable auth/users/contact/email feature foundations.
 - Shared infrastructure in `src/lib/*` (db/env/errors/rateLimit/observability).
-- Route scaffolding for admin and public blog surfaces.
-- ADR baseline through `0022`.
-
-Pending for Blog MVP:
-
-- Hardened blog server contracts and repository layer.
-- Admin editor and list UX completion.
-- Public rendering quality and SEO hardening.
-- Focused tests for blog lifecycle and route integration.
+- Blog feature module, server contracts, and route integrations.
+- ProseKit editor integration for admin authoring.
+- Public blog rendering and metadata shaping.
+- Focused tests for blog lifecycle contracts.
+- ADR baseline through `0023`.
 
 ## Milestones
 
 ## M1 - Data and Domain Contract
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -66,7 +62,7 @@ Exit criteria:
 
 ## M2 - Server-Side Blog Feature Layer
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -88,7 +84,7 @@ Exit criteria:
 
 ## M3 - Admin Editor UX
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -103,7 +99,7 @@ Exit criteria:
 
 ## M4 - Public Blog Experience
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -118,7 +114,7 @@ Exit criteria:
 
 ## M5 - Quality and Security Gate
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -133,7 +129,7 @@ Exit criteria:
 
 ## M6 - Operational Readiness
 
-Status: Planned
+Status: Completed
 
 Deliverables:
 
@@ -171,3 +167,8 @@ Mitigation: lock MVP cutline to blog post lifecycle only.
 - Public blog routes are fully functional and safe.
 - Blog logic follows Nu Graphix feature/module contracts.
 - Documentation, tests, and operational runbook are updated alongside implementation.
+
+## Next Step
+
+Phase-04 remains the active governance layer for security hardening and ongoing
+quality enforcement during post-MVP expansion.

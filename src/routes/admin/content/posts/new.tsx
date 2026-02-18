@@ -1,35 +1,69 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { toast } from 'sonner'
+import type { BlogPostEditorInput } from '@/features/blog'
+import { PageHeader } from '@/components/layout'
+import {
+  BlogPostEditorForm,
+  createBlogPostFn,
+  emptyBlogDoc,
+} from '@/features/blog'
 
 export const Route = createFileRoute('/admin/content/posts/new')({
   component: CreatePostPage,
 })
 
 function CreatePostPage() {
+  const navigate = Route.useNavigate()
+
+  const createPost = async (payload: BlogPostEditorInput) => {
+    const result = await createBlogPostFn({ data: payload })
+
+    if (!result.ok) {
+      toast.error(result.error.message)
+      throw new Error(result.error.message)
+    }
+
+    toast.success(
+      result.data.status === 'published'
+        ? 'Post published successfully.'
+        : 'Draft created successfully.',
+    )
+
+    await navigate({
+      to: '/admin/content/posts/$id',
+      params: { id: result.data.id },
+    })
+  }
+
   return (
     <section className="space-y-6">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Create Post
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Editor route scaffolded for the Phase 03 CMS implementation cycle.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Editorial"
+        title="Create Post"
+        description="Draft or publish a new blog post with structured rich-text content powered by ProseKit."
+      />
 
-      <Card className="border-border bg-card shadow-none">
-        <CardHeader>
-          <CardTitle>Editor Shell</CardTitle>
-          <CardDescription>
-            Title, slug, status, and rich text editor wiring will be mounted in
-            this section.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          Pending implementation: ProseKit editor, validation, and publish
-          server functions.
-        </CardContent>
-      </Card>
+      <BlogPostEditorForm
+        initialValues={{
+          title: '',
+          slug: '',
+          status: 'draft',
+          contentJson: emptyBlogDoc(),
+          excerpt: '',
+          coverImage: '',
+          metaTitle: '',
+          metaDescription: '',
+          canonicalUrl: '',
+          featured: false,
+          isBreaking: false,
+        }}
+        onSave={async (values) => {
+          await createPost({ ...values, status: values.status })
+        }}
+        onPublish={async (values) => {
+          await createPost({ ...values, status: 'published' })
+        }}
+      />
     </section>
   )
 }

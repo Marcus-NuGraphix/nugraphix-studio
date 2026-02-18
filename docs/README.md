@@ -16,6 +16,7 @@ Last updated: 2026-02-18
 
 - Active index: `docs/adr/README.md`
 - Consolidated summary: `docs/adr/ADR-SUMMARY-0001-0022.md`
+- Active incremental ADR: `docs/adr/0023-blog-editor-workflow-with-prosekit.md`
 - Immutable records: `docs/adr/archive/0001-*.md` through `0022-*.md`
 
 ## Roadmap and Execution

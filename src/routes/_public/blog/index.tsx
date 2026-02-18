@@ -7,30 +7,18 @@ import {
   MarketingHero,
   MarketingSection,
 } from '@/components/marketing'
+import {
+  blogPublicPostFiltersSchema,
+  getPublicBlogPostsFn,
+} from '@/features/blog'
 import { EmailSubscribeCard } from '@/features/email'
 
-const blogPlaceholders = [
-  {
-    slug: 'system-architecture-for-smes',
-    title: 'System Architecture for Operational SMEs',
-    summary:
-      'A practical model for moving from fragmented tools to a coherent operational platform.',
-  },
-  {
-    slug: 'how-to-reduce-reporting-chaos',
-    title: 'How to Reduce Reporting Chaos',
-    summary:
-      'A field guide for turning inconsistent reporting into decision-grade operational visibility.',
-  },
-  {
-    slug: 'from-service-work-to-product-thinking',
-    title: 'From Service Delivery to Product Thinking',
-    summary:
-      'How consultancy teams can extract repeatable patterns and build SaaS-ready foundations.',
-  },
-]
+const blogSearchSchema = blogPublicPostFiltersSchema.partial()
 
 export const Route = createFileRoute('/_public/blog/')({
+  validateSearch: (search) => blogSearchSchema.parse(search),
+  loaderDeps: ({ search }) => blogPublicPostFiltersSchema.parse(search),
+  loader: async ({ deps }) => getPublicBlogPostsFn({ data: deps }),
   head: () => ({
     meta: [
       {
@@ -48,6 +36,9 @@ export const Route = createFileRoute('/_public/blog/')({
 })
 
 function BlogIndexPage() {
+  const data = Route.useLoaderData()
+  const navigate = Route.useNavigate()
+
   return (
     <MarketingContainer>
       <MarketingHero
@@ -58,21 +49,59 @@ function BlogIndexPage() {
 
       <MarketingSection
         title="Latest posts"
-        description="These scaffold entries establish structure for the first publishing cycle."
+        description="Published editorial insights from Nu Graphix Studio."
       >
-        <div className="grid gap-4 md:grid-cols-3">
-          {blogPlaceholders.map((post) => (
-            <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }}>
-              <MarketingCard
-                meta="Article"
-                title={post.title}
-                description={post.summary}
-                className="h-full transition-colors hover:border-primary/40"
-              />
-            </Link>
-          ))}
-        </div>
+        {data.posts.length === 0 ? (
+          <div className="rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
+            No posts are published yet. Check back soon for new insights.
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-3">
+            {data.posts.map((post) => (
+              <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }}>
+                <MarketingCard
+                  meta={`Article · ${post.readingTimeMinutes} min read`}
+                  title={post.title}
+                  description={post.excerpt ?? 'Read the latest Nu Graphix editorial update.'}
+                  className="h-full transition-colors hover:border-primary/40"
+                />
+              </Link>
+            ))}
+          </div>
+        )}
       </MarketingSection>
+
+      <div className="flex items-center justify-end gap-2">
+        <button
+          type="button"
+          className="text-sm text-muted-foreground disabled:opacity-50"
+          disabled={data.page <= 1}
+          onClick={() =>
+            navigate({
+              to: '/blog',
+              search: (prev) => ({ ...prev, page: Math.max(1, data.page - 1) }),
+            })
+          }
+        >
+          Previous
+        </button>
+        <p className="text-xs text-muted-foreground">
+          Page {data.page} / {data.totalPages}
+        </p>
+        <button
+          type="button"
+          className="text-sm text-muted-foreground disabled:opacity-50"
+          disabled={data.page >= data.totalPages}
+          onClick={() =>
+            navigate({
+              to: '/blog',
+              search: (prev) => ({ ...prev, page: data.page + 1 }),
+            })
+          }
+        >
+          Next
+        </button>
+      </div>
 
       <MarketingSection
         title="Subscribe for release updates"
@@ -93,9 +122,8 @@ function BlogIndexPage() {
       </MarketingSection>
 
       <div className="rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
-        Editorial publishing workflows are being wired next. Use any article to
-        preview route structure and page templates.{' '}
-        <ArrowRight className="inline size-4 align-[-2px]" />
+        Stay current with architecture and delivery practices from Nu Graphix Studio.
+        <ArrowRight className="ml-1 inline size-4 align-[-2px]" />
       </div>
     </MarketingContainer>
   )

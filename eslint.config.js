@@ -27,6 +27,7 @@ export default [
       'src/routeTree.gen.ts',
       '**/eslint.config.js',
       '**/prettier.config.js',
+      'tools/**',
     ],
   },
   {

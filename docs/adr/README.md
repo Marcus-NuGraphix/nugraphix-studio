@@ -6,6 +6,7 @@ Last updated: 2026-02-18
 
 - `docs/adr/ADR-SUMMARY-0001-0022.md` contains consolidated decision context.
 - `docs/adr/archive/` contains immutable ADR source documents (`0001` through `0022`).
+- `docs/adr/0023-blog-editor-workflow-with-prosekit.md` captures active blog editor architecture decisions.
 
 ## ADR Rules
 
@@ -15,9 +16,9 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0023`
+- `0024`
 
 ## Current Focus
 
-- Blog MVP implementation and editorial workflow completion must align with ADR
-  contracts, especially `0004`, `0010`, `0012`, `0013`, `0014`, and `0020`.
+- Post-MVP hardening and expansion should align with accepted ADR contracts,
+  including `0023` for the editorial workflow baseline.

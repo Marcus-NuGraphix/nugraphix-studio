@@ -1,0 +1,56 @@
+{
+  "$schema": "./white-label.schema.json",
+  "_comment": "Copy this file to white-label.config.json and fill in your brand values. Run: pnpm white-label",
+
+  "brand": {
+    "legalName": "Acme Corp (Pty) Ltd",
+    "companyName": "Acme Corp",
+    "siteName": "Acme Corp",
+    "productName": "Acme Studio",
+    "tagline": "Your tagline here.",
+    "description": "A full description of what your company does.",
+    "siteUrl": "https://acmecorp.co.za",
+    "contactEmail": "hello@acmecorp.co.za",
+    "serviceName": "Digital Consulting",
+    "dashboardLabel": "Studio",
+    "dashboardSubLabel": "Internal Operating System"
+  },
+
+  "social": {
+    "x": "https://x.com/acmecorp",
+    "linkedin": "https://linkedin.com/company/acmecorp",
+    "github": "https://github.com/acmecorp"
+  },
+
+  "assets": {
+    "logoPath": "/logo.svg",
+    "iconPath": "/favicon.ico",
+    "ogImagePath": "/og-image.png"
+  },
+
+  "seo": {
+    "defaultTitle": "Acme Corp — Your Default Title",
+    "titleTemplate": "%s | Acme Studio",
+    "defaultDescription": "Your default SEO description."
+  },
+
+  "rss": {
+    "title": "Acme Studio — Blog & Updates",
+    "description": "RSS feed description."
+  },
+
+  "email": {
+    "fromAddressDefault": "Acme Corp <no-reply@acmecorp.co.za>",
+    "noReplyAddress": "no-reply@acmecorp.co.za",
+    "replyToAddress": "info@acmecorp.co.za",
+    "contactNotificationAddress": "info@acmecorp.co.za"
+  },
+
+  "manifest": {
+    "shortName": "Acme Corp",
+    "themeColor": "#0f91b2",
+    "backgroundColor": "#ffffff"
+  },
+
+  "packageName": "acme-studio"
+}

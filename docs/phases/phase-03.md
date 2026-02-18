@@ -1,6 +1,6 @@
 # Phase 03 - Engineering System
 
-Status: Active
+Status: Completed
 Last updated: 2026-02-18
 
 ## Objective
@@ -16,38 +16,45 @@ contract standards.
 
 ### Module and Data Contracts
 
-- [ ] Confirm blog schema supports authoring + publish lifecycle.
-- [ ] Add migration only if schema gap is identified.
-- [ ] Keep schema exports stable via `src/lib/db/schema/index.ts`.
+- [x] Confirm blog schema supports authoring + publish lifecycle.
+- [x] Add migration only if schema gap is identified.
+- [x] Keep schema exports stable via `src/lib/db/schema/index.ts`.
 
 ### Server Layer
 
-- [ ] Ensure blog server functions follow canonical pattern:
+- [x] Ensure blog server functions follow canonical pattern:
   - Zod validator
   - auth/role checks
   - `ServerResult<T>` contract
   - control-signal rethrow in catch blocks
-- [ ] Centralize blog lifecycle logic in feature server modules.
-- [ ] Add structured mutation logs for create/update/publish actions.
+- [x] Centralize blog lifecycle logic in feature server modules.
+- [x] Add structured mutation logs for create/update/publish actions.
 
 ### Admin UI
 
-- [ ] Complete posts index filtering/search/status controls.
-- [ ] Complete new/edit/post detail forms with robust feedback states.
-- [ ] Support safe preview and explicit publish actions.
+- [x] Complete posts index filtering/search/status controls.
+- [x] Complete new/edit/post detail forms with robust feedback states.
+- [x] Support safe preview and explicit publish actions.
 
 ### Public UI
 
-- [ ] List route only returns published content.
-- [ ] Slug route handles missing/unpublished content with `notFound` behavior.
-- [ ] Render content safely and consistently.
+- [x] List route only returns published content.
+- [x] Slug route handles missing/unpublished content with `notFound` behavior.
+- [x] Render content safely and consistently.
 
 ### Verification
 
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm test` (targeted + relevant suites)
-- [ ] `pnpm build`
+- [x] `pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm test` (targeted + relevant suites)
+- [x] `pnpm build`
+
+## Completion Notes
+
+- Blog feature module implemented under `src/features/blog`.
+- Rich text editor integrated with ProseKit (`prosekit`) for admin authoring.
+- Admin and public blog routes now run fully through feature server contracts.
+- Phase 03 gates are complete with production build and test verification.
 
 ## Exit Criteria
 

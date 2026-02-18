@@ -1,7 +1,7 @@
 # Blog Editor MVP Contract
 
 Last updated: 2026-02-18
-Status: In progress
+Status: Completed
 
 ## Goal
 
@@ -11,13 +11,13 @@ from `/admin/content/posts/*` and public readers consume published output from
 
 ## Current Route Baseline
 
-### Admin (scaffolded)
+### Admin (implemented)
 
 - `src/routes/admin/content/posts/index.tsx`
 - `src/routes/admin/content/posts/new.tsx`
 - `src/routes/admin/content/posts/$id.tsx`
 
-### Public (scaffolded placeholders)
+### Public (implemented)
 
 - `src/routes/_public/blog/index.tsx`
 - `src/routes/_public/blog/$slug.tsx`
@@ -29,8 +29,13 @@ from `/admin/content/posts/*` and public readers consume published output from
 - Blog schema under `src/lib/db/schema/blog/*` must support:
   - draft/published lifecycle
   - slug uniqueness
-  - content_json storage with content_text extraction
+  - structured editor payload storage and content text extraction
   - author/editor metadata where needed
+
+Implementation note:
+
+- ProseKit document JSON is serialized into `post.content`.
+- Search/preview text is derived from ProseKit JSON in feature model utilities.
 
 ### Server layer
 
@@ -46,6 +51,7 @@ from `/admin/content/posts/*` and public readers consume published output from
 - New/edit forms with robust validation feedback.
 - Publish/unpublish controls.
 - Safe preview path.
+- ProseKit rich-text editor mounted via `src/features/blog/ui/admin/prosekit-editor.tsx`.
 
 ### Public UX
 
@@ -58,6 +64,15 @@ from `/admin/content/posts/*` and public readers consume published output from
 - Structured mutation logs for lifecycle actions.
 - Tests for create/update/publish/unpublish + route behavior.
 - Build/lint/type/test gates pass.
+
+## Editor Stack
+
+- Package: `prosekit`
+- Docs reference: `https://prosekit.dev/getting-started/introduction/`
+- Core usage:
+  - `defineBasicExtension` for baseline editor behavior.
+  - `createEditor` for editor instance lifecycle.
+  - `editor.getDocJSON()` and `editor.setContent(...)` for controlled form state.
 
 ## Definition of Done
 
