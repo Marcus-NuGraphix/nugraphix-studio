@@ -25,6 +25,14 @@ Choose DB hosting with evidence-based latency and operational fit for South Afri
 
 ## Required Evidence
 
-- [ ] Synthetic ping/connection timings.
-- [ ] Query benchmark samples.
+- [x] Synthetic local-control timings collected via `pnpm perf:db-latency`.
+- [ ] ZA vantage query benchmark samples (current + candidate regions).
 - [ ] Route TTFB delta attributable to DB distance.
+
+## Measurement Workflow
+
+1. Run `pnpm perf:db-latency` from ZA runner/VM with
+   `BENCHMARK_DB_TARGETS` configured for current and candidate DB endpoints.
+2. Store generated artifact in `docs/03-hosting/artifacts/`.
+3. Update `docs/03-hosting/04-latency-benchmarks.md` with p50/p95 summary.
+4. Re-score candidate matrix and record decision in implementation log/ADR.

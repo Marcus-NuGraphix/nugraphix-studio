@@ -15,8 +15,8 @@ Status: Draft
 | ID | Severity | Area | Risk | Evidence | Mitigation | Owner | Target Phase | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | R-001 | P0 | Docs Governance | Active plan/docs index drift across docs folders | `docs/README.md`, `docs/plans/README.md`, `docs/08-implementation/01-phased-plan.md` | Normalize to single active hardening plan and keep legacy docs as historical | Eng | Phase 0 | Closed |
-| R-002 | P1 | Latency | DB region distance from South Africa may increase TTFB and query latency | Neon region currently Singapore | Measure route + DB p95 and run hosting options comparison | Eng | Phase 3 | Open |
-| R-003 | P1 | Environments | Local and prod-dev runtime setup may drift due env/config inconsistency | Current env and Docker docs split across files | Centralize environment contract + runbooks | Eng | Phase 1-2 | Open |
+| R-002 | P1 | Latency | DB region distance from South Africa may increase TTFB and query latency | Neon region currently Singapore; benchmark harness established (`pnpm perf:db-latency`) but ZA candidate measurements pending | Capture ZA p50/p95 for current and candidate DB regions, then run hosting comparison and cutover decision | Eng | Phase 3 | Open |
+| R-003 | P1 | Environments | Local and prod-dev runtime setup may drift due env/config inconsistency | Environment docs are now centralized and CI enforces migrate+seed bootstrap smoke; prod-dev VM runtime track still pending | Keep env runbooks synchronized and extend CI/runtime checks into Phase 2 VM deployment path | Eng | Phase 1-2 | Open |
 | R-004 | P2 | Build Pipeline | Production build emits large dependency warning volume that can hide real regressions | `pnpm build` output (`use client` warnings, wasm fallback) | Triage and document expected warnings; suppress/noise-reduce where safe | Eng | Phase 7 | Open |
 | R-005 | P2 | Test Stability | Vitest reports shutdown timeout warning despite passing tests | `pnpm test` output (`hanging-process` hint) | Investigate hanging resource and harden test teardown | Eng | Phase 7 | Open |
 | R-006 | P0 | Dependencies | High vulnerability (`fast-xml-parser`) in production dependency chain via AWS SDK | `pnpm audit --prod`, GHSA-jmr7-xgp7-cmfj; mitigated by `pnpm` override with installed graph resolving to `fast-xml-parser@5.3.6` | Keep override in place until AWS SDK publishes patched downstream metadata; recheck on dependency bumps | Eng | Phase 0 | Closed |
@@ -36,5 +36,5 @@ Status: Draft
 6. [ ] R-004: Reduce build warning noise to preserve signal quality.
 7. [ ] Review admin docs route placeholders for current system-of-record links.
 8. [ ] Validate auth/cookie/origin/rate-limit hardening checklist outcomes.
-9. [ ] Lock CI quality gates with clear release blocking policy.
+9. [x] Lock CI quality gates with clear release blocking policy (minimum CI + bootstrap smoke gate).
 10. [ ] Track framework patch/minor updates after Phase 1 stabilization.

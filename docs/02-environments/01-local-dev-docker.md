@@ -55,6 +55,8 @@ pnpm db:seed
   - `post_count=8`
   - `content_entry_count=4`
 - Seeded admin credential verification (`auth.api.signInEmail`) - pass.
+- CI parity check added: `.github/workflows/ci.yml` `bootstrap-smoke` job
+  enforces migrate-first seed bootstrapping and rerun idempotence.
 
 ## Verification Checklist
 

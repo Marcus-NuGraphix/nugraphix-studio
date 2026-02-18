@@ -37,6 +37,7 @@ Make schema changes and seed data deterministic across environments.
   - `2` auth users with credential accounts (`admin`, `user`)
   - `4` published content baseline entries (`/`, `/blog`, `/portfolio`, `/contact`)
   - blog demo dataset (`8` posts) via `tools/seed-blog-demo.ts`
+  - seed users resolve by `id`/`email` before insert to tolerate local seed-env drift
 - `db:seed:blog-demo` remains available for blog-only refreshes.
 - Migration `drizzle/0002_schema_reconciliation.sql` backfills full schema
   coverage after legacy `0000`/`0001` baseline.
@@ -47,13 +48,15 @@ Make schema changes and seed data deterministic across environments.
   - Seed sanity check: `user_count=3`, `credential_accounts=2`, `post_count=8`, `content_entry_count=4`
 - `db:push` remains optional for rapid local iteration only and is not part of
   canonical bootstrap or release migration authority.
+- CI now enforces migrate-first bootstrap integrity in
+  `.github/workflows/ci.yml` via `bootstrap-smoke` job.
 
 ## Immediate Remediation Track
 
 - [x] Backfill/normalize migration SQL so `db:migrate` alone can bootstrap a clean local DB.
 - [x] Keep `db:push` as optional local iteration helper, not canonical bootstrap.
 - [x] Add deterministic admin/user/content bootstrap seed path behind `db:seed`.
-- [ ] Add migration integrity check to fail Phase 1 exit when seed cannot run after migrate-only path.
+- [x] Add migration integrity check to fail Phase 1 exit when seed cannot run after migrate-only path.
 
 ## Failure Recovery
 

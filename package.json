@@ -16,6 +16,7 @@
     "db:seed": "tsx tools/seed-bootstrap.ts",
     "db:seed:bootstrap": "tsx tools/seed-bootstrap.ts",
     "db:seed:blog-demo": "tsx tools/seed-blog-demo.ts",
+    "perf:db-latency": "tsx tools/benchmark-db-latency.ts",
     "white-label": "tsx tools/white-label.ts",
     "white-label:dry": "tsx tools/white-label.ts --dry-run"
   },
@@ -75,6 +76,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.10.2",
+    "@types/pg": "^8.16.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",

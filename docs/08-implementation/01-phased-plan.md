@@ -51,12 +51,14 @@ Reliable local dev via Docker Desktop.
 
 - [x] Validate required local services only.
 - [x] Ensure deterministic migration + bootstrap seed (`drizzle/0002_schema_reconciliation.sql`, `tools/seed-bootstrap.ts`).
+- [x] Enforce migrate+seed smoke gate in CI (`.github/workflows/ci.yml`).
 - [x] Document troubleshooting flow.
 
 ### Verification
 
 - Fresh clone setup succeeds in <= 15 minutes.
   - Local compose + migrate + seed path now passes on clean local DB.
+  - CI bootstrap smoke gate now enforces migrate+seed path (`bootstrap-smoke` job).
 
 ### Exit Criteria
 
@@ -102,6 +104,7 @@ Choose DB/app region strategy using measured evidence.
 
 ### Tasks
 
+- [x] Implement repeatable DB latency benchmark harness and artifact workflow.
 - [ ] Benchmark baseline and candidates.
 - [ ] Decide target hosting model.
 - [ ] Finalize cutover + rollback plan.

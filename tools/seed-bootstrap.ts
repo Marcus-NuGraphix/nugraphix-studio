@@ -143,34 +143,69 @@ const resolveSeedUser = async (
   definition: SeedUserDefinition,
 ) => {
   const { user } = schema
+  const updatePayload = {
+    name: definition.name,
+    email: definition.email,
+    emailVerified: true,
+    role: definition.role,
+    status: 'active' as const,
+    updatedAt: new Date(),
+  }
 
-  await dbClient
-    .insert(user)
-    .values({
+  const existingById = await dbClient.query.user.findFirst({
+    where: eq(user.id, definition.id),
+  })
+
+  if (existingById) {
+    await dbClient.update(user).set(updatePayload).where(eq(user.id, definition.id))
+
+    return {
+      ...existingById,
+      ...updatePayload,
       id: definition.id,
-      name: definition.name,
-      email: definition.email,
-      emailVerified: true,
-      role: definition.role,
-      status: 'active',
-    })
-    .onConflictDoUpdate({
-      target: user.email,
-      set: {
-        name: definition.name,
-        role: definition.role,
-        status: 'active',
-        emailVerified: true,
-        updatedAt: new Date(),
-      },
-    })
+    }
+  }
 
-  const seededUser = await dbClient.query.user.findFirst({
+  const existingByEmail = await dbClient.query.user.findFirst({
     where: eq(user.email, definition.email),
   })
 
+  if (existingByEmail) {
+    await dbClient
+      .update(user)
+      .set({
+        name: definition.name,
+        emailVerified: true,
+        role: definition.role,
+        status: 'active',
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, existingByEmail.id))
+
+    return {
+      ...existingByEmail,
+      name: definition.name,
+      emailVerified: true,
+      role: definition.role,
+      status: 'active',
+    }
+  }
+
+  await dbClient.insert(user).values({
+    id: definition.id,
+    name: definition.name,
+    email: definition.email,
+    emailVerified: true,
+    role: definition.role,
+    status: 'active',
+  })
+
+  const seededUser = await dbClient.query.user.findFirst({
+    where: eq(user.id, definition.id),
+  })
+
   if (!seededUser) {
-    throw new Error(`Failed to resolve seeded user for ${definition.email}.`)
+    throw new Error(`Failed to create seeded user for ${definition.email}.`)
   }
 
   return seededUser

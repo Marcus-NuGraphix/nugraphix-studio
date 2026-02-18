@@ -56,5 +56,5 @@ deterministic auth users and published content baseline, not only blog posts.
 
 ## Recommended Fix Order
 
-1. Add migration/seed smoke check to Phase 1 verification gate.
-2. Complete fresh-clone timed onboarding and route smoke validation.
+1. [x] Add migration/seed smoke check to Phase 1 verification gate (`.github/workflows/ci.yml`).
+2. [ ] Complete fresh-clone timed onboarding and route smoke validation.

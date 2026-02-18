@@ -48,3 +48,17 @@ Status: Active
   - `pnpm db:seed` rerun (idempotence) - pass
   - auth credential verification via `auth.api.signInEmail` - pass
   - DB sanity checks: `user_count=3`, `credential_accounts=2`, `post_count=8`, `content_entry_count=4`
+- Added CI bootstrap smoke gate in `.github/workflows/ci.yml`:
+  - new `bootstrap-smoke` job with Postgres service
+  - `build` job now depends on `bootstrap-smoke`
+  - enforced `pnpm db:migrate`, `pnpm db:seed`, and seed rerun idempotence check
+  - wired CI env placeholders required by runtime env schema for seed execution
+- Hardened bootstrap seed user upsert logic to resolve by `id`/`email` before
+  insert, preventing duplicate-key failures when local seed identity values
+  drift between runs.
+- Added DB latency benchmark tooling for Phase 3:
+  - `tools/benchmark-db-latency.ts`
+  - `pnpm perf:db-latency` script
+  - artifact convention under `docs/03-hosting/artifacts/`
+- Captured local-control benchmark validation (non-ZA baseline) and updated
+  hosting benchmark runbook for ZA candidate comparison execution.
