@@ -74,6 +74,8 @@ src/
       account/index.tsx          # /admin/account
       users/index.tsx            # /admin/users
       users/$userId.tsx          # /admin/users/:userId
+      media/index.tsx            # /admin/media
+      media/$assetId.tsx         # /admin/media/:assetId
     api/
       auth/$.ts                  # Better Auth catch-all handler
 
@@ -127,6 +129,11 @@ src/
       server/                    # account/admin server functions
       ui/account/                # User/admin account center components
       ui/admin/                  # Admin user management components
+    media/                       # Media upload + admin library
+      model/                     # Filters, types, formatting helpers
+      schemas/                   # Metadata and upload contracts
+      server/                    # Repository, uploads, storage adapter
+      ui/admin/                  # Filters, grid/table, preview, upload
 
   lib/                           # Core infrastructure
     index.ts                     # Re-exports shared infrastructure barrels
@@ -428,6 +435,10 @@ See ADR-0011.
 | 0020 | Shared Component Composition Layer | Accepted |
 | 0021 | Users Account and Admin Route Integration | Accepted |
 | 0022 | Contact and Email Route Integration | Accepted |
+| 0023 | Blog Editor Workflow with ProseKit | Accepted |
+| 0024 | Security and Quality Gate Enforcement | Accepted |
+| 0025 | Phase-05 Incident Management Enforcement | Accepted |
+| 0026 | Media Library Integration and Admin Routing | Accepted |
 
 Canonical ADR docs:
 

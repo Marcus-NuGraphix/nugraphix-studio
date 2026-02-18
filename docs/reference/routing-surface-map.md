@@ -50,6 +50,8 @@ Last updated: 2026-02-18
 - `src/routes/admin/content/posts/index.tsx`
 - `src/routes/admin/content/posts/new.tsx`
 - `src/routes/admin/content/posts/$id.tsx`
+- `src/routes/admin/media/index.tsx`
+- `src/routes/admin/media/$assetId.tsx`
 - `src/routes/admin/kb/index.tsx`
 - `src/routes/admin/kb/$slug.tsx`
 - `src/routes/admin/components/index.tsx`
@@ -71,5 +73,5 @@ Last updated: 2026-02-18
 
 - Public and auth groups are pathless and do not alter URL prefixes.
 - Admin group must remain server-guarded via layout-level auth checks.
-- Blog MVP currently spans both admin and public groups and is the top routing
-  integration priority.
+- Editorial/media operations span both admin and public groups and must retain
+  route-level contract validation.

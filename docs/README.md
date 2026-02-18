@@ -20,6 +20,7 @@ Last updated: 2026-02-18
   - `docs/adr/0023-blog-editor-workflow-with-prosekit.md`
   - `docs/adr/0024-security-and-quality-gate-enforcement.md`
   - `docs/adr/0025-phase-05-incident-management-enforcement.md`
+  - `docs/adr/0026-media-library-integration-and-admin-routing.md`
 - Immutable records: `docs/adr/archive/0001-*.md` through `0022-*.md`
 
 ## Roadmap and Execution
@@ -38,7 +39,7 @@ Last updated: 2026-02-18
 
 - Reference index: `docs/reference/README.md`
 - Core infra references: `docs/reference/lib-env.md`, `docs/reference/lib-utils.md`, `docs/reference/lib-errors.md`
-- Feature references: `docs/reference/feature-auth.md`, `docs/reference/feature-users.md`, `docs/reference/feature-contact-email.md`
+- Feature references: `docs/reference/feature-auth.md`, `docs/reference/feature-users.md`, `docs/reference/feature-contact-email.md`, `docs/reference/feature-media.md`
 - UI and composition references: `docs/reference/ui-component-inventory.md`, `docs/reference/component-composition-sets.md`
 - Blog MVP contracts: `docs/reference/blog-editor-mvp.md`, `docs/reference/routing-surface-map.md`
 

@@ -19,7 +19,7 @@ function ContentHubPage() {
         </p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card className="border-border bg-card shadow-none">
           <CardHeader>
             <CardTitle>Posts</CardTitle>
@@ -51,6 +51,24 @@ function ContentHubPage() {
               className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
             >
               Open editor scaffold
+              <ArrowRight className="size-4" />
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border bg-card shadow-none">
+          <CardHeader>
+            <CardTitle>Media Library</CardTitle>
+            <CardDescription>
+              Upload and manage reusable images and documents.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link
+              to="/admin/media"
+              className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
+            >
+              Open media workspace
               <ArrowRight className="size-4" />
             </Link>
           </CardContent>

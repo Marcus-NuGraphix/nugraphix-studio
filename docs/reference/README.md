@@ -16,6 +16,7 @@ and more stable than task-specific notes.
 - `docs/reference/feature-auth.md`
 - `docs/reference/feature-users.md`
 - `docs/reference/feature-contact-email.md`
+- `docs/reference/feature-media.md`
 
 ## UI and Composition
 

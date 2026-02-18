@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 import type { BlogDocJSON } from '@/features/blog/model/types'
 import type { EditorStatus } from '@/components/editor/editor-shell'
@@ -83,7 +84,12 @@ export function BlogPostEditorForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="post-cover-image">Cover image URL</Label>
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="post-cover-image">Cover image URL</Label>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/admin/media">Open media library</Link>
+              </Button>
+            </div>
             <Input
               id="post-cover-image"
               value={values.coverImage ?? ''}

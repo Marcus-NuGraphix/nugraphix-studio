@@ -4,6 +4,7 @@ import {
   Component,
   FileStack,
   FileText,
+  Images,
   Inbox,
   LayoutDashboard,
   Mail,
@@ -24,6 +25,7 @@ export type AdminStaticRoutePath =
   | '/admin/content'
   | '/admin/content/posts'
   | '/admin/content/posts/new'
+  | '/admin/media'
   | '/admin/kb'
   | '/admin/users'
   | '/admin/account'
@@ -41,6 +43,7 @@ export type AdminStaticRoutePath =
 
 type AdminDynamicRoutePath =
   | `/admin/content/posts/${string}`
+  | `/admin/media/${string}`
   | `/admin/users/${string}`
   | `/admin/kb/${string}`
 
@@ -91,7 +94,14 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
         items: [
           { title: 'Posts', to: '/admin/content/posts' },
           { title: 'New Post', to: '/admin/content/posts/new' },
+          { title: 'Media', to: '/admin/media' },
         ],
+      },
+      {
+        title: 'Media Library',
+        to: '/admin/media',
+        icon: Images,
+        description: 'Asset uploads, previews, and metadata lifecycle',
       },
       {
         title: 'Knowledge Base',
@@ -172,6 +182,7 @@ export const adminNavigationGroups: Array<AdminNavGroup> = [
 
 export const adminQuickAccessLinks: Array<AdminNavChild> = [
   { title: 'Content', to: '/admin/content' },
+  { title: 'Media', to: '/admin/media' },
   { title: 'Contacts', to: '/admin/contacts' },
   { title: 'Email', to: '/admin/email' },
   { title: 'Docs', to: '/admin/docs' },
@@ -254,6 +265,14 @@ export const getAdminBreadcrumbs = (pathname: string): Array<AdminBreadcrumb> =>
     ]
   }
 
+  if (normalized.startsWith('/admin/media/')) {
+    const assetId = normalized.replace('/admin/media/', '')
+    return [
+      { label: 'Media Library', to: '/admin/media' },
+      { label: toIdentifierLabel(assetId, 'Asset') },
+    ]
+  }
+
   if (normalized.startsWith('/admin/kb/')) {
     const slug = normalized.replace('/admin/kb/', '')
     return [
@@ -284,6 +303,12 @@ export const adminSectionCards: Array<{
     description: 'Editorial workflows, post lifecycle, and KB updates.',
     icon: FileText,
     to: '/admin/content',
+  },
+  {
+    title: 'Media Library',
+    description: 'Reusable asset management for posts and documentation.',
+    icon: Images,
+    to: '/admin/media',
   },
   {
     title: 'Documentation',

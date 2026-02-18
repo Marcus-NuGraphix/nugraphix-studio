@@ -45,7 +45,7 @@ App URL: `http://localhost:3000`
 ```text
 src/
   routes/        File-based routing
-  features/      Feature modules (auth, users, contact, email)
+  features/      Feature modules (auth, users, contact, email, blog, media)
   lib/           Shared infrastructure
   components/    UI primitives and composition sets
 docs/
@@ -69,4 +69,5 @@ docs/
 ## ADR Status
 
 - ADR archive is complete for `0001` through `0022`.
-- Next ADR number: `0023`.
+- Active ADR set: `0023` through `0026`.
+- Next ADR number: `0027`.

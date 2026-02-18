@@ -17,6 +17,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
+import { Route as AdminMediaIndexRouteImport } from './routes/admin/media/index'
 import { Route as AdminKbIndexRouteImport } from './routes/admin/kb/index'
 import { Route as AdminEmailIndexRouteImport } from './routes/admin/email/index'
 import { Route as AdminDocsIndexRouteImport } from './routes/admin/docs/index'
@@ -39,6 +40,7 @@ import { Route as AuthForgotPasswordIndexRouteImport } from './routes/_auth/forg
 import { Route as AuthAccountIndexRouteImport } from './routes/_auth/account/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
+import { Route as AdminMediaAssetIdRouteImport } from './routes/admin/media/$assetId'
 import { Route as AdminKbSlugRouteImport } from './routes/admin/kb/$slug'
 import { Route as PublicPortfolioSlugRouteImport } from './routes/_public/portfolio/$slug'
 import { Route as PublicBlogSlugRouteImport } from './routes/_public/blog/$slug'
@@ -89,6 +91,11 @@ const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
 const AdminSettingsIndexRoute = AdminSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMediaIndexRoute = AdminMediaIndexRouteImport.update({
+  id: '/media/',
+  path: '/media/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminKbIndexRoute = AdminKbIndexRouteImport.update({
@@ -201,6 +208,11 @@ const AdminUsersUserIdRoute = AdminUsersUserIdRouteImport.update({
   path: '/users/$userId',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminMediaAssetIdRoute = AdminMediaAssetIdRouteImport.update({
+  id: '/media/$assetId',
+  path: '/media/$assetId',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminKbSlugRoute = AdminKbSlugRouteImport.update({
   id: '/kb/$slug',
   path: '/kb/$slug',
@@ -284,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof PublicBlogSlugRoute
   '/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
+  '/admin/media/$assetId': typeof AdminMediaAssetIdRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/account/': typeof AuthAccountIndexRoute
@@ -306,6 +319,7 @@ export interface FileRoutesByFullPath {
   '/admin/docs/': typeof AdminDocsIndexRoute
   '/admin/email/': typeof AdminEmailIndexRoute
   '/admin/kb/': typeof AdminKbIndexRoute
+  '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
@@ -326,6 +340,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof PublicBlogSlugRoute
   '/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
+  '/admin/media/$assetId': typeof AdminMediaAssetIdRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/account': typeof AuthAccountIndexRoute
@@ -348,6 +363,7 @@ export interface FileRoutesByTo {
   '/admin/docs': typeof AdminDocsIndexRoute
   '/admin/email': typeof AdminEmailIndexRoute
   '/admin/kb': typeof AdminKbIndexRoute
+  '/admin/media': typeof AdminMediaIndexRoute
   '/admin/settings': typeof AdminSettingsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
@@ -373,6 +389,7 @@ export interface FileRoutesById {
   '/_public/blog/$slug': typeof PublicBlogSlugRoute
   '/_public/portfolio/$slug': typeof PublicPortfolioSlugRoute
   '/admin/kb/$slug': typeof AdminKbSlugRoute
+  '/admin/media/$assetId': typeof AdminMediaAssetIdRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/account/': typeof AuthAccountIndexRoute
@@ -395,6 +412,7 @@ export interface FileRoutesById {
   '/admin/docs/': typeof AdminDocsIndexRoute
   '/admin/email/': typeof AdminEmailIndexRoute
   '/admin/kb/': typeof AdminKbIndexRoute
+  '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/content/posts/$id': typeof AdminContentPostsIdRoute
@@ -418,6 +436,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/portfolio/$slug'
     | '/admin/kb/$slug'
+    | '/admin/media/$assetId'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/account/'
@@ -440,6 +459,7 @@ export interface FileRouteTypes {
     | '/admin/docs/'
     | '/admin/email/'
     | '/admin/kb/'
+    | '/admin/media/'
     | '/admin/settings/'
     | '/admin/users/'
     | '/admin/content/posts/$id'
@@ -460,6 +480,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/portfolio/$slug'
     | '/admin/kb/$slug'
+    | '/admin/media/$assetId'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/account'
@@ -482,6 +503,7 @@ export interface FileRouteTypes {
     | '/admin/docs'
     | '/admin/email'
     | '/admin/kb'
+    | '/admin/media'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/content/posts/$id'
@@ -506,6 +528,7 @@ export interface FileRouteTypes {
     | '/_public/blog/$slug'
     | '/_public/portfolio/$slug'
     | '/admin/kb/$slug'
+    | '/admin/media/$assetId'
     | '/admin/users/$userId'
     | '/api/auth/$'
     | '/_auth/account/'
@@ -528,6 +551,7 @@ export interface FileRouteTypes {
     | '/admin/docs/'
     | '/admin/email/'
     | '/admin/kb/'
+    | '/admin/media/'
     | '/admin/settings/'
     | '/admin/users/'
     | '/admin/content/posts/$id'
@@ -607,6 +631,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/admin/settings/'
       preLoaderRoute: typeof AdminSettingsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/media/': {
+      id: '/admin/media/'
+      path: '/media'
+      fullPath: '/admin/media/'
+      preLoaderRoute: typeof AdminMediaIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/kb/': {
@@ -761,6 +792,13 @@ declare module '@tanstack/react-router' {
       path: '/users/$userId'
       fullPath: '/admin/users/$userId'
       preLoaderRoute: typeof AdminUsersUserIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/media/$assetId': {
+      id: '/admin/media/$assetId'
+      path: '/media/$assetId'
+      fullPath: '/admin/media/$assetId'
+      preLoaderRoute: typeof AdminMediaAssetIdRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/kb/$slug': {
@@ -929,6 +967,7 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminKbSlugRoute: typeof AdminKbSlugRoute
+  AdminMediaAssetIdRoute: typeof AdminMediaAssetIdRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
   AdminAccountIndexRoute: typeof AdminAccountIndexRoute
   AdminComponentsIndexRoute: typeof AdminComponentsIndexRoute
@@ -938,6 +977,7 @@ interface AdminRouteRouteChildren {
   AdminDocsIndexRoute: typeof AdminDocsIndexRoute
   AdminEmailIndexRoute: typeof AdminEmailIndexRoute
   AdminKbIndexRoute: typeof AdminKbIndexRoute
+  AdminMediaIndexRoute: typeof AdminMediaIndexRoute
   AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminContentPostsIdRoute: typeof AdminContentPostsIdRoute
@@ -954,6 +994,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminKbSlugRoute: AdminKbSlugRoute,
+  AdminMediaAssetIdRoute: AdminMediaAssetIdRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
   AdminAccountIndexRoute: AdminAccountIndexRoute,
   AdminComponentsIndexRoute: AdminComponentsIndexRoute,
@@ -963,6 +1004,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDocsIndexRoute: AdminDocsIndexRoute,
   AdminEmailIndexRoute: AdminEmailIndexRoute,
   AdminKbIndexRoute: AdminKbIndexRoute,
+  AdminMediaIndexRoute: AdminMediaIndexRoute,
   AdminSettingsIndexRoute: AdminSettingsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminContentPostsIdRoute: AdminContentPostsIdRoute,
