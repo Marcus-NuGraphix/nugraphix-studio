@@ -11,8 +11,8 @@ Capture baseline facts and deliver quick production-readiness wins.
 
 - [x] Finalize docs scaffold and index links.
 - [x] Run baseline quality gates and log results.
-- [ ] Build initial risk register with top `P0/P1` blockers.
-- [ ] Validate local Docker startup flow from clean state.
+- [x] Build initial risk register with top `P0/P1` blockers.
+- [x] Validate local Docker startup flow from clean state (compose/services now verified; migration artifact drift remains open).
 
 ## Day 2 (24-48h)
 
@@ -23,6 +23,6 @@ Capture baseline facts and deliver quick production-readiness wins.
 
 ## Exit Deliverables
 
-- [ ] Baseline audit snapshot in `docs/audits/`.
-- [ ] Prioritized implementation board in `docs/08-implementation/02-task-board.md`.
-- [ ] Decision log entries for major track choices.
+- [x] Baseline audit snapshot in `docs/audits/`.
+- [x] Prioritized implementation board in `docs/08-implementation/02-task-board.md`.
+- [x] Decision log entries for major track choices.

@@ -42,3 +42,25 @@ Create a measurement-first baseline before hardening or refactor work.
   suggesting hanging-process reporter for deeper diagnosis.
 - `pnpm build` - pass with dependency-level bundler warnings (`use client`
   directives ignored in node_modules and `shiki` wasm fallback warning).
+
+## Phase 0 Audit Findings (2026-02-18)
+
+- `pnpm audit --prod` reported:
+  - High: `fast-xml-parser` DoS advisory via `@aws-sdk/client-s3` chain.
+  - Moderate: `esbuild` advisory in transitive `drizzle-kit`/`better-auth` dev chain.
+- `pnpm outdated` shows patch/minor updates available for core TanStack packages.
+- Docker CLI is installed, but Docker engine was not running, blocking local
+  compose startup verification.
+- Environment contract drift found and corrected:
+  - `.env.example` email provider guidance now matches runtime schema.
+  - `db:seed` script alias added to standardize local setup workflow.
+
+## Phase 1 Validation Follow-up (2026-02-18)
+
+- `docker info` - pass (engine running).
+- `docker compose up -d` - pass (`postgres`, `redis`, `minio`, `mailpit` healthy).
+- `pnpm db:migrate` against local Postgres - pass.
+- `pnpm db:seed` after migrate-only path - failed (`relation "user" does not exist`).
+- `pnpm db:push` + `pnpm db:seed` against local Postgres - pass.
+- Conclusion: local Docker runtime is validated, but migration artifacts are not
+  yet sufficient for full clean bootstrap without a schema push step.

@@ -459,6 +459,7 @@ See ADR-0011.
 | 0028 | Observability Telemetry and Admin Performance Integration | Accepted |
 | 0029 | Example Component Motion and Functional Integration | Accepted |
 | 0030 | Production Readiness Docs-First Hardening Program | Accepted |
+| 0031 | Local Environment Bootstrap and Migration Reconciliation | Accepted |
 
 Canonical ADR docs:
 

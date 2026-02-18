@@ -18,9 +18,16 @@ Establish latency and throughput baselines before optimization decisions.
 
 | Metric | Environment | Region | p50 | p95 | Sample Size | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| Route TTFB - `/` | Local | ZA | TBD | TBD | TBD |  |
-| Route TTFB - `/admin/dashboard` | Local | ZA | TBD | TBD | TBD |  |
-| DB query - session fetch | Current host | Singapore | TBD | TBD | TBD |  |
+| Route TTFB - `/` | Local | ZA | Pending | Pending | Pending | Local stack now running; measurement capture pending |
+| Route TTFB - `/admin/dashboard` | Local | ZA | Pending | Pending | Pending | Local stack now running; measurement capture pending |
+| DB query - session fetch | Current host | Singapore | Pending | Pending | Pending | Requires benchmark harness + ZA network sampling |
+
+## Current Status (2026-02-18)
+
+- Measurement plan is defined.
+- Local runtime is now verified via Docker Compose; baseline measurements are
+  not yet captured.
+- Hosting decision track remains open pending ZA latency capture.
 
 ## Tooling
 

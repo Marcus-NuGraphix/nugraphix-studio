@@ -32,6 +32,7 @@ Establish a reliable baseline and docs system of record.
 ### Exit Criteria
 
 - Baseline facts recorded and top blockers prioritized.
+- Status: Met on 2026-02-18 (see `docs/audits/2026-02-18-phase-0-repo-audit.md`).
 
 ## Phase 1 - Local Environment Hardening
 
@@ -48,17 +49,21 @@ Reliable local dev via Docker Desktop.
 
 ### Tasks
 
-- [ ] Validate required local services only.
-- [ ] Ensure deterministic migration + seed.
-- [ ] Document troubleshooting flow.
+- [x] Validate required local services only.
+- [ ] Ensure deterministic migration + seed (`db:migrate` currently insufficient on clean local DB).
+- [x] Document troubleshooting flow.
 
 ### Verification
 
 - Fresh clone setup succeeds in <= 15 minutes.
+  - Local compose startup now passes; current blocker is migration/schema drift
+    requiring `db:push` before seed.
 
 ### Exit Criteria
 
 - New developer can run stack without guesswork.
+- Current gap: migration artifacts must be reconciled so `db:migrate` alone
+  supports seed/bootstrap on clean DB.
 
 ## Phase 2 - Production-Dev Runtime on VM
 

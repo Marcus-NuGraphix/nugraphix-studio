@@ -23,6 +23,8 @@ Status: Active
 ## Database and ORM
 
 - Drizzle docs: https://orm.drizzle.team/docs/overview
+- Drizzle migrations guide: https://orm.drizzle.team/docs/migrations
+- Drizzle FAQ (`generate` vs `push`): https://orm.drizzle.team/docs/faq
 - Neon docs: https://neon.tech/docs
 
 ## Design System
