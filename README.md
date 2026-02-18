@@ -1,69 +1,72 @@
 # Nu Graphix Studio
 
-Full-stack application built with TanStack Start serving as a public marketing site, internal admin system (CMS + Knowledge Base), and foundation for vertical SaaS products.
+Full-stack TanStack Start application for Nu Graphix public marketing,
+admin operations, and future productization.
 
 ## Stack
 
 | Layer | Technology |
-|-------|-----------|
+| --- | --- |
 | Framework | TanStack Start (React 19, Vite, Nitro SSR) |
 | Routing | TanStack Router (file-based) |
 | Styling | Tailwind CSS v4 + shadcn/ui + CVA |
-| Database | Neon Postgres (Singapore) + Drizzle ORM |
-| Auth | Better Auth (email/password) |
+| Database | Neon Postgres + Drizzle ORM |
+| Auth | Better Auth |
 | Validation | Zod |
 | CI | GitHub Actions |
 
 ## Getting Started
 
 ```bash
-# Install dependencies
 pnpm install
-
-# Set up environment
 cp .env.example .env.local
-# Fill in DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL
-
-# Push schema to database
 pnpm db:push
-
-# Start dev server
 pnpm dev
 ```
 
-The app runs at `http://localhost:3000`.
+App URL: `http://localhost:3000`
 
 ## Scripts
 
 | Command | Description |
-|---------|-------------|
+| --- | --- |
 | `pnpm dev` | Start dev server (port 3000) |
-| `pnpm build` | Production build |
+| `pnpm build` | Build for production |
 | `pnpm lint` | Run ESLint |
 | `pnpm lint:fix` | Auto-fix lint issues |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm format` | Format with Prettier |
+| `pnpm typecheck` | Run TypeScript checks |
 | `pnpm test` | Run Vitest |
 | `pnpm db:generate` | Generate Drizzle migrations |
 | `pnpm db:migrate` | Run migrations |
-| `pnpm db:push` | Push schema to database |
+| `pnpm db:push` | Push schema changes |
 
 ## Project Structure
 
-```
+```text
 src/
-  routes/           File-based routing
-  features/         Feature-organized business logic
-  lib/              Core infrastructure (auth, db, errors)
-  components/       UI components (shadcn/ui, brand, theme)
+  routes/        File-based routing
+  features/      Feature modules (auth, users, contact, email)
+  lib/           Shared infrastructure
+  components/    UI primitives and composition sets
 docs/
-  adr/              Architecture Decision Records
+  adr/           ADR summary + archive
+  plans/         Active roadmap + archived plans
+  phases/        Execution phase board
+  reference/     Technical contract references
+  audits/        Audit workflow and snapshots
+  agent/         Agent operating contract
 ```
-
-See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
 ## Documentation
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — Architecture reference, patterns, and stack overview
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Branch strategy and commit conventions
-- [docs/adr/](docs/adr/) — Architecture Decision Records (ADR-0001 through ADR-0010)
+- `ARCHITECTURE.md` - architecture reference and implementation standards
+- `AI.md` - AI execution constraints and read-first contract
+- `CONTRIBUTING.md` - branch, commit, and release discipline
+- `docs/README.md` - full documentation index
+- `docs/adr/ADR-SUMMARY-0001-0022.md` - consolidated ADR summary
+- `docs/plans/ROADMAP-2026-BLOG-MVP.md` - active delivery roadmap
+
+## ADR Status
+
+- ADR archive is complete for `0001` through `0022`.
+- Next ADR number: `0023`.

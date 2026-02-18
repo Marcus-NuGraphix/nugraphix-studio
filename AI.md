@@ -1,47 +1,42 @@
-# Nu Graphix Studio — AI Operating Contract
+# Nu Graphix Studio - AI Operating Contract
 
 ## Read-first documents
 
-Before making changes, review:
+Before making changes, review in this order:
 
-- `ARCHITECTURE.md` (architecture reference + current patterns)
-- `docs/adr/*` (Architecture Decision Records — authoritative)
-- `docs/plans/NU_GRAPHIX_STUDIO_MASTER_PLAN_V1.md`
-- `docs/phases/*` (phase documentation)
+1. `ARCHITECTURE.md`
+2. `docs/adr/README.md`
+3. `docs/adr/ADR-SUMMARY-0001-0022.md`
+4. `docs/plans/ROADMAP-2026-BLOG-MVP.md`
+5. `docs/phases/README.md`
+6. `docs/agent/README.md`
 
 ## Skill packs
 
-This repo includes additional skill packs under `.agents/skills/`.
-Agents should consult these for best-practice guidance where relevant, but must follow Nu Graphix standards in:
-
-- `ARCHITECTURE.md`
-- `docs/adr/*`
-- `docs/agent/*`
-- `docs/phases/*`
+This repo includes implementation skill packs under `.agents/skills/`.
+Use them where relevant, but local standards in `docs/agent/*`, ADRs, and
+`ARCHITECTURE.md` are authoritative.
 
 ## Non-negotiable rules
 
 - Use TanStack Start server functions for backend logic.
-- Validate all mutation inputs with Zod (`.validator(schema)` on every POST server function).
-- Enforce auth/roles server-side (Better Auth + `requireUserFromHeaders()`).
-- Follow `ServerResult<T>` contract for all server functions.
-- Throw `notFound()` and `redirect()` — do not wrap them in ServerResult.
-- Re-throw `instanceof Response` in catch blocks before converting to ServerFail.
+- Validate all mutation inputs with Zod.
+- Enforce auth and role checks server-side.
+- Return `ServerResult<T>` for expected business failures.
+- Throw framework control signals (`redirect`, `notFound`, `Response`) only.
+- Re-throw `instanceof Response` in catch blocks before failure conversion.
 - Do not refactor unrelated code.
 - Do not introduce new libraries unless explicitly requested.
-- Do not change shadcn/ui tokens or theme unless explicitly requested.
-- Never log secrets, tokens, passwords, raw content_json.
+- Do not log secrets, tokens, passwords, or raw rich-text payloads.
 
-## Server function pattern
+## Server Function Pattern
 
 ```ts
 export const featureVerbNounFn = createServerFn({ method: 'POST' })
   .validator(zodSchema)
   .handler(async ({ data }): Promise<ServerResult<T>> => {
     try {
-      const headers = getRequestHeaders()
-      const user = await requireUserFromHeaders(headers)
-      // ... business logic
+      // auth + business logic
       return ok(result)
     } catch (err) {
       if (err instanceof Response) throw err
@@ -50,9 +45,17 @@ export const featureVerbNounFn = createServerFn({ method: 'POST' })
   })
 ```
 
+## Current Delivery Focus
+
+- Complete the Blog MVP workflow:
+  - admin post authoring and publish controls
+  - public blog listing and detail rendering
+  - production quality gates and docs updates
+
 ## Output format
 
 When asked to implement changes:
 
-- Provide only the changed files, or a patch/diff (as requested).
-- Do not modify files outside the scope list.
+- Provide scoped patches for requested files.
+- Include verification commands run (or explicitly note if not run).
+- Update docs when architecture or contracts change.

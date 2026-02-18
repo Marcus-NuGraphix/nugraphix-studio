@@ -427,12 +427,19 @@ See ADR-0011.
 | 0019 | Auth Feature Hardening and Lib Integration | Accepted |
 | 0020 | Shared Component Composition Layer | Accepted |
 | 0021 | Users Account and Admin Route Integration | Accepted |
+| 0022 | Contact and Email Route Integration | Accepted |
+
+Canonical ADR docs:
+
+- `docs/adr/README.md`
+- `docs/adr/ADR-SUMMARY-0001-0022.md`
+- `docs/adr/archive/*`
 
 ---
 
-## Pre-Feature Checklist
+## Delivery Status
 
-Completed items from the initial checklist:
+Completed foundation and integration milestones:
 
 - [x] Wire up `_auth/route.tsx` layout with centered form layout
 - [x] Implement login, signup, forgot-password, reset-password pages
@@ -441,14 +448,14 @@ Completed items from the initial checklist:
 - [x] Set up TanStack Query with global QueryClient
 - [x] Set up reusable data table components
 - [x] Implement email infrastructure with pluggable providers
-
-Remaining before CMS/KB features:
-
 - [x] Add `beforeLoad` auth guard to `admin/route.tsx`
-- [ ] Test redirect flow: unauthenticated → login → redirect back
-- [ ] Create first admin user via seed script (`pnpm seed:editorial`)
 - [x] Wire up admin user management to server functions
-- [ ] Implement blog CRUD server functions
-- [ ] Implement content CMS server functions
+- [x] Integrate contact and email features into route surface
+
+Current active delivery target:
+
+- [ ] Complete Blog MVP editor and publish pipeline (see `docs/plans/ROADMAP-2026-BLOG-MVP.md`)
+- [ ] Replace scaffolded blog/admin docs route placeholders with production implementations
+- [ ] Validate Blog MVP quality gates (`lint`, `typecheck`, `test`, `build`) on final scope
 
 ---

@@ -1,52 +1,85 @@
 # Repo Audit Order (Outside-In)
 
-## 1. Project Guardrails
-- `package.json` scripts and dependency health
-- `eslint.config.js`, `prettier.config.js`, `tsconfig.json`
-- Environment contract files (`.env.example`, runtime env schemas)
+Use this order for full audits so controls and contracts are validated before deep feature checks.
 
-## 2. Architecture Contracts
-- `ARCHITECTURE.md`
-- `docs/adr/*` (decision precedence)
-- `docs/phases/*` and `docs/plans/*` alignment check
+## 1. Repo Governance and Guardrails
 
-## 3. Routing and Layout Shells
+- `README.md`, `AI.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md`
+- Tooling contracts: `.editorconfig`, `.gitignore`, `.npmrc`, `.nvmrc`
+- Confirm docs and operational rules match current implementation.
+
+## 2. Toolchain and Quality Gates
+
+- `package.json`, lockfile, workspace settings
+- `eslint.config.js`, `prettier.config.js`, `tsconfig.json`, `vite.config.ts`
+- Verify commands:
+  - `pnpm lint`
+  - `pnpm typecheck`
+  - `pnpm test`
+  - `pnpm build`
+
+## 3. Environment and Secret Boundaries
+
+- `.env.example`
+- `src/lib/env/*`
+- Validate required keys, secure defaults, and server/client separation.
+
+## 4. Architecture and Decision Contracts
+
+- `docs/adr/README.md`
+- `docs/adr/ADR-SUMMARY-0001-0022.md`
+- `docs/phases/*`
+- `docs/plans/*`
+- Confirm implementation still respects accepted ADR decisions.
+
+## 5. Routing, Layout Shells, and Access Control
+
 - `src/routes/__root.tsx`
 - Public/auth/legal/admin route groups
-- Route tree generation and type safety (`src/routeTree.gen.ts`)
+- Route guards and redirect safety
+- Error and not-found boundaries
 
-## 4. Public Marketing Surface
-- Navigation + footer consistency
-- Home/about/services/blog/portfolio/contact route quality
-- Brand and copy consistency with `src/components/brand/brand.config.ts`
+## 6. Cross-Cutting Infrastructure (`src/lib`)
 
-## 5. Auth and Session Security
-- Login/signup/reset/forgot UX and copy
-- Session guards, redirects, role checks
-- Rate limiting, safe error handling, and token flows
+- `db`, `env`, `errors`, `observability`, `rateLimit`, `search`, `server`, `utils`
+- Validate contracts, boundaries, and logging discipline.
 
-## 6. Admin Workspace
-- Admin shell, route protection, and navigation
-- Content/KB/docs/settings scaffold completeness
-- User-management flow integrity
+## 7. Shared UI and Composition System
 
-## 7. Feature Module Contracts
-- `src/features/*` barrel integrity (no missing exports)
-- Server/client boundaries
-- Schema validation + server function contracts
+- `src/components/ui/*`
+- `src/components/{brand,empties,errors,layout,marketing,navigation,tables,theme}`
+- Confirm token compliance and accessibility baseline.
 
-## 8. Data and Infrastructure
-- Drizzle schema organization and migrations
-- DB access patterns and repository contracts
-- Email/workflow pipelines and background task wiring
+## 8. Feature Modules
 
-## 9. Quality Gates
-- `pnpm lint` / `pnpm lint:fix`
-- `pnpm typecheck`
-- `pnpm test` (or targeted suites where baseline issues exist)
-- Build verification (`pnpm build`) before release
+- `src/features/auth`
+- `src/features/users`
+- `src/features/contact`
+- `src/features/email`
+- Confirm validation, authorization, server/client boundaries, and route integration.
 
-## 10. Audit Output Format
-- Findings by severity (`critical`, `high`, `medium`, `low`)
-- File reference for each finding
-- Recommended fix + owner + follow-up test
+## 9. Blog MVP Readiness Pass (Current Priority)
+
+- Admin routes: `src/routes/admin/content/posts/*`
+- Public routes: `src/routes/_public/blog/*`
+- DB schema and content model alignment for post lifecycle.
+- Editor save/publish flow, slug uniqueness, preview safety, and publish-state visibility.
+
+## 10. Data and Migration Discipline
+
+- `src/lib/db/schema/**`
+- `drizzle/**`
+- `drizzle.config.ts`
+- Validate migration parity, indexes, and constraints.
+
+## 11. Security Hardening Sweep
+
+- OWASP checks: authz/authn, validation, XSS, injection, CSRF, secret handling.
+- Rate limiting and bot protection coverage for public write paths.
+
+## 12. Audit Output
+
+- Findings by severity in descending order.
+- Explicit file/path references.
+- Ordered remediation plan.
+- Follow-up verification command list.
