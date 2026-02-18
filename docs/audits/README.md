@@ -6,6 +6,7 @@ Last updated: 2026-02-18
 
 - `docs/audits/repo-audit-order.md` - outside-in audit execution order.
 - `docs/audits/2026-02-18-docs-consolidation-baseline.md` - current baseline snapshot after ADR/archive and docs consolidation.
+- `docs/audits/2026-02-18-phase-05-incident-enforcement.md` - Phase-05 incident enforcement snapshot.
 
 ## Audit Cadence
 

@@ -15,6 +15,8 @@ Owns editorial blog lifecycle for Nu Graphix Studio.
 - Persistence: Drizzle repository in `server/repository.ts`.
 - Server functions: `server/posts.ts` (query + mutation contracts).
 - Rich text: ProseKit JSON stored in `post.content` and derived text metadata.
+- Incident posture: publish-state failures emit `incident.event` logs with
+  escalation tracking (`blog.publish-flow`, `S2`).
 
 ## Route Integration
 

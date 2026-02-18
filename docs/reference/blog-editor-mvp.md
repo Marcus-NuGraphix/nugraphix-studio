@@ -62,6 +62,8 @@ Implementation note:
 ### Ops and quality
 
 - Structured mutation logs for lifecycle actions.
+- Structured incident logs for publish-state failures (`incidentKey`:
+  `blog.publish-flow`, severity `S2`).
 - Tests for create/update/publish/unpublish + route behavior.
 - Build/lint/type/test gates pass.
 

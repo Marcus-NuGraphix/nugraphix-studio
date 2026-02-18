@@ -8,6 +8,7 @@ Last updated: 2026-02-18
 - `docs/adr/archive/` contains immutable ADR source documents (`0001` through `0022`).
 - `docs/adr/0023-blog-editor-workflow-with-prosekit.md` captures active blog editor architecture decisions.
 - `docs/adr/0024-security-and-quality-gate-enforcement.md` captures Phase-04 security and quality enforcement controls.
+- `docs/adr/0025-phase-05-incident-management-enforcement.md` captures Phase-05 incident and escalation enforcement controls.
 
 ## ADR Rules
 
@@ -17,9 +18,10 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0025`
+- `0026`
 
 ## Current Focus
 
 - Post-MVP hardening and expansion should align with accepted ADR contracts,
-  including `0023` for the editorial workflow baseline.
+  including `0023` (editorial workflow), `0024` (security quality gates), and
+  `0025` (incident escalation governance).

@@ -1,6 +1,6 @@
 # Phase 05 - Error and Incident Management
 
-Status: Active
+Status: Completed
 Last updated: 2026-02-18
 
 ## Objective
@@ -9,10 +9,10 @@ Use a deterministic debugging and incident workflow during implementation.
 
 ## Required Protocol
 
-- [ ] Enforce 3-failure escalation rule.
-- [ ] Diagnose with logs before code rewrites.
-- [ ] Apply one confirmed fix at a time.
-- [ ] Record recurring mistakes in `docs/ai-mistakes.md`.
+- [x] Enforce 3-failure escalation rule.
+- [x] Diagnose with logs before code rewrites.
+- [x] Apply one confirmed fix at a time.
+- [x] Record recurring mistakes in `docs/ai-mistakes.md`.
 
 ## Incident Severity Handling
 
@@ -22,9 +22,26 @@ Use a deterministic debugging and incident workflow during implementation.
 
 ## Blog MVP Operational Notes
 
-- Track publish-flow failures explicitly in structured logs.
-- Keep rollback path defined for schema or publish-state regressions.
-- Add prevention rules for repeated content lifecycle mistakes.
+- [x] Track publish-flow failures explicitly in structured logs.
+- [x] Keep rollback path defined for schema or publish-state regressions.
+- [x] Add prevention rules for repeated content lifecycle mistakes.
+
+## Completion Notes
+
+- Added shared incident primitives:
+  - `src/lib/observability/incident-log.ts`
+  - `src/lib/observability/failure-escalation.ts`
+- Added Phase-05 publish-flow instrumentation for blog lifecycle mutations:
+  - `src/features/blog/server/posts.ts`
+- Added deterministic contract and behavior coverage:
+  - `src/lib/observability/incident-log.test.ts`
+  - `src/features/blog/tests/incident-contracts.test.ts`
+- Added operational runbook and rollback reference:
+  - `docs/reference/incident-debug-protocol.md`
+- Published architectural decision:
+  - `docs/adr/0025-phase-05-incident-management-enforcement.md`
+- Recurring-mistake protocol remains active in `docs/ai-mistakes.md`
+  (no repeated incident pattern recorded in this phase window).
 
 ## Exit Criteria
 

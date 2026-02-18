@@ -1,2 +1,4 @@
 export * from './logger'
 export * from './mutation-log'
+export * from './incident-log'
+export * from './failure-escalation'

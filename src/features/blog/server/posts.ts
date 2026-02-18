@@ -25,9 +25,21 @@ import {
 } from '@/features/blog/schemas/posts'
 import { blogRepository } from '@/features/blog/server/repository'
 import { fail, ok, toServerFail } from '@/lib/errors'
-import { logMutationResult, logger } from '@/lib/observability'
+import {
+  logMutationResult,
+  logger,
+  recordFailureForEscalation,
+  resolveFailureEscalation,
+} from '@/lib/observability'
 
 const blogLogger = logger.child({ domain: 'blog' })
+
+const blogPublishFlowIncident = {
+  incidentKey: 'blog.publish-flow',
+  domain: 'blog',
+  category: 'publish-flow',
+  severity: 'S2' as const,
+}
 
 const getAdminSession = async () => {
   const { requireAdmin } = await import('@/features/auth/server/session.server')
@@ -309,6 +321,19 @@ export const publishBlogPostFn = createServerFn({ method: 'POST' })
         executionTimeMs: Date.now() - startedAt,
       })
 
+      resolveFailureEscalation(
+        blogLogger,
+        {
+          ...blogPublishFlowIncident,
+          action: 'publish-post',
+          userId,
+        },
+        {
+          phase: 'phase-05',
+          note: 'publish-flow recovered',
+        },
+      )
+
       return ok({ id: data.id, status: 'published' })
     } catch (error) {
       if (error instanceof Response) throw error
@@ -321,6 +346,21 @@ export const publishBlogPostFn = createServerFn({ method: 'POST' })
         errorCode: converted.error.code,
         executionTimeMs: Date.now() - startedAt,
       })
+
+      recordFailureForEscalation(
+        blogLogger,
+        {
+          ...blogPublishFlowIncident,
+          action: 'publish-post',
+          userId,
+          errorCode: converted.error.code,
+          executionTimeMs: Date.now() - startedAt,
+        },
+        {
+          phase: 'phase-05',
+        },
+      )
+
       return converted
     }
   })
@@ -350,6 +390,19 @@ export const unpublishBlogPostFn = createServerFn({ method: 'POST' })
         executionTimeMs: Date.now() - startedAt,
       })
 
+      resolveFailureEscalation(
+        blogLogger,
+        {
+          ...blogPublishFlowIncident,
+          action: 'unpublish-post',
+          userId,
+        },
+        {
+          phase: 'phase-05',
+          note: 'publish-state transition recovered',
+        },
+      )
+
       return ok({ id: data.id, status: data.status })
     } catch (error) {
       if (error instanceof Response) throw error
@@ -362,6 +415,21 @@ export const unpublishBlogPostFn = createServerFn({ method: 'POST' })
         errorCode: converted.error.code,
         executionTimeMs: Date.now() - startedAt,
       })
+
+      recordFailureForEscalation(
+        blogLogger,
+        {
+          ...blogPublishFlowIncident,
+          action: 'unpublish-post',
+          userId,
+          errorCode: converted.error.code,
+          executionTimeMs: Date.now() - startedAt,
+        },
+        {
+          phase: 'phase-05',
+        },
+      )
+
       return converted
     }
   })

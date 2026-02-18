@@ -26,6 +26,7 @@ and more stable than task-specific notes.
 
 - `docs/reference/blog-editor-mvp.md`
 - `docs/reference/routing-surface-map.md`
+- `docs/reference/incident-debug-protocol.md`
 
 ## Rules
 

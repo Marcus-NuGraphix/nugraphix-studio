@@ -13,7 +13,11 @@ This directory owns shared, cross-feature observability primitives.
 1. `logger.ts`: logger implementation with child-context composition.
 2. `mutation-log.ts`: helper for mutation log records
    (`feature`, `action`, `userId`, `result`, `errorCode`, `executionTimeMs`).
-3. `index.ts`: public export surface.
+3. `incident-log.ts`: typed incident event logging with S1/S2/S3 severity and
+   incident lifecycle status (`detected`, `investigating`, `resolved`).
+4. `failure-escalation.ts`: process-local 3-failure escalation tracker to emit
+   deterministic escalation events.
+5. `index.ts`: public export surface.
 
 ## Usage Rules
 
@@ -21,3 +25,5 @@ This directory owns shared, cross-feature observability primitives.
 2. Never log raw passwords, tokens, secrets, or full bodies.
 3. Mutation handlers should emit `mutation.result` style logs with explicit
    result and timing fields.
+4. Incident-prone workflows should emit `incident.event` and use the
+   three-failure escalation helper before broad rewrites.
