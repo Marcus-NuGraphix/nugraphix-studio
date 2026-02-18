@@ -7,6 +7,7 @@ Last updated: 2026-02-18
 - `docs/adr/ADR-SUMMARY-0001-0022.md` contains consolidated decision context.
 - `docs/adr/archive/` contains immutable ADR source documents (`0001` through `0022`).
 - `docs/adr/0023-blog-editor-workflow-with-prosekit.md` captures active blog editor architecture decisions.
+- `docs/adr/0024-security-and-quality-gate-enforcement.md` captures Phase-04 security and quality enforcement controls.
 
 ## ADR Rules
 
@@ -16,7 +17,7 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0024`
+- `0025`
 
 ## Current Focus
 

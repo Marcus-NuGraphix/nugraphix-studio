@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
 import { z } from 'zod'
@@ -25,6 +26,12 @@ const getAdminSession = async () => {
   const { requireAdmin } = await import('@/features/auth/server/session.server')
   return requireAdmin()
 }
+
+const getClientIp = (headers: Headers) =>
+  headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'local'
+
+const toTokenFingerprint = (token: string) =>
+  createHash('sha256').update(token).digest('hex').slice(0, 16)
 
 const adminFilterInputSchema = emailAdminFiltersSchema.partial().default({})
 
@@ -86,6 +93,21 @@ export const subscribeToEmailTopicFn = createServerFn({ method: 'POST' })
 export const unsubscribeByTokenFn = createServerFn({ method: 'POST' })
   .inputValidator(emailUnsubscribeTokenSchema)
   .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const tokenFingerprint = toTokenFingerprint(data.token)
+
+    const rateLimit = await checkRateLimit({
+      key: `email-unsubscribe:${getClientIp(headers)}:${tokenFingerprint}`,
+      limit: 12,
+      windowMs: 60_000,
+    })
+
+    if (!rateLimit.allowed) {
+      throw new Error(
+        'Too many unsubscribe attempts. Please wait before retrying.',
+      )
+    }
+
     const updated = await emailRepository.unsubscribeByToken(data.token)
     if (!updated) {
       throw new Error('Invalid unsubscribe token')

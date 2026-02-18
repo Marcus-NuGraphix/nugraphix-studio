@@ -170,5 +170,5 @@ Mitigation: lock MVP cutline to blog post lifecycle only.
 
 ## Next Step
 
-Phase-04 remains the active governance layer for security hardening and ongoing
-quality enforcement during post-MVP expansion.
+Phase-05 is now the active governance layer (incident and debugging protocol)
+for post-MVP expansion workstreams.

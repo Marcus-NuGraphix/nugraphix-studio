@@ -13,6 +13,10 @@ describe('observability logger', () => {
     logger.info('test.event', {
       apiKey: 'secret-value',
       nested: { token: 'secret-token' },
+      headers: {
+        authorization: 'Bearer very-secret-token',
+        cookie: 'session=abc123',
+      },
       safe: 'value',
     })
 
@@ -27,6 +31,10 @@ describe('observability logger', () => {
 
     const nested = payload.nested as Record<string, unknown>
     expect(nested.token).toBe('[REDACTED]')
+
+    const headers = payload.headers as Record<string, unknown>
+    expect(headers.authorization).toBe('[REDACTED]')
+    expect(headers.cookie).toBe('[REDACTED]')
   })
 })
 
