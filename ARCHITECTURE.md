@@ -1,6 +1,6 @@
 # Nu Graphix Studio — Architecture Reference
 
-> Last validated: 2026-02-18
+> Last validated: 2026-02-19
 
 ---
 
@@ -331,6 +331,8 @@ See ADR-0010 for canonical patterns.
 ## Authentication Flow
 
 1. Better Auth config at `src/features/auth/server/auth.ts` with `tanstackStartCookies()` + `admin()` plugins
+   and production fail-fast origin security checks from
+   `src/features/auth/server/auth-config.ts`
 2. API handler at `src/routes/api/auth/$.ts` — catch-all for `/api/auth/*`
 3. Client-side auth via `src/features/auth/client/auth-client.ts`
 4. Server-side session via `getRequestHeaders()` + `auth.api.getSession({ headers })`
@@ -472,6 +474,7 @@ See ADR-0011.
 | 0033 | Design System Boundary and Token Exception Governance | Accepted |
 | 0034 | Dashboard Workspace Routing Rollout | Accepted |
 | 0035 | Workspace Canonical Route Ownership and Legacy Compatibility | Accepted |
+| 0036 | Auth Runtime Origin Security and Canonical Admin Landing | Accepted |
 
 Canonical ADR docs:
 

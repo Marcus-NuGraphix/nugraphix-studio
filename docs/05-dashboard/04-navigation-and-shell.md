@@ -1,6 +1,6 @@
 # Dashboard Navigation and Shell
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Goal
@@ -63,10 +63,17 @@ Deliver a clean, role-driven admin shell with workspace switching and predictabl
     routes
   - legacy content/platform URLs remain backward compatible via redirect shims
   - breadcrumb and section-card targets now resolve to canonical workspace paths
+- Phase 5C parity smoke completed (2026-02-19):
+  - workspace parity contracts added and enforced in
+    `src/components/navigation/admin/navigation.contracts.test.ts`
+  - workspace inference bug for legacy `/admin/content/*` paths fixed in
+    `src/components/navigation/admin/navigation.ts`
+  - manual smoke evidence captured in
+    `docs/05-dashboard/artifacts/2026-02-19-workspace-parity-smoke.md`
 
 ## Verification
 
-- [ ] Navigation correctness by role/workspace.
-- [ ] Mobile parity for workspace switching and grouped navigation.
-- [ ] Keyboard accessibility for workspace switcher and sidebar traversal.
+- [x] Navigation correctness by role/workspace.
+- [x] Mobile parity for workspace switching and grouped navigation.
+- [x] Keyboard accessibility for workspace switcher and sidebar traversal.
 - [x] Breadcrumb parity between legacy and canonical workspace URLs.

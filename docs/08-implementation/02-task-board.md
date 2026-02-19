@@ -1,6 +1,6 @@
 # Task Board
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Backlog
@@ -11,7 +11,7 @@ Status: Active
 | T-002 | P0 | 1 | Validate local Docker path from clean environment | Eng | Done |
 | T-003 | P1 | 3 | Benchmark DB latency candidates for ZA traffic | Eng | In Progress |
 | T-004 | P1 | 5 | Draft workspace route map and redirects | Eng | Done |
-| T-005 | P0 | 6 | Complete auth hardening checks and fixes | Eng | Todo |
+| T-005 | P0 | 6 | Complete auth hardening checks and fixes | Eng | In Progress |
 | T-006 | P0 | 0 | Consolidate duplicate docs systems into a single active docs base | Eng | Done |
 | T-007 | P0 | 0 | Resolve high dependency vulnerability (`fast-xml-parser` chain) | Eng | Done |
 | T-008 | P1 | 1 | Implement deterministic local bootstrap seed path (admin + content) | Eng | Done |
@@ -27,13 +27,14 @@ Status: Active
 | T-018 | P1 | 5 | Implement Phase 5A workspace skeleton (`/admin/workspaces/*`), `/admin` redirect, and header workspace switcher | Eng | Done |
 | T-019 | P1 | 5 | Migrate legacy admin deep links (`/admin/*`) to canonical workspace paths with param-preserving redirects | Eng | Done |
 | T-020 | P1 | 5 | Migrate content and platform deep routes to canonical workspace paths and complete nav link cutover | Eng | Done |
-| T-021 | P1 | 5 | Execute manual workspace route parity smoke pass (desktop/mobile navigation and role visibility) | Eng | Todo |
+| T-021 | P1 | 5 | Execute manual workspace route parity smoke pass (desktop/mobile navigation and role visibility) | Eng | Done |
 
 ## In Progress
 
 | ID | Phase | Task | Notes |
 | --- | --- | --- | --- |
 | T-003 | 3 | Benchmark DB latency candidates for ZA traffic | Captured ZA DB baseline (`p95=526.62 ms`) and ZA route TTFB baseline artifacts; candidate A/B DB target URLs still required to finalize scoring/winner. |
+| T-005 | 6 | Complete auth hardening checks and fixes | Started Phase 6 hardening: Better Auth trusted-origin normalization, production HTTPS fail-fast for auth origins/cookies, canonical post-auth admin landing update, and expanded auth config/redirect/session regression tests. |
 
 ## Done
 
@@ -58,3 +59,4 @@ Status: Active
 | T-018 | 2026-02-18 | Added Phase 5A workspace routing skeleton (`/admin/workspaces/{operations|content|platform}`), redirected `/admin` to operations workspace, and added role-aware workspace switcher in admin shell header while preserving legacy deep-route behavior. |
 | T-019 | 2026-02-18 | Completed full deep-route cutover: legacy admin routes now redirect to canonical workspace ownership with search/param preservation across operations/content/platform surfaces. |
 | T-020 | 2026-02-18 | Completed content/platform canonical route migration: moved docs/components/content/media/kb implementations under `/admin/workspaces/*`, added legacy compatibility redirects, and switched admin navigation/breadcrumb/link contracts to canonical workspace paths. |
+| T-021 | 2026-02-19 | Completed workspace parity smoke pass with desktop/mobile nav and role visibility checks; added parity contract suite (`src/components/navigation/admin/navigation.contracts.test.ts`) and recorded evidence in `docs/05-dashboard/artifacts/2026-02-19-workspace-parity-smoke.md`. |

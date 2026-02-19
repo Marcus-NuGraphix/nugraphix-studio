@@ -1,6 +1,6 @@
 # Decisions Log
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Entries
@@ -29,3 +29,5 @@ Status: Active
 | 2026-02-18 | Execute Phase 5A as skeleton-first workspace rollout (`/admin` redirect + workspace landings + shell switcher) while preserving legacy deep routes | Needed a low-risk, reversible first cut that introduces workspace IA in production UI without breaking existing deep-link surfaces | Eng | Complete T-019 by adding legacy-to-canonical deep-route redirects and canonical nav link migration |
 | 2026-02-18 | Execute Phase 5B with operations-first deep-route cutover and compatibility redirects | Operations routes were highest-value/highest-traffic admin paths; moving them first reduced migration risk while proving redirect/search/params behavior before content/platform batches | Eng | Complete T-020 for content/platform canonical cutover and finalize breadcrumb/nav parity checks |
 | 2026-02-18 | Finalize canonical workspace deep-route ownership for content/platform and keep legacy `/admin/*` routes as compatibility redirects | Completing Phase 5B required removing dual-source route ownership while preserving old deep links and active navigation behavior during rollout | Eng | Run manual parity smoke pass (`T-021`) and retire legacy route shims once adoption window closes |
+| 2026-02-19 | Enforce workspace parity contracts for canonical nav targets and legacy workspace inference | Manual parity smoke surfaced workspace inference drift risk (`/admin/content/*` could resolve to wrong workspace context without targeted regression coverage) | Eng | Keep `navigation.contracts.test.ts` updated when admin route ownership/nav link contracts change |
+| 2026-02-19 | Fail fast in production when Better Auth runtime origins are insecure and standardize admin post-auth landing on canonical workspace route | Phase 6 auth hardening requires explicit runtime guarantees for cookie/origin trust to reduce open-redirect/CSRF risk and keep admin entry paths consistent after workspace migration | Eng | Complete remaining T-005 items: endpoint-specific throttling, session expiry/invalidation tests, and IDOR-focused authorization audit |

@@ -46,7 +46,7 @@ describe('redirectAuthenticatedAuthEntry', () => {
       redirectAuthenticatedAuthEntry('https://evil.example'),
     ).rejects.toMatchObject({
       options: {
-        to: '/admin/dashboard',
+        to: '/admin/workspaces/operations/dashboard',
       },
     })
   })

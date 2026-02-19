@@ -258,7 +258,6 @@ const normalizePath = (value: string) => {
 
 const workspaceLegacyPrefixes: Record<AdminWorkspaceId, Array<string>> = {
   operations: [
-    '/admin',
     '/admin/dashboard',
     '/admin/users',
     '/admin/contacts',

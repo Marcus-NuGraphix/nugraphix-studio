@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 
 ## Canonical ADR Docs
 
@@ -19,6 +19,7 @@ Last updated: 2026-02-18
 - `docs/adr/0033-design-system-boundary-and-token-exception-governance.md` captures Phase 4 component boundary enforcement and token exception governance controls.
 - `docs/adr/0034-dashboard-workspace-routing-rollout.md` captures staged Phase 5 workspace routing rollout strategy and legacy deep-link migration controls.
 - `docs/adr/0035-workspace-canonical-route-ownership-and-legacy-compatibility.md` captures final canonical workspace route ownership and legacy `/admin/*` redirect compatibility policy.
+- `docs/adr/0036-auth-runtime-origin-security-and-canonical-admin-landing.md` captures Phase 6 auth runtime HTTPS origin enforcement and canonical admin post-auth landing policy.
 
 ## ADR Rules
 
@@ -28,7 +29,7 @@ Last updated: 2026-02-18
 
 ## Next ADR Number
 
-- `0036`
+- `0037`
 
 ## Current Focus
 
@@ -43,4 +44,5 @@ Last updated: 2026-02-18
   `0032` (deterministic bootstrap seeding governance), and
   `0033` (design system boundary and token exception governance), and
   `0034` (dashboard workspace routing rollout governance), and
-  `0035` (workspace canonical route ownership and legacy compatibility governance).
+  `0035` (workspace canonical route ownership and legacy compatibility governance), and
+  `0036` (auth runtime origin security and canonical admin landing governance).

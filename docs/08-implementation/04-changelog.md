@@ -1,7 +1,38 @@
 # Changelog
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
+
+## 2026-02-19
+
+- Completed Phase 5 parity smoke task (`T-021`) with evidence captured in:
+  - `docs/05-dashboard/artifacts/2026-02-19-workspace-parity-smoke.md`
+  - `src/components/navigation/admin/navigation.contracts.test.ts`
+- Fixed workspace inference parity regression in
+  `src/components/navigation/admin/navigation.ts` where legacy
+  `/admin/content/*` routes could resolve to the operations workspace context.
+- Started Phase 6 auth hardening task (`T-005`) with first production-safety
+  slice:
+  - `src/features/auth/server/auth-config.ts`
+    - normalize trusted origins to URL origins
+    - fail startup in production if auth base URL is non-HTTPS
+    - fail startup in production if any trusted origin is non-HTTPS
+  - `src/features/auth/server/auth.ts`
+    - wire production origin-security assertions
+    - enforce secure cookie flag via hardened runtime resolver
+  - `src/features/auth/model/post-auth.ts`
+    - canonical admin landing moved to
+      `/admin/workspaces/operations/dashboard`
+- Added/updated regression coverage for auth and workspace contracts:
+  - `src/features/auth/tests/auth-config.test.ts`
+  - `src/features/auth/tests/entry-redirect.test.ts`
+  - `src/features/auth/tests/post-auth.test.ts`
+  - `src/components/navigation/admin/navigation.contracts.test.ts`
+- Revalidated quality gates for this slice:
+  - `pnpm vitest run ...` (targeted auth/workspace suites) - pass
+  - `pnpm lint` - pass (existing warning-only baseline unchanged)
+  - `pnpm typecheck` - pass
+  - `pnpm build` - pass
 
 ## 2026-02-18
 

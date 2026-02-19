@@ -1,6 +1,6 @@
 # Dashboard Routing Plan
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Goal
@@ -71,7 +71,7 @@ Implement workspace-aware routing using TanStack Router without breaking existin
 - [x] Move content workspace routes and preserve deep-link params.
 - [x] Move platform workspace routes.
 - [x] Switch admin navigation links to canonical workspace paths.
-- [ ] Verify permissions, breadcrumbs, and mobile navigation behavior.
+- [x] Verify permissions, breadcrumbs, and mobile navigation behavior.
 
 ## Implementation Status
 
@@ -91,7 +91,12 @@ Implement workspace-aware routing using TanStack Router without breaking existin
     to canonical workspace paths (including param/search preservation where needed)
   - admin sidebar, quick links, breadcrumbs, and section cards now target
     canonical workspace URLs
-- Remaining manual parity smoke validation is tracked in `T-021`.
+- Phase 5C manual parity smoke completed (2026-02-19):
+  - desktop/mobile nav parity and role visibility checks passed
+  - source-of-truth evidence:
+    `docs/05-dashboard/artifacts/2026-02-19-workspace-parity-smoke.md`
+  - regression contracts added:
+    `src/components/navigation/admin/navigation.contracts.test.ts`
 
 ## Verification Checklist
 

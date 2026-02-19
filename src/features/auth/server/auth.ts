@@ -8,8 +8,9 @@ import {
   AUTH_RATE_LIMIT_OPTIONS,
   MINIMUM_BETTER_AUTH_SECRET_LENGTH,
   assertAuthSecretStrength,
+  assertTrustedOriginsSecurity,
   buildTrustedOrigins,
-  deriveSecureCookieFlag,
+  resolveSecureCookieFlag,
   toPublicResetUrl,
 } from './auth-config'
 import {
@@ -25,7 +26,11 @@ import { logger } from '@/lib/observability'
 const authLogger = logger.child({ domain: 'auth' })
 
 const trustedOrigins = buildTrustedOrigins(env)
-const useSecureCookies = deriveSecureCookieFlag(env.BETTER_AUTH_BASE_URL)
+assertTrustedOriginsSecurity({
+  runtimeEnv: env,
+  origins: trustedOrigins,
+})
+const useSecureCookies = resolveSecureCookieFlag(env)
 
 const secretStatus = assertAuthSecretStrength(env)
 if (!secretStatus.valid && env.NODE_ENV === 'development') {

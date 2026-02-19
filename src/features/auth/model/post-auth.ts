@@ -2,7 +2,7 @@ import type { UserRole } from '@/features/auth/model/session'
 import { toSafeRedirectPath } from '@/features/auth/model/redirect'
 
 const roleLandingMap = {
-  admin: '/admin/dashboard',
+  admin: '/admin/workspaces/operations/dashboard',
   user: '/blog',
 } as const satisfies Record<UserRole, string>
 

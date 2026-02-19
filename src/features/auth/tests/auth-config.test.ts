@@ -5,8 +5,10 @@ import {
   AUTH_RATE_LIMIT_OPTIONS,
   MINIMUM_BETTER_AUTH_SECRET_LENGTH,
   assertAuthSecretStrength,
+  assertTrustedOriginsSecurity,
   buildTrustedOrigins,
   deriveSecureCookieFlag,
+  resolveSecureCookieFlag,
   toPublicResetUrl,
 } from '@/features/auth/server/auth-config'
 
@@ -41,6 +43,15 @@ describe('auth config contracts', () => {
       )
       expect(deriveSecureCookieFlag('http://localhost:3000')).toBe(false)
     })
+
+    it('rejects insecure BETTER_AUTH_BASE_URL in production', () => {
+      expect(() =>
+        resolveSecureCookieFlag({
+          NODE_ENV: 'production',
+          BETTER_AUTH_BASE_URL: 'http://studio.nugraphix.co.za',
+        }),
+      ).toThrow('BETTER_AUTH_BASE_URL must use HTTPS in production.')
+    })
   })
 
   describe('trusted origins', () => {
@@ -58,6 +69,28 @@ describe('auth config contracts', () => {
         'https://studio.nugraphix.co.za',
         'https://admin.nugraphix.co.za',
       ])
+    })
+
+    it('normalizes trusted origins to origin values', () => {
+      expect(
+        buildTrustedOrigins({
+          BETTER_AUTH_URL: 'https://studio.nugraphix.co.za/api/auth',
+          BETTER_AUTH_BASE_URL: 'https://studio.nugraphix.co.za/auth',
+          BETTER_AUTH_TRUSTED_ORIGINS: ['https://admin.nugraphix.co.za/path'],
+        }),
+      ).toEqual([
+        'https://studio.nugraphix.co.za',
+        'https://admin.nugraphix.co.za',
+      ])
+    })
+
+    it('rejects insecure trusted origins in production', () => {
+      expect(() =>
+        assertTrustedOriginsSecurity({
+          runtimeEnv: { NODE_ENV: 'production' },
+          origins: ['https://studio.nugraphix.co.za', 'http://localhost:3000'],
+        }),
+      ).toThrow('must use HTTPS in production')
     })
   })
 

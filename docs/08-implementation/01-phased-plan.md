@@ -1,6 +1,6 @@
 # Phased Execution Plan (0-8)
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Phase 0 - Baseline and Docs Governance
@@ -163,11 +163,11 @@ Introduce clean, scalable workspaces in admin dashboard.
 - [x] Implement workspace IA and routing.
 - [x] Add role-driven menus and switcher UX.
 - [x] Enforce permissions at route + server levels.
+- [x] Execute manual parity smoke validation (desktop/mobile nav + role visibility).
 
-Progress note (2026-02-18): Phase 5A+5B route rollout is complete with
-canonical workspace deep-route ownership across operations/content/platform,
-legacy compatibility redirects for `/admin/*`, and canonical nav/breadcrumb
-targets. Remaining Phase 5 follow-up is manual parity smoke validation (`T-021`).
+Progress note (2026-02-19): Phase 5 is complete with canonical workspace
+ownership, legacy compatibility redirects, and parity evidence captured in
+`docs/05-dashboard/artifacts/2026-02-19-workspace-parity-smoke.md`.
 
 ### Verification
 
@@ -195,6 +195,10 @@ Close critical auth/security gaps.
 - [ ] Execute auth hardening checklist.
 - [ ] Validate CSRF/CORS/session/rate-limit posture.
 - [ ] Add missing regression tests for security-critical flows.
+
+Progress note (2026-02-19): Phase 6 started with trusted-origin normalization,
+production HTTPS fail-fast checks for Better Auth runtime, canonical
+admin post-auth landing alignment, and expanded auth config/redirect tests.
 
 ### Verification
 

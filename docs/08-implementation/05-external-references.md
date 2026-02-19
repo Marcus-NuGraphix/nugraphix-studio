@@ -1,6 +1,6 @@
 # External References
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 Status: Active
 
 ## Environment and Containers
@@ -17,6 +17,8 @@ Status: Active
 ## Auth and Security
 
 - Better Auth docs: https://better-auth.com/docs
+- Better Auth options reference: https://better-auth.com/docs/reference/options
+- Better Auth security reference: https://better-auth.com/docs/reference/security
 - OWASP Top 10: https://owasp.org/www-project-top-ten/
 - OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
 

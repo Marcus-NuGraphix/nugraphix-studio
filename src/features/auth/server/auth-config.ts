@@ -26,23 +26,80 @@ export interface AuthRuntimeEnv {
   PUBLIC_APP_URL?: string
 }
 
+const toOrigin = ({
+  label,
+  value,
+}: {
+  label: string
+  value: string
+}) => {
+  try {
+    return new URL(value).origin
+  } catch {
+    throw new Error(`${label} must be a valid URL.`)
+  }
+}
+
+const isSecureOrigin = (origin: string) => origin.startsWith('https://')
+
 export const buildTrustedOrigins = (
   runtimeEnv: Pick<
     AuthRuntimeEnv,
     'BETTER_AUTH_URL' | 'BETTER_AUTH_BASE_URL' | 'BETTER_AUTH_TRUSTED_ORIGINS'
   >,
 ) => {
+  const rawOrigins = [
+    runtimeEnv.BETTER_AUTH_URL,
+    runtimeEnv.BETTER_AUTH_BASE_URL,
+    ...(runtimeEnv.BETTER_AUTH_TRUSTED_ORIGINS ?? []),
+  ]
+
   return Array.from(
     new Set([
-      runtimeEnv.BETTER_AUTH_URL,
-      runtimeEnv.BETTER_AUTH_BASE_URL,
-      ...(runtimeEnv.BETTER_AUTH_TRUSTED_ORIGINS ?? []),
+      ...rawOrigins.map((origin, index) =>
+        toOrigin({
+          label: `trusted origin at index ${index}`,
+          value: origin,
+        }),
+      ),
     ]),
   )
 }
 
 export const deriveSecureCookieFlag = (baseUrl: string) =>
   baseUrl.startsWith('https://')
+
+export const resolveSecureCookieFlag = (
+  runtimeEnv: Pick<AuthRuntimeEnv, 'NODE_ENV' | 'BETTER_AUTH_BASE_URL'>,
+) => {
+  const useSecureCookies = deriveSecureCookieFlag(runtimeEnv.BETTER_AUTH_BASE_URL)
+
+  if (runtimeEnv.NODE_ENV === 'production' && !useSecureCookies) {
+    throw new Error('BETTER_AUTH_BASE_URL must use HTTPS in production.')
+  }
+
+  return useSecureCookies
+}
+
+export const assertTrustedOriginsSecurity = ({
+  runtimeEnv,
+  origins,
+}: {
+  runtimeEnv: Pick<AuthRuntimeEnv, 'NODE_ENV'>
+  origins: Array<string>
+}) => {
+  if (runtimeEnv.NODE_ENV !== 'production') {
+    return
+  }
+
+  const insecureOrigins = origins.filter((origin) => !isSecureOrigin(origin))
+
+  if (insecureOrigins.length > 0) {
+    throw new Error(
+      `BETTER_AUTH_URL and BETTER_AUTH_TRUSTED_ORIGINS must use HTTPS in production. Invalid origins: ${insecureOrigins.join(', ')}`,
+    )
+  }
+}
 
 export const resolvePublicAppOrigin = (
   runtimeEnv: Pick<AuthRuntimeEnv, 'PUBLIC_APP_URL' | 'BETTER_AUTH_BASE_URL'>,

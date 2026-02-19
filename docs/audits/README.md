@@ -1,6 +1,6 @@
 # Audits
 
-Last updated: 2026-02-18
+Last updated: 2026-02-19
 
 ## Canonical Files
 
@@ -11,6 +11,7 @@ Last updated: 2026-02-18
 - `docs/audits/2026-02-18-phase-0-repo-audit.md` - Phase 0 outside-in repo audit with severity-ranked findings and fix order.
 - `docs/audits/2026-02-18-phase-1-local-env-validation.md` - Phase 1 local Docker/runtime validation with migration-chain drift findings.
 - `docs/audits/2026-02-18-fast-xml-parser-mitigation.md` - targeted dependency audit showing closure of high `fast-xml-parser` advisory.
+- `docs/audits/2026-02-19-phase-6-auth-hardening-kickoff.md` - Phase 6 kickoff snapshot for auth runtime hardening, redirect parity, and remaining security gaps.
 
 ## Audit Cadence
 

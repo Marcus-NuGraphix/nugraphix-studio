@@ -8,7 +8,9 @@ import {
 
 describe('post-auth redirect helpers', () => {
   it('maps admin role to dashboard landing route', () => {
-    expect(getRoleLandingPath('admin')).toBe('/admin/dashboard')
+    expect(getRoleLandingPath('admin')).toBe(
+      '/admin/workspaces/operations/dashboard',
+    )
   })
 
   it('maps user role to blog landing route', () => {

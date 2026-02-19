@@ -1,7 +1,7 @@
 # Auth Hardening Plan
 
-Last updated: 2026-02-18
-Status: Draft
+Last updated: 2026-02-19
+Status: Active (In Progress)
 
 ## Goal
 
@@ -20,41 +20,69 @@ Harden authentication and authorization end-to-end without breaking current Bett
 
 ### Session and Cookie Security
 
-- [ ] Confirm secure cookie settings in production runtime (`secure`, `httpOnly`, `sameSite`).
+- [x] Enforce secure-cookie runtime in production (`BETTER_AUTH_BASE_URL` must use HTTPS and `advanced.useSecureCookies` resolves true).
+- [ ] Confirm explicit cookie attribute contract (`httpOnly`, `sameSite`) for auth/session cookies.
 - [ ] Validate session expiration and refresh behavior (`expiresIn`, `updateAge`).
 - [ ] Verify logout invalidates active session(s) as expected.
 
 ### CSRF, CORS, and Origin Trust
 
-- [ ] Validate Better Auth trusted origins.
+- [x] Validate Better Auth trusted origins (normalized and deduplicated origins list).
+- [x] Fail startup in production when base URL or trusted origins use insecure HTTP.
 - [ ] Confirm state-changing endpoints are protected by same-site cookie strategy and origin checks.
 - [ ] Restrict CORS to explicit trusted origins where API exposure exists.
 
 ### Authorization and Route Guards
 
-- [ ] Ensure admin route guard and server-function checks are both enforced.
+- [x] Ensure admin route guard and server-function checks are both enforced.
 - [ ] Validate resource-level checks (no IDOR by route param tampering).
 - [ ] Confirm permission matrix maps to real route/server-function enforcement.
 
 ### Rate Limiting and Abuse Controls
 
-- [ ] Verify login/reset/password-change throttling.
+- [x] Verify password-change throttling and Better Auth baseline rate-limit config.
 - [ ] Verify public write paths retain anti-abuse controls.
 - [ ] Ensure rate-limit key strategy is stable behind proxies.
 
 ### Secret and Error Hygiene
 
 - [ ] Confirm secrets/tokens are never logged.
-- [ ] Validate safe error messages returned to clients.
+- [x] Validate safe error messages returned to clients for auth security helpers.
 - [ ] Confirm stack traces are not exposed in production responses.
+
+## Progress Snapshot (2026-02-19)
+
+- Completed Phase 6 kickoff hardening:
+  - `src/features/auth/server/auth-config.ts`: trusted origin normalization,
+    production HTTPS assertions, secure-cookie fail-fast.
+  - `src/features/auth/server/auth.ts`: startup security assertions wired into
+    Better Auth boot path.
+  - `src/features/auth/model/post-auth.ts`: canonical admin landing path moved
+    to `/admin/workspaces/operations/dashboard`.
+- Added and updated regression coverage:
+  - `src/features/auth/tests/auth-config.test.ts`
+  - `src/features/auth/tests/entry-redirect.test.ts`
+  - `src/features/auth/tests/post-auth.test.ts`
+  - `src/features/auth/tests/session.server.test.ts`
 
 ## Verification
 
 - [ ] Manual auth abuse scenarios executed.
-- [ ] Unauthorized direct route and server-function calls rejected.
+- [x] Unauthorized direct route and server-function calls rejected.
 - [ ] Regression checks for login/signup/reset/account flows pass.
+
+### Commands Executed (2026-02-19)
+
+```bash
+pnpm vitest run src/features/auth/tests/session.server.test.ts src/features/auth/tests/authorize.test.ts src/features/auth/tests/security.test.ts src/features/auth/tests/auth-config.test.ts src/features/auth/tests/entry-redirect.test.ts src/features/auth/tests/post-auth.test.ts
+pnpm lint
+pnpm typecheck
+pnpm build
+```
 
 ## References
 
 - Better Auth docs: https://better-auth.com/docs
+- Better Auth options reference: https://better-auth.com/docs/reference/options
+- Better Auth security reference: https://better-auth.com/docs/reference/security
 - OWASP ASVS/Top 10: https://owasp.org/www-project-top-ten/
