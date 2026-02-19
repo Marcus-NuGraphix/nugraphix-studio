@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1771330941625,
+      "tag": "0000_nebulous_synch",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1771406085960,
+      "tag": "0001_observability_telemetry",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1771414792062,
+      "tag": "0002_schema_reconciliation",
+      "breakpoints": true
+    }
+  ]
+}

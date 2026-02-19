@@ -30,3 +30,6 @@ todos.json
 .codex/
 .claude/
 
+# White-label config (may contain client-specific brand details)
+tools/white-label.config.json
+

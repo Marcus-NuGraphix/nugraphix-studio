@@ -1,3 +1,76 @@
-# TanStack Start + shadcn/ui
+# Nu Graphix Studio
 
-This is a template for a new TanStack Start project with React, TypeScript, and shadcn/ui.
+Full-stack TanStack Start application for Nu Graphix public marketing,
+admin operations, and future productization.
+
+## Stack
+
+| Layer | Technology |
+| --- | --- |
+| Framework | TanStack Start (React 19, Vite, Nitro SSR) |
+| Routing | TanStack Router (file-based) |
+| Styling | Tailwind CSS v4 + shadcn/ui + CVA |
+| Database | Neon Postgres + Drizzle ORM |
+| Auth | Better Auth |
+| Validation | Zod |
+| CI | GitHub Actions |
+
+## Getting Started
+
+```bash
+pnpm install
+cp .env.example .env.local
+pnpm db:push
+pnpm dev
+```
+
+App URL: `http://localhost:3000`
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start dev server (port 3000) |
+| `pnpm build` | Build for production |
+| `pnpm lint` | Run ESLint |
+| `pnpm lint:fix` | Auto-fix lint issues |
+| `pnpm typecheck` | Run TypeScript checks |
+| `pnpm test` | Run Vitest |
+| `pnpm db:generate` | Generate Drizzle migrations |
+| `pnpm db:migrate` | Run migrations |
+| `pnpm db:push` | Push schema changes |
+
+## Project Structure
+
+```text
+src/
+  routes/        File-based routing
+  features/      Feature modules (auth, users, contact, email, blog, media)
+  lib/           Shared infrastructure
+  components/    UI primitives and composition sets
+docs/
+  00-index.md    Active documentation system of record
+  01-08/         Active audit, environment, hosting, design, security, and implementation tracks
+  plans/         Active roadmap
+  adr/           ADR summary + archive
+  reference/     Technical contract references
+  audits/        Audit workflow and snapshots
+  agent/         Agent operating contract
+  archive/       Historical roadmaps and phase records
+```
+
+## Documentation
+
+- `ARCHITECTURE.md` - architecture reference and implementation standards
+- `AI.md` - AI execution constraints and read-first contract
+- `CONTRIBUTING.md` - branch, commit, and release discipline
+- `docs/00-index.md` - active documentation system of record
+- `docs/README.md` - full documentation index
+- `docs/adr/ADR-SUMMARY-0001-0022.md` - consolidated ADR summary
+- `docs/plans/ROADMAP-2026-PRODUCTION-HARDENING.md` - active delivery roadmap
+
+## ADR Status
+
+- ADR archive is complete for `0001` through `0022`.
+- Active ADR set: `0023` through `0030`.
+- Next ADR number: `0031`.

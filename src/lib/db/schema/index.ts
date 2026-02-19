@@ -1,0 +1,9 @@
+// Bounded-context schema export surface.
+// Keeps root imports (`@/lib/db/schema`) stable while enabling modular growth.
+export * from './auth/index'
+export * from './blog/index'
+export * from './content/index'
+export * from './email/index'
+export * from './media/index'
+export * from './observability/index'
+export * from './shared/index'

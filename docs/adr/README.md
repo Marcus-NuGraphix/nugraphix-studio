@@ -1,0 +1,48 @@
+# Architecture Decision Records
+
+Last updated: 2026-02-19
+
+## Canonical ADR Docs
+
+- `docs/adr/ADR-SUMMARY-0001-0022.md` contains consolidated decision context.
+- `docs/adr/archive/` contains immutable ADR source documents (`0001` through `0022`).
+- `docs/adr/0023-blog-editor-workflow-with-prosekit.md` captures active blog editor architecture decisions.
+- `docs/adr/0024-security-and-quality-gate-enforcement.md` captures Phase-04 security and quality enforcement controls.
+- `docs/adr/0025-phase-05-incident-management-enforcement.md` captures Phase-05 incident and escalation enforcement controls.
+- `docs/adr/0026-media-library-integration-and-admin-routing.md` captures media feature integration, admin routing, and shared contract alignment.
+- `docs/adr/0027-example-component-integration-color-contrast-governance.md` captures prompt-level governance for token pairing, action color usage, and light/dark contrast QA in example component adaptations.
+- `docs/adr/0028-observability-telemetry-and-admin-performance-integration.md` captures observability telemetry persistence and admin performance signal integration.
+- `docs/adr/0029-example-component-motion-and-functional-integration.md` captures motion-fidelity and production data-wiring rules for adapted example components across public and admin surfaces.
+- `docs/adr/0030-production-readiness-docs-first-hardening-program.md` captures the post-MVP docs-first production hardening program and system-of-record structure.
+- `docs/adr/0031-local-environment-bootstrap-and-migration-reconciliation.md` captures the canonical local Docker bootstrap contract and migration reconciliation policy.
+- `docs/adr/0032-deterministic-bootstrap-seed-contract.md` captures canonical local bootstrap seeding coverage for auth, content, and blog datasets.
+- `docs/adr/0033-design-system-boundary-and-token-exception-governance.md` captures Phase 4 component boundary enforcement and token exception governance controls.
+- `docs/adr/0034-dashboard-workspace-routing-rollout.md` captures staged Phase 5 workspace routing rollout strategy and legacy deep-link migration controls.
+- `docs/adr/0035-workspace-canonical-route-ownership-and-legacy-compatibility.md` captures final canonical workspace route ownership and legacy `/admin/*` redirect compatibility policy.
+- `docs/adr/0036-auth-runtime-origin-security-and-canonical-admin-landing.md` captures Phase 6 auth runtime HTTPS origin enforcement and canonical admin post-auth landing policy.
+
+## ADR Rules
+
+1. Archived ADR files are immutable.
+2. New architectural changes require a new ADR in `docs/adr/` (not in `archive/`).
+3. If a decision changes, publish a superseding ADR and reference prior ADR numbers.
+
+## Next ADR Number
+
+- `0037`
+
+## Current Focus
+
+- Post-MVP hardening and expansion should align with accepted ADR contracts,
+  including `0023` (editorial workflow), `0024` (security quality gates),
+  `0025` (incident escalation governance), `0026` (media library architecture
+  integration), `0027` (component integration color/contrast governance), and
+  `0028` (observability telemetry and admin performance integration), and
+  `0029` (example component motion and functional integration), and
+  `0030` (docs-first production hardening governance), and
+  `0031` (local bootstrap and migration reconciliation governance), and
+  `0032` (deterministic bootstrap seeding governance), and
+  `0033` (design system boundary and token exception governance), and
+  `0034` (dashboard workspace routing rollout governance), and
+  `0035` (workspace canonical route ownership and legacy compatibility governance), and
+  `0036` (auth runtime origin security and canonical admin landing governance).

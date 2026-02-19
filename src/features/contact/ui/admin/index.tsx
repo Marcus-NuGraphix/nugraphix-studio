@@ -1,0 +1,5 @@
+export { ContactDetailDrawer } from '@/features/contact/ui/admin/contact-detail-drawer'
+export { ContactFilters } from '@/features/contact/ui/admin/contact-filters'
+export { ContactStatusBadge } from '@/features/contact/ui/admin/contact-status-badge'
+export { ContactStatsGrid } from '@/features/contact/ui/admin/contact-stats-grid'
+export { ContactsTable } from '@/features/contact/ui/admin/contacts-table'
